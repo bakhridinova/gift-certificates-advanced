@@ -23,16 +23,16 @@ class UserMapperTest {
 
     @Test
     void shouldMapUsersCorrectlyTest() {
-        assertEquals(getUserDTO(), userMapper.toUserDTO(getUser()));
+        assertEquals(getUserDto(), userMapper.toUserDto(getUser()));
     }
 
     @Test
     void shouldReturnNullIfNullPassedTest() {
-        assertNull(userMapper.toUserDTO(null));
+        assertNull(userMapper.toUserDto(null));
     }
 
     @Test
     void shouldReturnNullObjectIfNullObjectPassedTest() {
-        assertEquals(getNullUserDTO(), userMapper.toUserDTO(getNullUser()));
+        assertEquals(getNullUserDto(), userMapper.toUserDto(getNullUser()));
     }
 }

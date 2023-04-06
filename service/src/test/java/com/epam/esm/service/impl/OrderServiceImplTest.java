@@ -48,10 +48,10 @@ class OrderServiceImplTest {
 
         when(orderRepository.findAll(any()))
                 .thenReturn(List.of(getOrder()));
-        when(orderMapper.toOrderDTO(any()))
-                .thenReturn(getOrderDTO());
+        when(orderMapper.toOrderDto(any()))
+                .thenReturn(getOrderDto());
 
-        assertEquals(List.of(getOrderDTO()),
+        assertEquals(List.of(getOrderDto()),
                 orderService.findAll(any()));
     }
 
@@ -68,10 +68,10 @@ class OrderServiceImplTest {
     void findByIdShouldReturnCorrectOrderIfOrderWasFound() {
         when(orderRepository.findById(anyLong()))
                 .thenReturn(getOrder());
-        when(orderMapper.toOrderDTO(any()))
-                .thenReturn(getOrderDTO());
+        when(orderMapper.toOrderDto(any()))
+                .thenReturn(getOrderDto());
 
-        assertEquals(getOrderDTO(),
+        assertEquals(getOrderDto(),
                 orderService.findById(anyLong()));
     }
 
@@ -89,10 +89,10 @@ class OrderServiceImplTest {
                 .thenReturn(getUser());
         when(orderRepository.findByUser(getUser(), getPagination()))
                 .thenReturn(List.of(getOrder()));
-        when(orderMapper.toOrderDTO(any()))
-                .thenReturn(getOrderDTO());
+        when(orderMapper.toOrderDto(any()))
+                .thenReturn(getOrderDto());
 
-        assertEquals(List.of(getOrderDTO()),
+        assertEquals(List.of(getOrderDto()),
                 orderService.findByUserId(anyLong(), getPagination()));
     }
 
@@ -110,10 +110,10 @@ class OrderServiceImplTest {
                 .thenReturn(getCertificate());
         when(orderRepository.findByCertificate(getCertificate(), getPagination()))
                 .thenReturn(List.of(getOrder()));
-        when(orderMapper.toOrderDTO(any()))
-                .thenReturn(getOrderDTO());
+        when(orderMapper.toOrderDto(any()))
+                .thenReturn(getOrderDto());
 
-        assertEquals(List.of(getOrderDTO()),
+        assertEquals(List.of(getOrderDto()),
                 orderService.findByCertificateId(anyLong(), getPagination()));
     }
 
@@ -123,7 +123,7 @@ class OrderServiceImplTest {
                 .when(userRepository).findById(anyLong());
 
         assertThrows(CustomEntityNotFoundException.class,
-                () -> orderService.create(getOrderDTO()));
+                () -> orderService.create(getOrderDto()));
     }
 
     @Test
@@ -132,7 +132,7 @@ class OrderServiceImplTest {
                 .when(certificateRepository).findById(anyLong());
 
         assertThrows(CustomEntityNotFoundException.class,
-                () -> orderService.create(getOrderDTO()));
+                () -> orderService.create(getOrderDto()));
     }
 
     @Test
@@ -141,9 +141,9 @@ class OrderServiceImplTest {
                 .thenReturn(getCertificate());
         when(userRepository.findById(anyLong()))
                 .thenReturn(getUser());
-        when(orderMapper.toOrderDTO(any()))
-                .thenReturn(getOrderDTO());
+        when(orderMapper.toOrderDto(any()))
+                .thenReturn(getOrderDto());
 
-        assertEquals(getOrderDTO(), orderService.create(getOrderDTO()));
+        assertEquals(getOrderDto(), orderService.create(getOrderDto()));
     }
 }

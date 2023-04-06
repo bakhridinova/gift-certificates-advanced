@@ -1,6 +1,6 @@
 package com.epam.esm.contoller;
 
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.exception.CustomMessageHolder;
 import com.epam.esm.hateoas.HateoasAdder;
@@ -26,7 +26,7 @@ import java.util.List;
 @RequestMapping("/api/tags")
 public class TagController {
     private final TagService tagService;
-    private final HateoasAdder<TagDTO> tagHateoasAdder;
+    private final HateoasAdder<TagDto> tagHateoasAdder;
     private final HateoasAdder<CustomMessageHolder> messageHolderHateoasAdder;
 
     /**
@@ -34,15 +34,15 @@ public class TagController {
      *
      * @param page page number requested (default is 0)
      * @param size number of items per page (default is 5)
-     * @return List of TagDTO containing tag details
+     * @return List of tags
      */
     @GetMapping
-    public List<TagDTO> getAll(@RequestParam(defaultValue = "0") int page,
+    public List<TagDto> getAll(@RequestParam(defaultValue = "0") int page,
                                @RequestParam(defaultValue = "5") int size) {
         CustomPaginationValidator.validate(page, size);
 
         Pagination pagination = new Pagination(page, size);
-        List<TagDTO> tags = tagService.findAll(pagination);
+        List<TagDto> tags = tagService.findAll(pagination);
         tagHateoasAdder.addLinksToEntityList(tags);
         return tags;
     }
@@ -50,14 +50,14 @@ public class TagController {
     /**
      * GET endpoint to retrieve specific tag by its ID
      *
-     * @param id Long ID of required tag
-     * @return CertificateDTO containing details of specified tag
+     * @param id long ID of required tag
+     * @return specified tag
      */
     @GetMapping("/{id}")
-    public TagDTO getById(@PathVariable Long id) {
+    public TagDto getById(@PathVariable long id) {
         CustomValidator.validateId(id);
 
-        TagDTO tag = tagService.findById(id);
+        TagDto tag = tagService.findById(id);
         tagHateoasAdder.addLinksToEntity(tag);
         return tag;
     }
@@ -67,11 +67,11 @@ public class TagController {
      * GET endpoint to retrieve the most commonly used tag of a user
      * with the highest cost of all orders
      *
-     * @return TagDTO containing details of specified tag
+     * @return specified tag
      */
-    @GetMapping("/top")
-    public TagDTO getTag() {
-        TagDTO tag = tagService.findSpecial();
+    @GetMapping("/special")
+    public TagDto getSpecial() {
+        TagDto tag = tagService.findSpecial();
         tagHateoasAdder.addLinksToEntity(tag);
         return tag;
     }
@@ -79,14 +79,14 @@ public class TagController {
     /**
      * handles POST requests for creating new tag
      *
-     * @param tagDTO TagDTO object representing new tag to be created
-     * @return TagDTO object that was created
+     * @param tagDto representing new tag to be created
+     * @return tag that was created
      */
     @PostMapping
-    public TagDTO post(@RequestBody TagDTO tagDTO) {
-        CustomTagValidator.validate(tagDTO);
+    public TagDto post(@RequestBody TagDto tagDto) {
+        CustomTagValidator.validate(tagDto);
 
-        TagDTO tag = tagService.create(tagDTO);
+        TagDto tag = tagService.create(tagDto);
         tagHateoasAdder.addLinksToEntity(tag);
         return tag;
     }

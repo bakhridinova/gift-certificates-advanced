@@ -1,6 +1,6 @@
 package com.epam.esm.dto.extra;
 
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
 import lombok.Builder;
 
@@ -13,6 +13,7 @@ import java.util.Set;
  * @param description String text from description to use for search results
  * @param sortType String type of sorting to use for search results
  * @param sortOrder String order of sorting to use for the search results
+ * @param tagDtos set of tags to filter search results by, can be empty
  * @param tags set of tags to filter search results by, can be empty
  * @param pagination Pagination holding pagination details
  *
@@ -21,11 +22,11 @@ import java.util.Set;
 @Builder
 public record SearchFilter(String name, String description,
                            String sortType, String sortOrder,
-                           Set<TagDTO> tagDTOs, Set<Tag> tags,
+                           Set<TagDto> tagDtos, Set<Tag> tags,
                            Pagination pagination) {
 
     public SearchFilter inner(Set<Tag> tags) {
-        return new SearchFilter(name(), description(), sortType(), sortOrder(), tagDTOs(), tags, pagination());
+        return new SearchFilter(name(), description(), sortType(), sortOrder(), tagDtos(), tags, pagination());
     }
 
     public int getSkip() {

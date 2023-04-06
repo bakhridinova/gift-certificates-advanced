@@ -1,8 +1,8 @@
 package com.epam.esm.contoller;
 
-import com.epam.esm.dto.CertificateDTO;
-import com.epam.esm.dto.OrderDTO;
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.CertificateDto;
+import com.epam.esm.dto.OrderDto;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.dto.extra.SearchFilter;
 import com.epam.esm.exception.CustomMessageHolder;
@@ -33,9 +33,9 @@ import java.util.Set;
 @RequestMapping("/api/certificates")
 public class CertificateController {
     private final CertificateService certificateService;
-    private final HateoasAdder<CertificateDTO> certificateHateoasAdder;
+    private final HateoasAdder<CertificateDto> certificateHateoasAdder;
     private final OrderService orderService;
-    private final HateoasAdder<OrderDTO> orderHateoasAdder;
+    private final HateoasAdder<OrderDto> orderHateoasAdder;
     private final HateoasAdder<CustomMessageHolder> messageHolderHateoasAdder;
 
     /**
@@ -43,15 +43,15 @@ public class CertificateController {
      *
      * @param page page number requested (default is 0)
      * @param size number of items per page (default is 5)
-     * @return List of CertificateDTO containing certificate details
+     * @return List of certificates
      */
     @GetMapping
-    public List<CertificateDTO> getAll(@RequestParam(defaultValue = "0") int page,
+    public List<CertificateDto> getAll(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "5") int size) {
         CustomPaginationValidator.validate(page, size);
 
         Pagination pagination = new Pagination(page, size);
-        List<CertificateDTO> certificates = certificateService.findAll(pagination);
+        List<CertificateDto> certificates = certificateService.findAll(pagination);
         certificateHateoasAdder.addLinksToEntityList(certificates);
         return certificates;
     }
@@ -59,14 +59,14 @@ public class CertificateController {
     /**
      * GET endpoint to retrieve specific certificate by its ID
      *
-     * @param id Long ID of required certificate
-     * @return CertificateDTO containing details of specified certificate
+     * @param id long ID of required certificate
+     * @return specified certificate
      */
     @GetMapping("/{id}")
-    public CertificateDTO getById(@PathVariable Long id) {
+    public CertificateDto getById(@PathVariable long id) {
         CustomValidator.validateId(id);
 
-        CertificateDTO certificate = certificateService.findById(id);
+        CertificateDto certificate = certificateService.findById(id);
         certificateHateoasAdder.addLinksToEntity(certificate);
         return certificate;
     }
@@ -81,16 +81,16 @@ public class CertificateController {
      * @param sortType property to sort by (default is 'id')
      * @param sortOrder sort order ('asc' or 'desc', default is 'asc')
      * @param tags set of tags to filter by (optional)
-     * @return List of CertificateDTO objects based on provided search parameters
+     * @return List of certificates based on provided search parameters
      */
     @GetMapping("/search")
-    public List<CertificateDTO> search(@RequestParam(defaultValue = "0") int page,
+    public List<CertificateDto> search(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "5") int size,
                                        @RequestParam(defaultValue = "") String name,
                                        @RequestParam(defaultValue = "") String description,
                                        @RequestParam(defaultValue = "id") String sortType,
                                        @RequestParam(defaultValue = "asc") String sortOrder,
-                                       @RequestBody(required = false) Set<TagDTO> tags) {
+                                       @RequestBody(required = false) Set<TagDto> tags) {
         CustomPaginationValidator.validate(page, size);
         CustomSortValidator.validate(sortType, sortOrder);
 
@@ -98,9 +98,9 @@ public class CertificateController {
                 .pagination(new Pagination(page, size))
                 .name(name).description(description)
                 .sortType(sortType).sortOrder(sortOrder)
-                .tagDTOs(tags).build();
+                .tagDtos(tags).build();
 
-        List<CertificateDTO> certificates = certificateService.findByFilter(searchFilter);
+        List<CertificateDto> certificates = certificateService.findByFilter(searchFilter);
         certificateHateoasAdder.addLinksToEntityList(certificates);
         return certificates;
     }
@@ -111,17 +111,17 @@ public class CertificateController {
      * @param id ID of certificate for which to retrieve orders
      * @param page page number requested (default is 0)
      * @param size number of items per page (default is 5)
-     * @return List of OrderDTO objects representing orders associated with certificate
+     * @return List of orders associated with certificate
      */
     @GetMapping("/{id}/orders")
-    public List<OrderDTO> getOrders(@PathVariable Long id,
+    public List<OrderDto> getOrders(@PathVariable long id,
                                     @RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "5") int size) {
         CustomValidator.validateId(id);
         CustomPaginationValidator.validate(page, size);
 
         Pagination pagination = new Pagination(page, size);
-        List<OrderDTO> orders = orderService.findByCertificateId(id, pagination);
+        List<OrderDto> orders = orderService.findByCertificateId(id, pagination);
         orderHateoasAdder.addLinksToEntityList(orders);
         return orders;
     }
@@ -129,14 +129,14 @@ public class CertificateController {
     /**
      * handles POST requests for creating new certificate
      *
-     * @param certificateDTO CertificateDTO object representing new certificate to be created
-     * @return CertificateDTO object that was created
+     * @param certificateDto representing new certificate to be created
+     * @return certificate that was created
      */
     @PostMapping
-    public CertificateDTO post(@RequestBody CertificateDTO certificateDTO) {
-        CustomCertificateValidator.validate(certificateDTO);
+    public CertificateDto post(@RequestBody CertificateDto certificateDto) {
+        CustomCertificateValidator.validate(certificateDto);
 
-        CertificateDTO certificate = certificateService.create(certificateDTO);
+        CertificateDto certificate = certificateService.create(certificateDto);
         certificateHateoasAdder.addLinksToEntity(certificate);
         return certificate;
     }
@@ -145,17 +145,16 @@ public class CertificateController {
      * handles PATCH requests for updating name of specific certificate
      *
      * @param id ID of certificate to update
-     * @param certificateDTO CertificateDTO object with updated name
-     * @return updated CertificateDTO object
+     * @param certificateDto with updated name
+     * @return updated certificate
      */
-    @PatchMapping("/{id}/description")
-    public CertificateDTO patchName(@PathVariable Long id,
-                                    @RequestBody CertificateDTO certificateDTO) {
+    @PatchMapping("/{id}")
+    public CertificateDto patch(@PathVariable long id,
+                                @RequestBody CertificateDto certificateDto) {
         CustomValidator.validateId(id);
-        String name = certificateDTO.getName();
-        CustomCertificateValidator.validateName(name);
+        CustomCertificateValidator.validateName(certificateDto.getName());
 
-        CertificateDTO certificate = certificateService.updateName(id, certificateDTO);
+        CertificateDto certificate = certificateService.updateName(id, certificateDto);
         certificateHateoasAdder.addLinksToEntity(certificate);
         return certificate;
     }
@@ -167,7 +166,7 @@ public class CertificateController {
      * @return CustomMessageHolder object expressing that certificate was successfully deleted
      */
     @DeleteMapping("{id}")
-    public CustomMessageHolder delete(@PathVariable Long id) {
+    public CustomMessageHolder delete(@PathVariable long id) {
         CustomValidator.validateId(id);
 
         certificateService.delete(id);

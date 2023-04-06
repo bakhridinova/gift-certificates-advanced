@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static com.epam.esm.util.TestDataFactory.getTag;
-import static com.epam.esm.util.TestDataFactory.getTagDTO;
+import static com.epam.esm.util.TestDataFactory.getTagDto;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
@@ -42,10 +42,10 @@ class TagServiceImplTest {
     void findAllShouldReturnCorrectListIfAnyTagWasFound() {
         when(tagRepository.findAll(any()))
                 .thenReturn(List.of(getTag()));
-        when(tagMapper.toTagDTO(any()))
-                .thenReturn(getTagDTO());
+        when(tagMapper.toTagDto(any()))
+                .thenReturn(getTagDto());
 
-        assertEquals(List.of(getTagDTO()),
+        assertEquals(List.of(getTagDto()),
                 tagService.findAll(any()));
     }
 
@@ -62,34 +62,34 @@ class TagServiceImplTest {
     void findByIdShouldReturnCorrectTagIfTagWasFound() {
         when(tagRepository.findById(anyLong()))
                 .thenReturn(getTag());
-        when(tagMapper.toTagDTO(any()))
-                .thenReturn(getTagDTO());
+        when(tagMapper.toTagDto(any()))
+                .thenReturn(getTagDto());
 
-        assertEquals(getTagDTO(),
+        assertEquals(getTagDto(),
                 tagService.findById(anyLong()));
     }
 
     @Test
     void createShouldThrowExceptionIfTagAlreadyExists() {
-        when(tagMapper.toTag(getTagDTO()))
+        when(tagMapper.toTag(getTagDto()))
                 .thenReturn(getTag());
         when(tagRepository.exists(anyString()))
                 .thenReturn(true);
 
         assertThrows(CustomEntityAlreadyExistsException.class,
-                () -> tagService.create(getTagDTO()));
+                () -> tagService.create(getTagDto()));
     }
 
     @Test
     void createShouldReturnCorrectTagIfTagDoesNotExist() {
         when(tagMapper.toTag(any()))
                 .thenReturn(getTag());
-        when(tagMapper.toTagDTO(any()))
-                .thenReturn(getTagDTO());
+        when(tagMapper.toTagDto(any()))
+                .thenReturn(getTagDto());
         when(tagRepository.exists(anyString()))
                 .thenReturn(false);
 
-        assertEquals(getTagDTO(), tagService.create(getTagDTO()));
+        assertEquals(getTagDto(), tagService.create(getTagDto()));
     }
 
     @Test

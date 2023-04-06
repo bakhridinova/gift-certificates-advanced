@@ -1,7 +1,7 @@
 package com.epam.esm.service.impl;
 
-import com.epam.esm.dto.CertificateDTO;
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.CertificateDto;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.dto.extra.SearchFilter;
 import com.epam.esm.entity.Certificate;
@@ -28,19 +28,19 @@ public class CertificateServiceImpl implements CertificateService {
     private final TagMapper tagMapper;
 
     @Override
-    public List<CertificateDTO> findAll(Pagination pagination) {
+    public List<CertificateDto> findAll(Pagination pagination) {
         return certificateRepository.findAll(pagination).stream()
-                .map(certificateMapper::toCertificateDTO).toList();
+                .map(certificateMapper::toCertificateDto).toList();
     }
 
     @Override
-    public CertificateDTO findById(Long id) {
-        return certificateMapper.toCertificateDTO(certificateRepository.findById(id));
+    public CertificateDto findById(Long id) {
+        return certificateMapper.toCertificateDto(certificateRepository.findById(id));
     }
 
     @Override
-    public List<CertificateDTO> findByFilter(SearchFilter searchFilter) {
-        Set<Tag> tags = searchFilter.tagDTOs().stream()
+    public List<CertificateDto> findByFilter(SearchFilter searchFilter) {
+        Set<Tag> tags = searchFilter.tagDtos().stream()
                 .filter(t -> tagRepository.exists(t.getName()))
                 .map(tagMapper::toTag)
                 .collect(Collectors.toSet());
@@ -48,22 +48,22 @@ public class CertificateServiceImpl implements CertificateService {
         searchFilter = searchFilter.inner(tags);
 
         return certificateRepository.findByFilter(searchFilter)
-                .stream().map(certificateMapper::toCertificateDTO).toList();
+                .stream().map(certificateMapper::toCertificateDto).toList();
     }
 
     @Override
-    public CertificateDTO updateName(Long id, CertificateDTO certificateDTO) {
+    public CertificateDto updateName(Long id, CertificateDto certificateDto) {
         Certificate certificate = certificateRepository.findById(id);
         certificate.setDescription(certificate.getDescription());
         certificateRepository.save(certificate);
-        return certificateMapper.toCertificateDTO(certificate);
+        return certificateMapper.toCertificateDto(certificate);
     }
 
     @Override
     @Transactional
-    public CertificateDTO create(CertificateDTO certificateDTO) {
-        for (TagDTO tagDTO : certificateDTO.getTags()) {
-            String name = tagDTO.getName();
+    public CertificateDto create(CertificateDto certificateDto) {
+        for (TagDto tagDto : certificateDto.getTags()) {
+            String name = tagDto.getName();
             if (!tagRepository.exists(name)) {
                 Tag tag = new Tag();
                 tag.setName(name);
@@ -71,9 +71,9 @@ public class CertificateServiceImpl implements CertificateService {
             }
         }
 
-        Certificate certificate = certificateMapper.toCertificate(certificateDTO);
+        Certificate certificate = certificateMapper.toCertificate(certificateDto);
         certificateRepository.save(certificate);
-        return certificateMapper.toCertificateDTO(certificate);
+        return certificateMapper.toCertificateDto(certificate);
     }
 
     @Override

@@ -2,16 +2,16 @@ package com.epam.esm.hateoas.impl;
 
 import com.epam.esm.contoller.CertificateController;
 import com.epam.esm.contoller.TagController;
-import com.epam.esm.dto.CertificateDTO;
+import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.hateoas.HateoasAdder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CertificateHateoasAdder implements HateoasAdder<CertificateDTO> {
+public class CertificateHateoasAdder implements HateoasAdder<CertificateDto> {
 
     @Override
-    public void addLinksToEntity(CertificateDTO certificate) {
+    public void addLinksToEntity(CertificateDto certificate) {
         certificate.add(WebMvcLinkBuilder.linkTo(CertificateController.class)
                 .withRel("GET all certificates"));
         certificate.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(CertificateController.class)

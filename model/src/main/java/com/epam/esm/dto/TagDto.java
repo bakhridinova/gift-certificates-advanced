@@ -17,7 +17,7 @@ import org.springframework.hateoas.RepresentationModel;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TagDTO extends RepresentationModel<TagDTO> {
+public class TagDto extends RepresentationModel<TagDto> {
     private Long id;
     private String name;
 }

@@ -11,7 +11,7 @@ public interface UserRepository extends CustomRepository<User> {
     /**
      * retrieves a paginated list of users based on pagination parameters
      *
-     * @param pagination Pagination details
+     * @param pagination details
      * @return list of users
      */
     List<User> findAll(Pagination pagination);
@@ -19,7 +19,7 @@ public interface UserRepository extends CustomRepository<User> {
     /**
      * retrieves user with specified ID
      *
-     * @param id Long ID of user
+     * @param id ID of user
      * @return user with the specified ID
      */
     User findById(Long id);
@@ -27,14 +27,14 @@ public interface UserRepository extends CustomRepository<User> {
     /**
      * saves user to database
      *
-     * @param user User to save
+     * @param user to save
      */
     void save(User user);
 
     /**
      * deletes user from database
      *
-     * @param user User to delete
+     * @param user to delete
      */
     void delete(User user);
 }

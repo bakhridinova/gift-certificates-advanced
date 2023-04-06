@@ -15,7 +15,7 @@ public interface CustomRepository<T extends Identifiable> {
     /**
      * retrieves a paginated list of entities based on pagination parameters
      *
-     * @param pagination Pagination details
+     * @param pagination details
      * @return list of entities
      */
     List<T> findAll(Pagination pagination);
@@ -23,7 +23,7 @@ public interface CustomRepository<T extends Identifiable> {
     /**
      * retrieves entity with specified ID
      *
-     * @param id Long ID of entity
+     * @param id ID of entity
      * @return entity with the specified ID
      */
     T findById(Long id);
@@ -31,14 +31,14 @@ public interface CustomRepository<T extends Identifiable> {
     /**
      * saves entity to database
      *
-     * @param t T entity to save
+     * @param t entity to save
      */
     void save(T t);
 
     /**
      * deletes entity from database
      *
-     * @param t T entity to delete
+     * @param t entity to delete
      */
     void delete(T t);
 }

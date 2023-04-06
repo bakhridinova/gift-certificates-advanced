@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static com.epam.esm.util.TestDataFactory.getUser;
-import static com.epam.esm.util.TestDataFactory.getUserDTO;
+import static com.epam.esm.util.TestDataFactory.getUserDto;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -42,10 +42,10 @@ class UserServiceImplTest {
     void findAllShouldReturnCorrectListIfAnyUserWasFound() {
         when(userRepository.findAll(any()))
                 .thenReturn(List.of(getUser()));
-        when(userMapper.toUserDTO(any()))
-                .thenReturn(getUserDTO());
+        when(userMapper.toUserDto(any()))
+                .thenReturn(getUserDto());
 
-        assertEquals(List.of(getUserDTO()),
+        assertEquals(List.of(getUserDto()),
                 userService.findAll(any()));
     }
 
@@ -62,10 +62,10 @@ class UserServiceImplTest {
     void findByIdShouldReturnCorrectUserIfUserWasFound() {
         when(userRepository.findById(anyLong()))
                 .thenReturn(getUser());
-        when(userMapper.toUserDTO(any()))
-                .thenReturn(getUserDTO());
+        when(userMapper.toUserDto(any()))
+                .thenReturn(getUserDto());
 
-        assertEquals(getUserDTO(),
+        assertEquals(getUserDto(),
                 userService.findById(anyLong()));
     }
 }

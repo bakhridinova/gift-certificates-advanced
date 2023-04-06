@@ -1,6 +1,6 @@
 package com.epam.esm.service;
 
-import com.epam.esm.dto.CertificateDTO;
+import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.dto.extra.SearchFilter;
 
@@ -12,15 +12,15 @@ import java.util.List;
  */
 
 public interface CertificateService {
-    List<CertificateDTO> findAll(Pagination pagination);
+    List<CertificateDto> findAll(Pagination pagination);
 
-    CertificateDTO findById(Long id);
+    CertificateDto findById(Long id);
 
-    List<CertificateDTO> findByFilter(SearchFilter searchFilter);
+    List<CertificateDto> findByFilter(SearchFilter searchFilter);
 
-    CertificateDTO updateName(Long id, CertificateDTO certificate);
+    CertificateDto updateName(Long id, CertificateDto certificate);
 
-    CertificateDTO create(CertificateDTO certificate);
+    CertificateDto create(CertificateDto certificate);
 
     void delete(Long id);
 }

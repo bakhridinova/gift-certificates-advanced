@@ -23,18 +23,18 @@ class OrderMapperTest {
 
     @Test
     void shouldMapOrdersCorrectlyTest() {
-        assertEquals(getOrderDTO(),
-                orderMapper.toOrderDTO(getOrder()));
+        assertEquals(getOrderDto(),
+                orderMapper.toOrderDto(getOrder()));
     }
 
     @Test
     void shouldReturnNullIfNullPassedTest() {
-        assertNull(orderMapper.toOrderDTO(null));
+        assertNull(orderMapper.toOrderDto(null));
     }
 
     @Test
     void shouldReturnNullObjectIfNullObjectPassedTest() {
-        assertEquals(getNullOrderDTO(),
-                orderMapper.toOrderDTO(getNullOrder()));
+        assertEquals(getNullOrderDto(),
+                orderMapper.toOrderDto(getNullOrder()));
     }
 }

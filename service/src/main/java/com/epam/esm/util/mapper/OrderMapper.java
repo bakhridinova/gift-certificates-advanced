@@ -1,12 +1,12 @@
 package com.epam.esm.util.mapper;
 
-import com.epam.esm.dto.OrderDTO;
+import com.epam.esm.dto.OrderDto;
 import com.epam.esm.entity.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 /**
- * mapper to convert order into orderDTO and vice versa
+ * mapper to convert Order into OrderDto and vice versa
  *
  * @author bakhridinova
  */
@@ -14,14 +14,14 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface OrderMapper {
     /**
-     * maps Order to OrderDTO
+     * maps Order to OrderDto
      * sets id of user to userId field
      * sets id of certificate to certificateId field
      *
      * @param order Order
-     * @return OrderDTO
+     * @return OrderDto
      */
     @Mapping(target = "userId", expression = "java(order.getUser().getId())")
     @Mapping(target = "certificateId", expression = "java(order.getCertificate().getId())")
-    OrderDTO toOrderDTO(Order order);
+    OrderDto toOrderDto(Order order);
 }

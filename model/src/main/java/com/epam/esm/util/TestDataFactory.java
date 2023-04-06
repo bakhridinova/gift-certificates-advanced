@@ -1,9 +1,9 @@
 package com.epam.esm.util;
 
-import com.epam.esm.dto.CertificateDTO;
-import com.epam.esm.dto.OrderDTO;
-import com.epam.esm.dto.TagDTO;
-import com.epam.esm.dto.UserDTO;
+import com.epam.esm.dto.CertificateDto;
+import com.epam.esm.dto.OrderDto;
+import com.epam.esm.dto.TagDto;
+import com.epam.esm.dto.UserDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Order;
@@ -24,21 +24,21 @@ import java.util.Set;
 @UtilityClass
 public class TestDataFactory {
     private final Tag TAG = new Tag();
-    private final TagDTO TAG_DTO = new TagDTO();
+    private final TagDto TAG_DTO = new TagDto();
     private final Tag NULL_TAG = new Tag();
-    private final TagDTO NULL_TAG_DTO = new TagDTO();
+    private final TagDto NULL_TAG_DTO = new TagDto();
     private final User USER = new User();
-    private final UserDTO USER_DTO = new UserDTO();
+    private final UserDto USER_DTO = new UserDto();
     private final User NULL_USER = new User();
-    private final UserDTO NULL_USER_DTO = new UserDTO();
+    private final UserDto NULL_USER_DTO = new UserDto();
     private final Order ORDER = new Order();
-    private final OrderDTO ORDER_DTO = new OrderDTO();
+    private final OrderDto ORDER_DTO = new OrderDto();
     private final Order NULL_ORDER = new Order();
-    private final OrderDTO NULL_ORDER_DTO = new OrderDTO();
+    private final OrderDto NULL_ORDER_DTO = new OrderDto();
     private final Certificate CERTIFICATE = new Certificate();
-    private final CertificateDTO CERTIFICATE_DTO = new CertificateDTO();
+    private final CertificateDto CERTIFICATE_DTO = new CertificateDto();
     private final Certificate NULL_CERTIFICATE = new Certificate();
-    private final CertificateDTO NULL_CERTIFICATE_DTO = new CertificateDTO();
+    private final CertificateDto NULL_CERTIFICATE_DTO = new CertificateDto();
     private final Pagination PAGINATION = new Pagination(0, 0);
 
     static {
@@ -97,19 +97,19 @@ public class TestDataFactory {
 
     // entity dto
 
-    public CertificateDTO getCertificateDTO() {
+    public CertificateDto getCertificateDto() {
         return CERTIFICATE_DTO;
     }
 
-    public OrderDTO getOrderDTO() {
+    public OrderDto getOrderDto() {
         return ORDER_DTO;
     }
 
-    public TagDTO getTagDTO() {
+    public TagDto getTagDto() {
         return TAG_DTO;
     }
 
-    public UserDTO getUserDTO() {
+    public UserDto getUserDto() {
         return USER_DTO;
     }
 
@@ -133,19 +133,19 @@ public class TestDataFactory {
 
     // null entity dto
 
-    public CertificateDTO getNullCertificateDTO() {
+    public CertificateDto getNullCertificateDto() {
         return NULL_CERTIFICATE_DTO;
     }
 
-    public OrderDTO getNullOrderDTO() {
+    public OrderDto getNullOrderDto() {
         return NULL_ORDER_DTO;
     }
 
-    public TagDTO getNullTagDTO() {
+    public TagDto getNullTagDto() {
         return NULL_TAG_DTO;
     }
 
-    public UserDTO getNullUserDTO() {
+    public UserDto getNullUserDto() {
         return NULL_USER_DTO;
     }
 

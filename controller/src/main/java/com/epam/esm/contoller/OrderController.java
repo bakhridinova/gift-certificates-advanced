@@ -1,6 +1,6 @@
 package com.epam.esm.contoller;
 
-import com.epam.esm.dto.OrderDTO;
+import com.epam.esm.dto.OrderDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.hateoas.HateoasAdder;
 import com.epam.esm.service.OrderService;
@@ -22,22 +22,22 @@ import java.util.List;
 @RequestMapping("/api/orders")
 public class OrderController {
     private final OrderService orderService;
-    private final HateoasAdder<OrderDTO> orderHateoasAdder;
+    private final HateoasAdder<OrderDto> orderHateoasAdder;
 
     /**
      * GET endpoint to retrieve list of orders
      *
      * @param page page number requested (default is 0)
      * @param size number of items per page (default is 5)
-     * @return List of OrderDTO containing order details
+     * @return List of orders
      */
     @GetMapping
-    public List<OrderDTO> getAll(@RequestParam(defaultValue = "0") int page,
+    public List<OrderDto> getAll(@RequestParam(defaultValue = "0") int page,
                                  @RequestParam(defaultValue = "5") int size) {
         CustomPaginationValidator.validate(page, size);
 
         Pagination pagination = new Pagination(page, size);
-        List<OrderDTO> orders = orderService.findAll(pagination);
+        List<OrderDto> orders = orderService.findAll(pagination);
         orderHateoasAdder.addLinksToEntityList(orders);
         return orders;
     }
@@ -45,14 +45,14 @@ public class OrderController {
     /**
      * GET endpoint to retrieve specific order by its ID
      *
-     * @param id Long ID of required order
-     * @return CertificateDTO containing details of specified order
+     * @param id long ID of required order
+     * @return specified order
      */
     @GetMapping("/{id}")
-    public OrderDTO getById(@PathVariable Long id) {
+    public OrderDto getById(@PathVariable long id) {
         CustomValidator.validateId(id);
 
-        OrderDTO order = orderService.findById(id);
+        OrderDto order = orderService.findById(id);
         orderHateoasAdder.addLinksToEntity(order);
         return order;
     }
@@ -61,15 +61,15 @@ public class OrderController {
     /**
      * handles POST requests for creating new order
      *
-     * @param orderDTO OrderDTO object representing new order to be created
-     * @return OrderDTO object that was created
+     * @param orderDto representing new order to be created
+     * @return order that was created
      */
     @PostMapping
-    public OrderDTO post(@RequestBody OrderDTO orderDTO) {
-        CustomValidator.validateId(orderDTO.getUserId());
-        CustomValidator.validateId(orderDTO.getCertificateId());
+    public OrderDto post(@RequestBody OrderDto orderDto) {
+        CustomValidator.validateId(orderDto.getUserId());
+        CustomValidator.validateId(orderDto.getCertificateId());
 
-        OrderDTO order = orderService.create(orderDTO);
+        OrderDto order = orderService.create(orderDto);
         orderHateoasAdder.addLinksToEntity(order);
         return order;
     }

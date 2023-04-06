@@ -1,6 +1,6 @@
 package com.epam.esm.util.mapper;
 
-import com.epam.esm.dto.CertificateDTO;
+import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.entity.Certificate;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
- * mapper to convert certificate into certificateDTO and vice versa
+ * mapper to convert Certificate into CertificateDto and vice versa
  *
  * @author bakhridinova
  */
@@ -18,24 +18,24 @@ import java.util.HashSet;
         imports = {ArrayList.class, HashSet.class})
 public interface CertificateMapper {
     /**
-     * maps Certificate to CertificateDTO
+     * maps Certificate to CertificateDto
      * sets number of orders of certificate to timesOrdered field
      *
      * @param certificate Certificate
-     * @return CertificateDTO
+     * @return CertificateDto
      */
     @Mapping(target = "timesOrdered", expression = "java(certificate.getOrders() == null ? 0 : certificate.getOrders().size())")
-    CertificateDTO toCertificateDTO(Certificate certificate);
+    CertificateDto toCertificateDto(Certificate certificate);
 
     /**
-     * maps CertificateDTO to Certificate
+     * maps CertificateDto to Certificate
      * sets empty Set to tags field
      * sets empty List to orders field
      *
-     * @param certificate CertificateDTO
+     * @param certificate CertificateDto
      * @return Certificate
      */
     @Mapping(target = "tags", expression = "java(new HashSet())")
     @Mapping(target = "orders", expression = "java(new ArrayList())")
-    Certificate toCertificate(CertificateDTO certificate);
+    Certificate toCertificate(CertificateDto certificate);
 }

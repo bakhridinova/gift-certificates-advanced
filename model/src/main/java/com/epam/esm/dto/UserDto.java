@@ -19,7 +19,7 @@ import java.time.LocalDate;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class UserDTO extends RepresentationModel<UserDTO> {
+public class UserDto extends RepresentationModel<UserDto> {
     private Long id;
 
     private String username;

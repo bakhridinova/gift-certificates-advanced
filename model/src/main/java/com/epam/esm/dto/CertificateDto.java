@@ -20,7 +20,7 @@ import java.util.Set;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class CertificateDTO extends RepresentationModel<CertificateDTO> {
+public class CertificateDto extends RepresentationModel<CertificateDto> {
     private Long id;
 
     private String name;
@@ -36,5 +36,5 @@ public class CertificateDTO extends RepresentationModel<CertificateDTO> {
     private LocalDateTime lastUpdatedAt;
 
     private int timesOrdered;
-    private Set<TagDTO> tags;
+    private Set<TagDto> tags;
 }

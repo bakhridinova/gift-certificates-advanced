@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Getter
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class OrderDTO extends RepresentationModel<OrderDTO> {
+public class OrderDto extends RepresentationModel<OrderDto> {
     private Long id;
 
     private Double price;

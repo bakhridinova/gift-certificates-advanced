@@ -1,7 +1,7 @@
 package com.epam.esm.service;
 
 
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.extra.Pagination;
 
 import java.util.List;
@@ -12,12 +12,12 @@ import java.util.List;
  */
 
 public interface TagService {
-    List<TagDTO> findAll(Pagination pagination);
+    List<TagDto> findAll(Pagination pagination);
 
-    TagDTO findById(Long id);
-    TagDTO findSpecial();
+    TagDto findById(Long id);
+    TagDto findSpecial();
 
-    TagDTO create(TagDTO tag);
+    TagDto create(TagDto tag);
 
     void delete(Long id);
 }

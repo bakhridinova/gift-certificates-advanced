@@ -1,7 +1,7 @@
 package com.epam.esm.service;
 
 
-import com.epam.esm.dto.UserDTO;
+import com.epam.esm.dto.UserDto;
 import com.epam.esm.dto.extra.Pagination;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
  */
 
 public interface UserService {
-    List<UserDTO> findAll(Pagination pagination);
+    List<UserDto> findAll(Pagination pagination);
 
-    UserDTO findById(Long id);
+    UserDto findById(Long id);
 }

@@ -19,8 +19,18 @@ public enum FieldName {
     PAGE,
     SIZE,
 
-    TYPE,
-    ORDER;
+    TYPE {
+        @Override
+        public String getName() {
+            return "sortType";
+        }
+    },
+    ORDER {
+        @Override
+        public String getName() {
+            return "sortOrder";
+        }
+    };
 
     public String getName() {
         return this.name().toLowerCase();

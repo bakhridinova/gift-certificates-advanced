@@ -1,6 +1,6 @@
 package com.epam.esm.validator;
 
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.extra.FieldName;
 import com.epam.esm.exception.CustomValidationException;
 import lombok.experimental.UtilityClass;
@@ -18,10 +18,10 @@ public class CustomTagValidator {
     /**
      * validates tag to ensure that it's parameters are valid
      *
-     * @param tag TagDTO to validate
+     * @param tag to validate
      * @throws CustomValidationException if any of tag parameters are not valid
      */
-    public void validate(TagDTO tag) {
+    public void validate(TagDto tag) {
         validateName(tag.getName());
     }
 

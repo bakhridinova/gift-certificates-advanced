@@ -13,7 +13,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.List;
 
 import static com.epam.esm.util.TestDataFactory.getCertificate;
-import static com.epam.esm.util.TestDataFactory.getCertificateDTO;
+import static com.epam.esm.util.TestDataFactory.getCertificateDto;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
@@ -44,10 +44,10 @@ class CertificateServiceImplTest {
     void findAllShouldReturnCorrectListIfAnyCertificateWasFound() {
         when(certificateRepository.findAll(any()))
                 .thenReturn(List.of(getCertificate()));
-        when(certificateMapper.toCertificateDTO(any()))
-                .thenReturn(getCertificateDTO());
+        when(certificateMapper.toCertificateDto(any()))
+                .thenReturn(getCertificateDto());
 
-        assertEquals(List.of(getCertificateDTO()),
+        assertEquals(List.of(getCertificateDto()),
                 certificateService.findAll(any()));
     }
 
@@ -64,10 +64,10 @@ class CertificateServiceImplTest {
     void findByIdShouldReturnCorrectCertificateIfCertificateWasFound() {
         when(certificateRepository.findById(anyLong()))
                 .thenReturn(getCertificate());
-        when(certificateMapper.toCertificateDTO(any()))
-                .thenReturn(getCertificateDTO());
+        when(certificateMapper.toCertificateDto(any()))
+                .thenReturn(getCertificateDto());
 
-        assertEquals(getCertificateDTO(),
+        assertEquals(getCertificateDto(),
                 certificateService.findById(anyLong()));
     }
 
@@ -77,30 +77,30 @@ class CertificateServiceImplTest {
                 .when(certificateRepository).findById(anyLong());
 
         assertThrows(CustomEntityNotFoundException.class,
-                () -> certificateService.updateName(anyLong(), getCertificateDTO()));
+                () -> certificateService.updateName(anyLong(), getCertificateDto()));
     }
 
     @Test
     void updateNameShouldReturnUpdatedCertificateIfCertificateWasFound() {
         when(certificateRepository.findById(anyLong()))
                 .thenReturn(getCertificate());
-        when(certificateMapper.toCertificateDTO(any()))
-                .thenReturn(getCertificateDTO());
+        when(certificateMapper.toCertificateDto(any()))
+                .thenReturn(getCertificateDto());
 
-        assertEquals(getCertificateDTO(),
-                certificateService.updateName(anyLong(), getCertificateDTO()));
+        assertEquals(getCertificateDto(),
+                certificateService.updateName(anyLong(), getCertificateDto()));
     }
 
     @Test
     void createShouldReturnCorrectCertificateIfCertificateWasCreated() {
         when(certificateMapper.toCertificate(any()))
                 .thenReturn(getCertificate());
-        when(certificateMapper.toCertificateDTO(any()))
-                .thenReturn(getCertificateDTO());
+        when(certificateMapper.toCertificateDto(any()))
+                .thenReturn(getCertificateDto());
         when(tagRepository.exists(anyString()))
                 .thenReturn(false);
 
-        assertEquals(getCertificateDTO(), certificateService.create(getCertificateDTO()));
+        assertEquals(getCertificateDto(), certificateService.create(getCertificateDto()));
     }
 
     @Test

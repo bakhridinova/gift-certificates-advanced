@@ -1,7 +1,7 @@
 package com.epam.esm.contoller;
 
-import com.epam.esm.dto.OrderDTO;
-import com.epam.esm.dto.UserDTO;
+import com.epam.esm.dto.OrderDto;
+import com.epam.esm.dto.UserDto;
 import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.hateoas.HateoasAdder;
 import com.epam.esm.service.OrderService;
@@ -22,24 +22,24 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
     private final UserService userService;
-    private final HateoasAdder<UserDTO> userHateoasAdder;
+    private final HateoasAdder<UserDto> userHateoasAdder;
     private final OrderService orderService;
-    private final HateoasAdder<OrderDTO> orderHateoasAdder;
+    private final HateoasAdder<OrderDto> orderHateoasAdder;
 
     /**
      * GET endpoint to retrieve list of users
      *
      * @param page page number requested (default is 0)
      * @param size number of items per page (default is 5)
-     * @return List of UserDTO containing user details
+     * @return List of users
      */
     @GetMapping
-    public List<UserDTO> getAll(@RequestParam(defaultValue = "0") int page,
+    public List<UserDto> getAll(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(defaultValue = "5") int size) {
         CustomPaginationValidator.validate(page, size);
 
         Pagination pagination = new Pagination(page, size);
-        List<UserDTO> users = userService.findAll(pagination);
+        List<UserDto> users = userService.findAll(pagination);
         userHateoasAdder.addLinksToEntityList(users);
         return users;
     }
@@ -47,11 +47,11 @@ public class UserController {
     /**
      * GET endpoint to retrieve specific user by its ID
      *
-     * @param id Long ID of required user
-     * @return CertificateDTO containing details of specified user
+     * @param id long ID of required user
+     * @return specified user
      */
     @GetMapping("/{id}")
-    public UserDTO getById(@PathVariable Long id) {
+    public UserDto getById(@PathVariable long id) {
 
         CustomValidator.validateId(id);
         return userService.findById(id);
@@ -60,20 +60,20 @@ public class UserController {
     /**
      * GET endpoint to search for retrieving orders associated with specific user
      *
-     * @param id ID of user for which to retrieve orders
+     * @param id long ID of user for which to retrieve orders
      * @param page page number requested (default is 0)
      * @param size number of items per page (default is 5)
-     * @return List of OrderDTO objects representing orders associated with user
+     * @return List of orders associated with user
      */
     @GetMapping("/{id}/orders")
-    public List<OrderDTO> getOrders(@PathVariable Long id,
+    public List<OrderDto> getOrders(@PathVariable long id,
                                     @RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "5") int size) {
         CustomValidator.validateId(id);
         CustomPaginationValidator.validate(page, size);
 
         Pagination pagination = new Pagination(page, size);
-        List<OrderDTO> orders = orderService.findByUserId(id, pagination);
+        List<OrderDto> orders = orderService.findByUserId(id, pagination);
         orderHateoasAdder.addLinksToEntityList(orders);
         return orders;
     }
