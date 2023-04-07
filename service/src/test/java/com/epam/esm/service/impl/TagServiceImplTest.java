@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -30,6 +31,15 @@ class TagServiceImplTest {
     private TagServiceImpl tagService;
 
     @Test
+    void findAllShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(tagRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> tagService.findById(anyLong()));
+    }
+
+    @Test
     void findAllShouldReturnEmptyListIfNoTagWasFound() {
         when(tagRepository.findAll(any()))
                 .thenReturn(List.of());
@@ -50,7 +60,16 @@ class TagServiceImplTest {
     }
 
     @Test
-    void findByIdShouldThrowExceptionIfNoTagWasFound() {
+    void findByIdShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(tagRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> tagService.findById(anyLong()));
+    }
+
+    @Test
+    void findByIdShouldThrowCustomEntityNotFoundExceptionIfNoTagWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(tagRepository).findById(anyLong());
 
@@ -70,7 +89,20 @@ class TagServiceImplTest {
     }
 
     @Test
-    void createShouldThrowExceptionIfTagAlreadyExists() {
+    void createShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        when(tagMapper.toTag(any()))
+                .thenReturn(getTag());
+        when(tagRepository.exists(anyString()))
+                .thenReturn(false);
+        doThrow(new DataAccessException("") {})
+                .when(tagRepository).save(any());
+
+        assertThrows(DataAccessException.class,
+                () -> tagService.create(getTagDto()));
+    }
+
+    @Test
+    void createShouldThrowCustomEntityNotFoundExceptionIfTagAlreadyExists() {
         when(tagMapper.toTag(getTagDto()))
                 .thenReturn(getTag());
         when(tagRepository.exists(anyString()))
@@ -93,7 +125,17 @@ class TagServiceImplTest {
     }
 
     @Test
-    void deleteShouldThrowExceptionIfNoTagWasFound() {
+    void deleteShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(tagRepository).delete(any());
+
+        assertThrows(DataAccessException.class,
+                () -> tagService.delete(anyLong()));
+    }
+
+
+    @Test
+    void deleteShouldThrowCustomEntityNotFoundExceptionIfNoTagWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(tagRepository).findById(anyLong());
 

@@ -48,7 +48,7 @@ class CertificateControllerTest {
     private HateoasAdder<CustomMessageHolder> messageHolderHateoasAdder;
 
     @Test
-    void getAll_ShouldReturn_EmptyList_IfCertificatesWereNotFound() throws Exception {
+    void getAllShouldReturnEmptyListIfCertificatesWereNotFound() throws Exception {
         when(certificateService.findAll(any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/certificates")).andDo(print())
@@ -56,7 +56,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldReturn_CorrectList_IfCertificatesWereFound() throws Exception {
+    void getAllShouldReturnCorrectListIfCertificatesWereFound() throws Exception {
         when(certificateService.findAll(any()))
                 .thenReturn(List.of(getCertificateDto()));
         this.mockMvc.perform(get("/api/certificates"))
@@ -75,7 +75,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/certificates")
                         .param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -84,7 +84,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/certificates")
                         .param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -93,7 +93,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/certificates")
                         .param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -102,7 +102,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/certificates")
                         .param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -111,7 +111,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/certificates")
                         .param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -120,7 +120,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/certificates")
                         .param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -129,7 +129,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getById_ShouldReturn_CorrectCertificate_IfCertificateWasFound() throws Exception {
+    void getByIdShouldReturnCorrectCertificateIfCertificateWasFound() throws Exception {
         when(certificateService.findById(anyLong()))
                 .thenReturn(getCertificateDto());
         this.mockMvc.perform(get("/api/certificates/1"))
@@ -148,7 +148,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfCertificateWasNotFound() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfCertificateWasNotFound() throws Exception {
         when(certificateService.findById(anyLong()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find certificate by id 1"));
         this.mockMvc.perform(get("/api/certificates/1"))
@@ -158,7 +158,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/certificates/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -166,7 +166,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/certificates/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -174,7 +174,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldReturn_EmptyList_IfCertificatesWereNotFound() throws Exception {
+    void searchShouldReturnEmptyListOfCertificatesWereNotFound() throws Exception {
         when(certificateService.findByFilter(any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/certificates/search")).andDo(print())
@@ -182,7 +182,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldReturn_CorrectList_IfCertificatesWereFound() throws Exception {
+    void searchShouldReturnCorrectListIfCertificatesWereFound() throws Exception {
         when(certificateService.findByFilter(any()))
                 .thenReturn(List.of(getCertificateDto()));
         this.mockMvc.perform(get("/api/certificates/search"))
@@ -200,7 +200,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfPageIsNegative() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -209,7 +209,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSizeIsNegative() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -218,7 +218,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfPageIsNotNumeric() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -227,7 +227,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSizeIsNotNumeric() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -236,7 +236,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfPageIsTooBig() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -245,7 +245,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSizeIsTooBig() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -254,7 +254,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSortTypeIsEmpty() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsEmpty() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortType", ""))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -263,7 +263,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSortOrderIsEmpty() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSortOrderIsEmpty() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortOrder", ""))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -272,7 +272,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSortTypeIsBlank() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsBlank() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortType", " "))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -281,7 +281,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSortOrderIsBlank() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSortOrderIsBlank() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortOrder", " "))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -290,7 +290,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSortTypeIsInvalid() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsInvalid() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortType", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -299,7 +299,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void search_ShouldThrowException_WithCorrectMessage_IfSortOrderIsInvalid() throws Exception {
+    void searchShouldThrowExceptionWithCorrectMessageIfSortOrderIsInvalid() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortOrder", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
@@ -308,7 +308,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getOrders_ShouldReturn_EmptyList_IfOrdersWereNotFound() throws Exception {
+    void getOrdersShouldReturnEmptyListIfOrdersWereNotFound() throws Exception {
         when(orderService.findByCertificateId(anyLong(), any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/certificates/1/orders")).andDo(print())
@@ -316,7 +316,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getOrders_ShouldReturn_CorrectList_IfOrdersWereFound() throws Exception {
+    void getOrdersShouldReturnCorrectListIfOrdersWereFound() throws Exception {
         when(orderService.findByCertificateId(anyLong(), any()))
                 .thenReturn(List.of(getOrderDto()));
         this.mockMvc.perform(get("/api/certificates/1/orders"))
@@ -328,7 +328,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getOrders_ShouldThrowException_WithCorrectMessage_IfCertificateWasNotFound() throws Exception {
+    void getOrdersShouldThrowExceptionWithCorrectMessageIfCertificateWasNotFound() throws Exception {
         when(orderService.findByCertificateId(anyLong(), any()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find certificate by id 1"));
         this.mockMvc.perform(get("/api/certificates/1/orders"))
@@ -338,7 +338,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getOrders_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void getOrdersShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/certificates/text/orders"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -346,7 +346,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void getOrders_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void getOrdersShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/certificates/-1/orders"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -354,7 +354,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldReturn_CorrectCertificate_IfCertificateWasCreated() throws Exception {
+    void postShouldReturnCorrectCertificateIfCertificateWasCreated() throws Exception {
         when(certificateService.create(any()))
                 .thenReturn(getCertificateDto());
         JSONObject jsonObject = new JSONObject();
@@ -381,7 +381,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateNameIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -399,7 +399,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDescriptionIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -417,7 +417,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfPriceIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfPriceIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -435,7 +435,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDurationIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDurationIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -453,7 +453,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfTagsIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagsIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/certificates")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -470,7 +470,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateNameIsEmpty() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsEmpty() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -488,7 +488,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDescriptionIsEmpty() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIsEmpty() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -506,7 +506,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateNameIsBlank() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -524,7 +524,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDescriptionIsBlank() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -542,7 +542,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateNameIsTooShort() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsTooShort() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -560,7 +560,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDescriptionIsTooShort() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIsTooShort() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/certificates")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -577,7 +577,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateNameIsTooLong() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsTooLong() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -596,7 +596,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDescriptionIsTooLong() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIsTooLong() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -615,7 +615,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateNameIncludesSpecial() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIncludesSpecial() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -634,7 +634,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDescriptionIncludesSpecial() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIncludesSpecial() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -653,7 +653,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfPriceIsNegative() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfPriceIsNegative() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -671,7 +671,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDurationIsNegative() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDurationIsNegative() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -689,7 +689,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfPriceIsTooLow() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfPriceIsTooLow() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -707,7 +707,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDurationIsNTooLow() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDurationIsNTooLow() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -725,7 +725,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfPriceIsTooHigh() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfPriceIsTooHigh() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -743,7 +743,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfDurationIsTooHigh() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfDurationIsTooHigh() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -761,7 +761,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_shouldThrowException_WithCorrectMessage_IfTagNameIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagNameIsNull() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -781,7 +781,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_shouldThrowException_WithCorrectMessage_IfTagNameIsEmpty() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagNameIsEmpty() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -801,7 +801,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_shouldThrowException_WithCorrectMessage_IfTagNameIsBlank() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagNameIsBlank() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -821,7 +821,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_shouldThrowException_WithCorrectMessage_IfTagNameIsTooShort() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagNameIsTooShort() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -842,7 +842,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_shouldThrowException_WithCorrectMessage_IfTagNameIsTooLong() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagNameIsTooLong() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -863,7 +863,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void post_shouldThrowException_WithCorrectMessage_IfTagNameIncludesSpecial() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfTagNameIncludesSpecial() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -884,7 +884,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldReturn_CorrectCertificate_IfCertificateWasFound() throws Exception {
+    void patchShouldReturnCorrectCertificateIfCertificateWasFound() throws Exception {
         JSONObject jsonObject = new JSONObject();
         when(certificateService.updateName(anyLong(), any()))
                 .thenReturn(getCertificateDto());
@@ -908,7 +908,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfCertificateWasNotFound() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfCertificateWasNotFound() throws Exception {
         JSONObject jsonObject = new JSONObject();
         when(certificateService.updateName(anyLong(), any()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find certificate by id 1"));
@@ -923,7 +923,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(patch("/api/certificates/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -931,7 +931,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/-1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -944,7 +944,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfNameIsNull() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfNameIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -957,7 +957,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfNameIsEmpty() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfNameIsEmpty() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -970,7 +970,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfNameIsBlank() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfNameIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -983,7 +983,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfNameIsTooShort() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfNameIsTooShort() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -996,7 +996,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfNameIsTooLong() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfNameIsTooLong() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -1010,7 +1010,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patch_ShouldThrowException_WithCorrectMessage_IfNameIncludesSpecial() throws Exception {
+    void patchShouldThrowExceptionWithCorrectMessageIfNameIncludesSpecial() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -1024,7 +1024,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void delete_ShouldReturn_CorrectMessage_IfCertificateWasFound() throws Exception {
+    void deleteShouldReturnCorrectMessageIfCertificateWasFound() throws Exception {
         doNothing().when(certificateService).delete(anyLong());
         this.mockMvc.perform(delete("/api/certificates/1"))
                 .andDo(print()).andExpect(status().isOk())
@@ -1033,7 +1033,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void delete_ShouldThrowException_WithCorrectMessage_IfCertificateWasNotFound() throws Exception {
+    void deleteShouldThrowExceptionWithCorrectMessageIfCertificateWasNotFound() throws Exception {
         doThrow(new CustomEntityNotFoundException("failed to find tag by id 1"))
                 .when(certificateService).delete(anyLong());
         this.mockMvc.perform(delete("/api/certificates/1"))
@@ -1043,7 +1043,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void delete_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void deleteShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(delete("/api/certificates/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -1051,7 +1051,7 @@ class CertificateControllerTest {
     }
 
     @Test
-    void delete_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void deleteShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(delete("/api/certificates/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)

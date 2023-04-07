@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -35,6 +36,15 @@ class OrderServiceImplTest {
     private OrderServiceImpl orderService;
 
     @Test
+    void findAllShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(orderRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> orderService.findById(anyLong()));
+    }
+
+    @Test
     void findAllShouldReturnEmptyListIfNoOrderWasFound() {
         when(orderRepository.findAll(any()))
                 .thenReturn(List.of());
@@ -56,7 +66,16 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void findByIdShouldThrowExceptionIfNoOrderWasFound() {
+    void findByIdShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(orderRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> orderService.findById(anyLong()));
+    }
+
+    @Test
+    void findByIdShouldThrowCustomEntityNotFoundExceptionIfNoOrderWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(orderRepository).findById(anyLong());
 
@@ -76,7 +95,16 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void findByUserShouldThrowExceptionIfNoUserWasFound() {
+    void findByUserShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(orderRepository).findByUser(any(), any());
+
+        assertThrows(DataAccessException.class,
+                () -> orderService.findByUserId(anyLong(), getPagination()));
+    }
+
+    @Test
+    void findByUserShouldThrowCustomEntityNotFoundExceptionIfNoUserWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(userRepository).findById(anyLong());
         assertThrows(CustomEntityNotFoundException.class,
@@ -97,7 +125,16 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void findByCertificateShouldThrowExceptionIfNoCertificateWasFound() {
+    void findByCertificateShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(orderRepository).findByCertificate(any(), any());
+
+        assertThrows(DataAccessException.class,
+                () -> orderService.findByCertificateId(anyLong(), getPagination()));
+    }
+
+    @Test
+    void findByCertificateShouldThrowCustomEntityNotFoundExceptionIfNoCertificateWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(certificateRepository).findById(anyLong());
         assertThrows(CustomEntityNotFoundException.class,
@@ -118,7 +155,18 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void createShouldThrowExceptionIfNoUserWasFound() {
+    void createShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        when(certificateRepository.findById(anyLong()))
+                .thenReturn(getCertificate());
+        doThrow(new DataAccessException("") {})
+                .when(orderRepository).save(any());
+
+        assertThrows(DataAccessException.class,
+                () -> orderService.create(getOrderDto()));
+    }
+
+    @Test
+    void createShouldThrowCustomEntityNotFoundExceptionIfNoUserWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(userRepository).findById(anyLong());
 
@@ -127,7 +175,7 @@ class OrderServiceImplTest {
     }
 
     @Test
-    void createShouldThrowExceptionIfNoCertificateWasFound() {
+    void createShouldThrowCustomEntityNotFoundExceptionIfNoCertificateWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(certificateRepository).findById(anyLong());
 

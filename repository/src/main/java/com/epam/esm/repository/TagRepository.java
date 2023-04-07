@@ -30,7 +30,7 @@ public interface TagRepository extends CustomRepository<Tag> {
      *
      * @return specified tag
      */
-    Tag findMostWidelyUsedTagOfAUserWithTheHighestCostOfAllOrders();
+    Tag findSpecial();
 
     /**
      * checks if tag with given name already exists in the database.

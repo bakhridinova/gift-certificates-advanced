@@ -43,7 +43,7 @@ class UserControllerTest {
     private HateoasAdder<CustomMessageHolder> messageHolderHateoasAdder;
 
     @Test
-    void getAll_ShouldReturn_EmptyList_IfUsersWereNotFound() throws Exception {
+    void getAllShouldReturnEmptyListIfUsersWereNotFound() throws Exception {
         when(userService.findAll(any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/users")).andDo(print())
@@ -51,7 +51,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getAll_ShouldReturn_CorrectList_IfUsersWereFound() throws Exception {
+    void getAllShouldReturnCorrectListIfUsersWereFound() throws Exception {
         when(userService.findAll(any()))
                 .thenReturn(List.of(getUserDto()));
         this.mockMvc.perform(get("/api/users"))
@@ -65,49 +65,49 @@ class UserControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/users").param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page should not be negative"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/users").param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size should not be negative"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/users").param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page should be of type int"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/users").param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size should be of type int"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/users").param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page must be between 0 and 10000"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/users").param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size must be between 0 and 100"));
     }
 
     @Test
-    void getById_ShouldReturn_CorrectUser_IfUserWasFound() throws Exception {
+    void getByIdShouldReturnCorrectUserIfUserWasFound() throws Exception {
         when(userService.findById(anyLong()))
                 .thenReturn(getUserDto());
         this.mockMvc.perform(get("/api/users/1"))
@@ -121,7 +121,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfUserWasNotFound() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfUserWasNotFound() throws Exception {
         when(userService.findById(anyLong()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find user by id 1"));
         this.mockMvc.perform(get("/api/users/1"))
@@ -130,21 +130,21 @@ class UserControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/users/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id should be of type long"));
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/users/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
     }
 
     @Test
-    void getOrders_ShouldReturn_EmptyList_IfOrdersWereNotFound() throws Exception {
+    void getOrdersShouldReturnEmptyListIfOrdersWereNotFound() throws Exception {
         when(orderService.findByUserId(anyLong(), any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/users/1/orders")).andDo(print())
@@ -152,7 +152,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getOrders_ShouldThrowException_WithCorrectMessage_IfUserWasNotFound() throws Exception {
+    void getOrdersShouldThrowExceptionWithCorrectMessageIfUserWasNotFound() throws Exception {
         when(orderService.findByUserId(anyLong(), any()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find user by id 1"));
         this.mockMvc.perform(get("/api/users/1/orders"))
@@ -161,7 +161,7 @@ class UserControllerTest {
     }
 
     @Test
-    void getOrders_ShouldReturn_CorrectList_IfOrdersWereFound() throws Exception {
+    void getOrdersShouldReturnCorrectListIfOrdersWereFound() throws Exception {
         when(orderService.findByUserId(anyLong(), any()))
                 .thenReturn(List.of(getOrderDto()));
         this.mockMvc.perform(get("/api/users/1/orders"))
@@ -173,14 +173,14 @@ class UserControllerTest {
     }
 
     @Test
-    void getOrders_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void getOrdersShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/users/text/orders"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id should be of type long"));
     }
 
     @Test
-    void getOrders_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void getOrdersShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/users/-1/orders"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id must be positive"));

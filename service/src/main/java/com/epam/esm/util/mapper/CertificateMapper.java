@@ -35,7 +35,7 @@ public interface CertificateMapper {
      * @param certificate CertificateDto
      * @return Certificate
      */
-    @Mapping(target = "tags", expression = "java(new HashSet())")
-    @Mapping(target = "orders", expression = "java(new ArrayList())")
+    @Mapping(target = "tags", expression = "java(new HashSet<>())")
+    @Mapping(target = "orders", expression = "java(new ArrayList<>())")
     Certificate toCertificate(CertificateDto certificate);
 }

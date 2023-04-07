@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -30,6 +31,15 @@ class UserServiceImplTest {
     private UserServiceImpl userService;
 
     @Test
+    void findAllShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(userRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> userService.findById(anyLong()));
+    }
+
+    @Test
     void findAllShouldReturnEmptyListIfNoUserWasFound() {
         when(userRepository.findAll(any()))
                 .thenReturn(List.of());
@@ -50,7 +60,16 @@ class UserServiceImplTest {
     }
 
     @Test
-    void findByIdShouldThrowExceptionIfNoUserWasFound() {
+    void findByIdShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(userRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> userService.findById(anyLong()));
+    }
+
+    @Test
+    void findByIdShouldThrowCustomEntityNotFoundExceptionIfNoUserWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(userRepository).findById(anyLong());
 

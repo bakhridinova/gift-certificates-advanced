@@ -39,7 +39,7 @@ class OrderControllerTest {
     private HateoasAdder<CustomMessageHolder> messageHolderHateoasAdder;
 
     @Test
-    void getAll_ShouldReturn_EmptyList_IfOrdersWereNotFound() throws Exception {
+    void getAllShouldReturnEmptyListIfOrdersWereNotFound() throws Exception {
         when(orderService.findAll(any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/orders")).andDo(print())
@@ -47,7 +47,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void getAll_ShouldReturn_CorrectList_IfOrdersWereFound() throws Exception {
+    void getAllShouldReturnCorrectListIfOrdersWereFound() throws Exception {
         when(orderService.findAll(any()))
                 .thenReturn(List.of(getOrderDto()));
         this.mockMvc.perform(get("/api/orders"))
@@ -59,49 +59,49 @@ class OrderControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page should not be negative"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size should not be negative"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page should be of type int"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size should be of type int"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page must be between 0 and 10000"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size must be between 0 and 100"));
     }
 
     @Test
-    void getById_ShouldReturn_CorrectOrder_IfOrderWasFound() throws Exception {
+    void getByIdShouldReturnCorrectOrderIfOrderWasFound() throws Exception {
         when(orderService.findById(anyLong()))
                 .thenReturn(getOrderDto());
         this.mockMvc.perform(get("/api/orders/1"))
@@ -113,7 +113,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfOrderWasNotFound() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfOrderWasNotFound() throws Exception {
         when(orderService.findById(anyLong()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find order by id 1"));
         this.mockMvc.perform(get("/api/orders/1"))
@@ -122,21 +122,21 @@ class OrderControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/orders/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id should be of type long"));
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/orders/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
     }
 
     @Test
-    void post_ShouldReturn_CorrectOrder_IfOrderWasCreated() throws Exception {
+    void postShouldReturnCorrectOrderIfOrderWasCreated() throws Exception {
         when(orderService.create(any()))
                 .thenReturn(getOrderDto());
         JSONObject jsonObject = new JSONObject();
@@ -154,7 +154,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfUserIdIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfUserIdIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -167,7 +167,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateIdIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateIdIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -180,7 +180,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfUserIdIsNegative() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfUserIdIsNegative() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -193,7 +193,7 @@ class OrderControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfCertificateIdIsNegative() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfCertificateIdIsNegative() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/orders")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -204,6 +204,4 @@ class OrderControllerTest {
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
     }
-
-
 }

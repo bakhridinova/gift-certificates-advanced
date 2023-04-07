@@ -8,6 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -32,6 +33,15 @@ class CertificateServiceImplTest {
     private CertificateServiceImpl certificateService;
 
     @Test
+    void findAllShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(certificateRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
+                () -> certificateService.findById(anyLong()));
+    }
+
+    @Test
     void findAllShouldReturnEmptyListIfNoCertificateWasFound() {
         when(tagRepository.findAll(any()))
                 .thenReturn(List.of());
@@ -52,11 +62,20 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void findByIdShouldThrowExceptionIfNoCertificateWasFound() {
+    void findByIdShouldThrowCustomEntityNotFoundExceptionIfNoCertificateWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(certificateRepository).findById(anyLong());
 
         assertThrows(CustomEntityNotFoundException.class,
+                () -> certificateService.findById(anyLong()));
+    }
+
+    @Test
+    void findByIdShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(certificateRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
                 () -> certificateService.findById(anyLong()));
     }
 
@@ -72,11 +91,20 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void updateNameShouldThrowExceptionIfNoCertificateWasFound() {
+    void updateNameShouldThrowCustomEntityNotFoundExceptionIfNoCertificateWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(certificateRepository).findById(anyLong());
 
         assertThrows(CustomEntityNotFoundException.class,
+                () -> certificateService.updateName(anyLong(), getCertificateDto()));
+    }
+
+    @Test
+    void updateNameShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(certificateRepository).findById(anyLong());
+
+        assertThrows(DataAccessException.class,
                 () -> certificateService.updateName(anyLong(), getCertificateDto()));
     }
 
@@ -92,6 +120,15 @@ class CertificateServiceImplTest {
     }
 
     @Test
+    void createShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(certificateRepository).save(any());
+
+        assertThrows(DataAccessException.class,
+                () -> certificateService.create(getCertificateDto()));
+    }
+
+    @Test
     void createShouldReturnCorrectCertificateIfCertificateWasCreated() {
         when(certificateMapper.toCertificate(any()))
                 .thenReturn(getCertificate());
@@ -104,7 +141,16 @@ class CertificateServiceImplTest {
     }
 
     @Test
-    void deleteShouldThrowExceptionIfNoTagWasFound() {
+    void deleteShouldThrowDataAccessExceptionIfExceptionWasThrown() {
+        doThrow(new DataAccessException("") {})
+                .when(certificateRepository).delete(any());
+
+        assertThrows(DataAccessException.class,
+                () -> certificateService.delete(anyLong()));
+    }
+
+    @Test
+    void deleteShouldThrowCustomEntityNotFoundExceptionIfNoTagWasFound() {
         doThrow(new CustomEntityNotFoundException(""))
                 .when(certificateRepository).findById(anyLong());
 

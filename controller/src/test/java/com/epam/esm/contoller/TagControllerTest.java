@@ -39,7 +39,7 @@ class TagControllerTest {
     private HateoasAdder<CustomMessageHolder> messageHolderHateoasAdder;
 
     @Test
-    void getAll_ShouldReturn_EmptyList_IfTagsWereNotFound() throws Exception {
+    void getAllShouldReturnEmptyListIfTagsWereNotFound() throws Exception {
         when(tagService.findAll(any()))
                 .thenReturn(List.of());
         this.mockMvc.perform(get("/api/tags")).andDo(print())
@@ -47,7 +47,7 @@ class TagControllerTest {
     }
 
     @Test
-    void getAll_ShouldReturn_CorrectList_IfTagsWereFound() throws Exception {
+    void getAllShouldReturnCorrectListIfTagsWereFound() throws Exception {
         when(tagService.findAll(any()))
                 .thenReturn(List.of(getTagDto()));
         this.mockMvc.perform(get("/api/tags"))
@@ -57,49 +57,49 @@ class TagControllerTest {
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page should not be negative"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNegative() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size should not be negative"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page should be of type int"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsNotNumeric() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size should be of type int"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfPageIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("page must be between 0 and 10000"));
     }
 
     @Test
-    void getAll_ShouldThrowException_WithCorrectMessage_IfSizeIsTooBig() throws Exception {
+    void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("size must be between 0 and 100"));
     }
 
     @Test
-    void getById_ShouldReturn_CorrectTag_IfTagWasFound() throws Exception {
+    void getByIdShouldReturnCorrectTagIfTagWasFound() throws Exception {
         when(tagService.findById(anyLong()))
                 .thenReturn(getTagDto());
         this.mockMvc.perform(get("/api/tags/1"))
@@ -109,7 +109,7 @@ class TagControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfTagWasNotFound() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfTagWasNotFound() throws Exception {
         when(tagService.findById(anyLong()))
                 .thenThrow(new CustomEntityNotFoundException("failed to find tag by id 1"));
         this.mockMvc.perform(get("/api/tags/1"))
@@ -118,21 +118,21 @@ class TagControllerTest {
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/tags/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id should be of type long"));
     }
 
     @Test
-    void getById_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/tags/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
     }
 
     @Test
-    void getSpecial_shouldReturn_CorrectTag_ifTagWasFound() throws Exception {
+    void getSpecialshouldReturnCorrectTagifTagWasFound() throws Exception {
         when(tagService.findSpecial())
                 .thenReturn(getTagDto());
         this.mockMvc.perform(get("/api/tags/special"))
@@ -142,7 +142,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldReturn_CorrectCertificate_IfTagWasCreated() throws Exception {
+    void postShouldReturnCorrectCertificateIfTagWasCreated() throws Exception {
         when(tagService.create(any()))
                 .thenReturn(getTagDto());
         JSONObject jsonObject = new JSONObject();
@@ -157,7 +157,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfNameIsNull() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfNameIsNull() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -170,7 +170,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfNameIsEmpty() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfNameIsEmpty() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -183,7 +183,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfNameIsBlank() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfNameIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -196,7 +196,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfNameIsTooShort() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfNameIsTooShort() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -209,7 +209,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfNameIsTooLong() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfNameIsTooLong() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -223,7 +223,7 @@ class TagControllerTest {
     }
 
     @Test
-    void post_ShouldThrowException_WithCorrectMessage_IfNameIncludesSpecial() throws Exception {
+    void postShouldThrowExceptionWithCorrectMessageIfNameIncludesSpecial() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -237,7 +237,7 @@ class TagControllerTest {
     }
 
     @Test
-    void delete_ShouldReturn_CorrectMessage_IfTagWasFound() throws Exception {
+    void deleteShouldReturnCorrectMessageIfTagWasFound() throws Exception {
         doNothing().when(tagService).delete(anyLong());
         this.mockMvc.perform(delete("/api/tags/1"))
                 .andDo(print()).andExpect(status().isOk())
@@ -246,7 +246,7 @@ class TagControllerTest {
     }
 
     @Test
-    void delete_ShouldThrowException_WithCorrectMessage_IfTagWasNotFound() throws Exception {
+    void deleteShouldThrowExceptionWithCorrectMessageIfTagWasNotFound() throws Exception {
         doThrow(new CustomEntityNotFoundException("failed to find tag by id 1"))
                 .when(tagService).delete(anyLong());
         this.mockMvc.perform(delete("/api/tags/1"))
@@ -256,7 +256,7 @@ class TagControllerTest {
     }
 
     @Test
-    void delete_ShouldThrowException_WithCorrectMessage_IfIdIsNotNumeric() throws Exception {
+    void deleteShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(delete("/api/tags/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -264,7 +264,7 @@ class TagControllerTest {
     }
 
     @Test
-    void delete_ShouldThrowException_WithCorrectMessage_IfIdIsNegative() throws Exception {
+    void deleteShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(delete("/api/tags/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)

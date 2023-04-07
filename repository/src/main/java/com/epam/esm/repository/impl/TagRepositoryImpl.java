@@ -43,35 +43,35 @@ public class TagRepositoryImpl implements TagRepository {
 
 
     @Override
-    public Tag findMostWidelyUsedTagOfAUserWithTheHighestCostOfAllOrders() {
+    public Tag findSpecial() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QCertificate qCertificate = QCertificate.certificate;
         QOrder qOrder = QOrder.order;
         QUser qUser = QUser.user;
         QTag qTag = QTag.tag;
 
-        List<Long> id = queryFactory
-                .select(qTag.id)
-                .from(qCertificate)
-                .innerJoin(qCertificate.tags, qTag)
-                .where(qCertificate.in(queryFactory
-                        .select(qCertificate)
-                        .from(qOrder)
-                        .innerJoin(qOrder.certificate, qCertificate)
-                        .where(qOrder.user.eq(queryFactory
-                                .select(qUser)
+        return queryFactory
+                .selectFrom(qTag)
+                .where(qTag.id.eq(queryFactory
+                        .select(qTag.id)
+                        .from(qCertificate)
+                        .innerJoin(qTag)
+                        .where(qCertificate.in(queryFactory
+                                .select(qCertificate)
                                 .from(qOrder)
-                                .innerJoin(qOrder.user, qUser)
-                                .groupBy(qOrder.user)
-                                .orderBy(qOrder.price.sum().desc())
-                                .fetchFirst()))
-                        .distinct()))
-                .groupBy(qTag.id)
-                .orderBy(qTag.id.count().desc())
-                .fetch();
-
-        return findById(id.get(0));
-
+                                .innerJoin(qOrder.certificate, qCertificate)
+                                .where(qOrder.user.eq(queryFactory
+                                        .select(qUser)
+                                        .from(qOrder)
+                                        .innerJoin(qOrder.user, qUser)
+                                        .groupBy(qOrder.user)
+                                        .orderBy(qOrder.price.sum().desc())
+                                        .fetchFirst()))
+                                .distinct()))
+                        .groupBy(qTag.id)
+                        .orderBy(qTag.id.count().desc())
+                        .fetchFirst()))
+                .fetchFirst();
     }
 
     @Override

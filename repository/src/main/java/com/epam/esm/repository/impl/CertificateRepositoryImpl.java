@@ -24,6 +24,7 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     private EntityManager entityManager;
 
     private static final Map<String, Comparator<Certificate>> certificateComparators = Map.of(
+            "id", Comparator.comparing(Certificate::getId),
             "name", Comparator.comparing(Certificate::getName),
             "description", Comparator.comparing(Certificate::getDescription),
             "price", Comparator.comparing(Certificate::getPrice),
@@ -62,9 +63,7 @@ public class CertificateRepositoryImpl implements CertificateRepository {
                 .skip(searchFilter.getSkip()).limit(searchFilter.getLimit())
                 .toList());
 
-        Comparator<Certificate> comparator = certificateComparators.getOrDefault(
-                searchFilter.sortType(), Comparator.comparing(Certificate::getId));
-        certificates.sort(comparator);
+        certificates.sort(certificateComparators.get(searchFilter.sortType()));
         if (searchFilter.isDescending()) {
             Collections.reverse(certificates);
         }

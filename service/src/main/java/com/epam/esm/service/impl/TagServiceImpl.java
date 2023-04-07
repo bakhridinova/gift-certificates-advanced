@@ -31,7 +31,7 @@ public class TagServiceImpl implements TagService {
 
     @Override
     public TagDto findSpecial() {
-        return tagMapper.toTagDto(tagRepository.findMostWidelyUsedTagOfAUserWithTheHighestCostOfAllOrders());
+        return tagMapper.toTagDto(tagRepository.findSpecial());
     }
 
     public TagDto create(TagDto tagDto) {

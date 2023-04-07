@@ -35,6 +35,6 @@ public class CertificateDto extends RepresentationModel<CertificateDto> {
 
     private LocalDateTime lastUpdatedAt;
 
-    private int timesOrdered;
+    private Integer timesOrdered;
     private Set<TagDto> tags;
 }
