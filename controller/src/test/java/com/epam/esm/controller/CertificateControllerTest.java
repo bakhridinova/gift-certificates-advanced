@@ -1,5 +1,6 @@
-package com.epam.esm.contoller;
+package com.epam.esm.controller;
 
+import com.epam.esm.GiftCertificatesAdvancedApplication;
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.CustomEntityNotFoundException;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -30,6 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(CertificateController.class)
+@ContextConfiguration(classes = GiftCertificatesAdvancedApplication.class)
 class CertificateControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -548,7 +551,8 @@ class CertificateControllerTest {
         this.mockMvc.perform(post("/api/certificates")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
-                                .put("name", "*")
+                                .put("name",
+                                        String.join("", Collections.nCopies(3, "*")))
                                 .put("description", "test")
                                 .put("price", 10.0)
                                 .put("duration", 10)
@@ -556,7 +560,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -566,14 +570,15 @@ class CertificateControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("name", "test")
-                                .put("description", "*")
+                                .put("description",
+                                        String.join("", Collections.nCopies(3, "*")))
                                 .put("price", 10.0)
                                 .put("duration", 10)
                                 .put("tags", new JSONArray())
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description must be between 3 and 60 characters"));
+                        .value("description must be between 4 and 100 characters"));
     }
 
     @Test
@@ -584,7 +589,7 @@ class CertificateControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("name",
-                                        String.join("", Collections.nCopies(31, "*")))
+                                        String.join("", Collections.nCopies(41, "*")))
                                 .put("description", "test")
                                 .put("price", 10.0)
                                 .put("duration", 10)
@@ -592,7 +597,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -604,14 +609,14 @@ class CertificateControllerTest {
                         .content(jsonObject
                                 .put("name", "test")
                                 .put("description",
-                                        String.join("", Collections.nCopies(61, "*")))
+                                        String.join("", Collections.nCopies(101, "*")))
                                 .put("price", 10.0)
                                 .put("duration", 10)
                                 .put("tags", jsonArray)
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description must be between 3 and 60 characters"));
+                        .value("description must be between 4 and 100 characters"));
     }
 
     @Test
@@ -622,7 +627,7 @@ class CertificateControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("name",
-                                        String.join("", Collections.nCopies(3, "*")))
+                                        String.join("", Collections.nCopies(4, "*")))
                                 .put("description", "test")
                                 .put("price", 10.0)
                                 .put("duration", 10)
@@ -642,7 +647,7 @@ class CertificateControllerTest {
                         .content(jsonObject
                                 .put("name", "test")
                                 .put("description",
-                                        String.join("", Collections.nCopies(3, "*")))
+                                        String.join("", Collections.nCopies(4, "*")))
                                 .put("price", 10.0)
                                 .put("duration", 10)
                                 .put("tags", jsonArray)
@@ -838,7 +843,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 20 characters"));
+                        .value("name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -855,11 +860,11 @@ class CertificateControllerTest {
                                 .put("duration", 10)
                                 .put("tags", jsonArray.put(
                                         tagJsonObject.put("name",
-                                                String.join("", Collections.nCopies(21, "*")))))
+                                                String.join("", Collections.nCopies(31, "*")))))
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 20 characters"));
+                        .value("name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -988,11 +993,12 @@ class CertificateControllerTest {
         this.mockMvc.perform(patch("/api/certificates/1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
-                                .put("name", "*")
+                                .put("name",
+                                        String.join("", Collections.nCopies(3, "*")))
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -1002,11 +1008,11 @@ class CertificateControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("name",
-                                        String.join("", Collections.nCopies(31, "*")))
+                                        String.join("", Collections.nCopies(41, "*")))
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -1016,7 +1022,7 @@ class CertificateControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("name",
-                                        String.join("", Collections.nCopies(3, "*")))
+                                        String.join("", Collections.nCopies(4, "*")))
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)

@@ -1,7 +1,7 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dto.UserDto;
-import com.epam.esm.dto.extra.Pagination;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.service.UserService;
 import com.epam.esm.util.mapper.UserMapper;

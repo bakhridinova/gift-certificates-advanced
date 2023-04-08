@@ -1,7 +1,7 @@
 package com.epam.esm.repository;
 
-import com.epam.esm.dto.extra.Pagination;
-import com.epam.esm.dto.extra.SearchFilter;
+import com.epam.esm.util.Pagination;
+import com.epam.esm.util.SearchFilter;
 import com.epam.esm.entity.Certificate;
 
 import java.util.List;

@@ -2,8 +2,8 @@ package com.epam.esm.service.impl;
 
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.dto.extra.Pagination;
-import com.epam.esm.dto.extra.SearchFilter;
+import com.epam.esm.util.Pagination;
+import com.epam.esm.util.SearchFilter;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.repository.CertificateRepository;

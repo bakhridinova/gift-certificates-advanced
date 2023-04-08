@@ -1,6 +1,6 @@
 package com.epam.esm.validator;
 
-import com.epam.esm.dto.extra.FieldName;
+import com.epam.esm.util.FieldName;
 import com.epam.esm.exception.CustomValidationException;
 import lombok.experimental.UtilityClass;
 

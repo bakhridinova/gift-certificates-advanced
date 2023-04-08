@@ -1,6 +1,5 @@
 package com.epam.esm.repository.impl;
 
-import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.entity.QCertificate;
 import com.epam.esm.entity.QOrder;
 import com.epam.esm.entity.QTag;
@@ -8,9 +7,10 @@ import com.epam.esm.entity.QUser;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.repository.TagRepository;
+import com.epam.esm.util.Pagination;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,10 +18,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class TagRepositoryImpl implements TagRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public List<Tag> findAll(Pagination pagination) {

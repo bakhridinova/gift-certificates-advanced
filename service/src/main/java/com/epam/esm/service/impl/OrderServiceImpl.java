@@ -1,7 +1,6 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dto.OrderDto;
-import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.entity.User;
@@ -9,12 +8,12 @@ import com.epam.esm.repository.CertificateRepository;
 import com.epam.esm.repository.OrderRepository;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.service.OrderService;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.util.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -62,7 +61,6 @@ public class OrderServiceImpl implements OrderService {
         order.setUser(user);
         order.setPrice(certificate.getPrice());
         order.setCertificate(certificate);
-        order.setCreatedAt(LocalDateTime.now());
         orderRepository.save(order);
         return orderMapper.toOrderDto(order);
     }

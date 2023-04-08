@@ -1,5 +1,6 @@
-package com.epam.esm.contoller;
+package com.epam.esm.controller;
 
+import com.epam.esm.GiftCertificatesAdvancedApplication;
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.exception.CustomMessageHolder;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.List;
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(OrderController.class)
+@ContextConfiguration(classes = GiftCertificatesAdvancedApplication.class)
 class OrderControllerTest {
     @Autowired
     private MockMvc mockMvc;

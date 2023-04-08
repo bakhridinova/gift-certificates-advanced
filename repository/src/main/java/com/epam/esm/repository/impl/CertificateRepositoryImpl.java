@@ -1,14 +1,14 @@
 package com.epam.esm.repository.impl;
 
-import com.epam.esm.dto.extra.Pagination;
-import com.epam.esm.dto.extra.SearchFilter;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.QCertificate;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.repository.CertificateRepository;
+import com.epam.esm.util.Pagination;
+import com.epam.esm.util.SearchFilter;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -19,9 +19,9 @@ import java.util.Map;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class CertificateRepositoryImpl implements CertificateRepository {
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     private static final Map<String, Comparator<Certificate>> certificateComparators = Map.of(
             "id", Comparator.comparing(Certificate::getId),

@@ -1,4 +1,4 @@
-package com.epam.esm.dto.extra;
+package com.epam.esm.util;
 
 /**
  * record representing pagination

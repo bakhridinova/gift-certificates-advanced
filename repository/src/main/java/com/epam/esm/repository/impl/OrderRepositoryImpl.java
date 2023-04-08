@@ -1,25 +1,24 @@
 package com.epam.esm.repository.impl;
 
-import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.entity.QOrder;
 import com.epam.esm.entity.User;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.repository.OrderRepository;
+import com.epam.esm.util.Pagination;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
 
 @Repository
+@RequiredArgsConstructor
 public class OrderRepositoryImpl implements OrderRepository {
-
-    @PersistenceContext
-    private EntityManager entityManager;
+    private final EntityManager entityManager;
 
     @Override
     public List<Order> findAll(Pagination pagination) {
@@ -63,6 +62,6 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public void delete(Order order) {
-
+        // intentionally left blank
     }
 }

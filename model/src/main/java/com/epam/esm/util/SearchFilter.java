@@ -1,4 +1,4 @@
-package com.epam.esm.dto.extra;
+package com.epam.esm.util;
 
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;

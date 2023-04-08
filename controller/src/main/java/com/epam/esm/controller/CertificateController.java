@@ -1,10 +1,10 @@
-package com.epam.esm.contoller;
+package com.epam.esm.controller;
 
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.dto.extra.Pagination;
-import com.epam.esm.dto.extra.SearchFilter;
+import com.epam.esm.util.Pagination;
+import com.epam.esm.util.SearchFilter;
 import com.epam.esm.exception.CustomMessageHolder;
 import com.epam.esm.hateoas.HateoasAdder;
 import com.epam.esm.service.CertificateService;

@@ -1,5 +1,6 @@
-package com.epam.esm.contoller;
+package com.epam.esm.controller;
 
+import com.epam.esm.GiftCertificatesAdvancedApplication;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.exception.CustomMessageHolder;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
@@ -25,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(TagController.class)
+@ContextConfiguration(classes = GiftCertificatesAdvancedApplication.class)
 class TagControllerTest {
     @Autowired
     private MockMvc mockMvc;
@@ -201,11 +204,12 @@ class TagControllerTest {
         this.mockMvc.perform(post("/api/tags")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
-                                .put("name", "*")
+                                .put("name",
+                                        String.join("", Collections.nCopies(2, "*")))
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 20 characters"));
+                        .value("name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -215,11 +219,11 @@ class TagControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("name",
-                                        String.join("", Collections.nCopies(21, "*")))
+                                        String.join("", Collections.nCopies(31, "*")))
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 20 characters"));
+                        .value("name must be between 3 and 30 characters"));
     }
 
     @Test

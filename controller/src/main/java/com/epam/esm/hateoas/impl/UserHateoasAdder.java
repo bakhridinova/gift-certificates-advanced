@@ -1,6 +1,6 @@
 package com.epam.esm.hateoas.impl;
 
-import com.epam.esm.contoller.UserController;
+import com.epam.esm.controller.UserController;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.hateoas.HateoasAdder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

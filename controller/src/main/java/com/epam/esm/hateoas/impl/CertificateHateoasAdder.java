@@ -1,7 +1,7 @@
 package com.epam.esm.hateoas.impl;
 
-import com.epam.esm.contoller.CertificateController;
-import com.epam.esm.contoller.TagController;
+import com.epam.esm.controller.CertificateController;
+import com.epam.esm.controller.TagController;
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.hateoas.HateoasAdder;
 import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder;

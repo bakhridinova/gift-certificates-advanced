@@ -4,14 +4,12 @@ import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.OrderDto;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.dto.UserDto;
-import com.epam.esm.dto.extra.Pagination;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.entity.User;
 import lombok.experimental.UtilityClass;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Set;
 
@@ -42,7 +40,6 @@ public class TestDataFactory {
     private final Pagination PAGINATION = new Pagination(0, 0);
 
     static {
-        LocalDateTime now = LocalDateTime.now();
 
         TAG.setId(0L);                           TAG_DTO.setId(0L);
         TAG.setName("");                         TAG_DTO.setName("");
@@ -61,8 +58,6 @@ public class TestDataFactory {
         CERTIFICATE.setDescription("");          CERTIFICATE_DTO.setDescription("");
         CERTIFICATE.setPrice(0.0);               CERTIFICATE_DTO.setPrice(0.0);
         CERTIFICATE.setDuration(0);              CERTIFICATE_DTO.setDuration(0);
-        CERTIFICATE.setCreatedAt(now);           CERTIFICATE_DTO.setCreatedAt(now);
-        CERTIFICATE.setLastUpdatedAt(now);       CERTIFICATE_DTO.setLastUpdatedAt(now);
         CERTIFICATE.setOrders(List.of());        CERTIFICATE_DTO.setTags(Set.of());
         CERTIFICATE.setTags(Set.of());           CERTIFICATE_DTO.setTimesOrdered(0);
         NULL_CERTIFICATE.setTags(Set.of());      NULL_CERTIFICATE_DTO.setTags(Set.of());
@@ -70,7 +65,6 @@ public class TestDataFactory {
 
         ORDER.setId(0L);                          ORDER_DTO.setId(0L);
         ORDER.setPrice(0.0);                      ORDER_DTO.setPrice(0.0);
-        ORDER.setCreatedAt(now);                  ORDER_DTO.setCreatedAt(now);
         ORDER.setUser(USER);                      ORDER_DTO.setUserId(0L);
         ORDER.setCertificate(CERTIFICATE);        ORDER_DTO.setCertificateId(0L);
         NULL_ORDER.setUser(USER);                 NULL_ORDER_DTO.setUserId(0L);
@@ -151,5 +145,9 @@ public class TestDataFactory {
 
     public Pagination getPagination() {
         return PAGINATION;
+    }
+
+    public Pagination getPagination(int page, int size) {
+        return new Pagination(page, size);
     }
 }

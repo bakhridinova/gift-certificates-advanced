@@ -2,7 +2,7 @@ package com.epam.esm.validator;
 
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.dto.extra.FieldName;
+import com.epam.esm.util.FieldName;
 import com.epam.esm.exception.CustomValidationException;
 import lombok.experimental.UtilityClass;
 
@@ -41,7 +41,7 @@ public class CustomCertificateValidator {
         CustomValidator.notNull(FieldName.NAME, name);
         CustomValidator.notEmpty(FieldName.NAME, name);
         CustomValidator.notBlank(FieldName.NAME, name);
-        CustomValidator.notTooShortOrLong(FieldName.NAME, name, 3, 30);
+        CustomValidator.notTooShortOrLong(FieldName.NAME, name, 4, 40);
         CustomValidator.onlyLettersAndSpaces(FieldName.NAME, name);
     }
 
@@ -49,9 +49,8 @@ public class CustomCertificateValidator {
         CustomValidator.notNull(FieldName.DESCRIPTION, description);
         CustomValidator.notEmpty(FieldName.DESCRIPTION, description);
         CustomValidator.notBlank(FieldName.DESCRIPTION, description);
-        CustomValidator.notTooShortOrLong(FieldName.DESCRIPTION, description, 3, 60);
+        CustomValidator.notTooShortOrLong(FieldName.DESCRIPTION, description, 4, 100);
         CustomValidator.onlyLettersAndSpaces(FieldName.DESCRIPTION, description);
-
     }
 
     void validatePrice(Double price) {

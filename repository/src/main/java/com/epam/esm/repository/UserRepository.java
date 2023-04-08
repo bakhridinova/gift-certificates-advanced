@@ -1,6 +1,6 @@
 package com.epam.esm.repository;
 
-import com.epam.esm.dto.extra.Pagination;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.entity.User;
 import org.springframework.stereotype.Repository;
 
@@ -23,18 +23,4 @@ public interface UserRepository extends CustomRepository<User> {
      * @return user with the specified ID
      */
     User findById(Long id);
-
-    /**
-     * saves user to database
-     *
-     * @param user to save
-     */
-    void save(User user);
-
-    /**
-     * deletes user from database
-     *
-     * @param user to delete
-     */
-    void delete(User user);
 }

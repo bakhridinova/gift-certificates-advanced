@@ -1,8 +1,8 @@
 package com.epam.esm.service;
 
 import com.epam.esm.dto.CertificateDto;
-import com.epam.esm.dto.extra.Pagination;
-import com.epam.esm.dto.extra.SearchFilter;
+import com.epam.esm.util.Pagination;
+import com.epam.esm.util.SearchFilter;
 
 import java.util.List;
 
