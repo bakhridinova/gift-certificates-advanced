@@ -1,6 +1,6 @@
 package com.epam.esm.util.mapper;
 
-import com.epam.esm.service.config.ServiceTestConfig;
+import com.epam.esm.config.ServiceTestConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,19 +23,19 @@ class TagMapperTest {
 
     @Test
     void shouldMapTagsCorrectlyTest() {
-        assertEquals(getTag(), tagMapper.toTag(getTagDTO()));
-        assertEquals(getTagDTO(), tagMapper.toTagDTO(getTag()));
+        assertEquals(getTag(), tagMapper.toTag(getTagDto()));
+        assertEquals(getTagDto(), tagMapper.toTagDto(getTag()));
     }
 
     @Test
     void shouldReturnNullIfNullPassedTest() {
         assertNull(tagMapper.toTag(null));
-        assertNull(tagMapper.toTagDTO(null));
+        assertNull(tagMapper.toTagDto(null));
     }
 
     @Test
     void shouldReturnNullObjectIfNullObjectPassedTest() {
-        assertEquals(getNullTag(), tagMapper.toTag(getNullTagDTO()));
-        assertEquals(getNullTagDTO(), tagMapper.toTagDTO(getNullTag()));
+        assertEquals(getNullTag(), tagMapper.toTag(getNullTagDto()));
+        assertEquals(getNullTagDto(), tagMapper.toTagDto(getNullTag()));
     }
 }

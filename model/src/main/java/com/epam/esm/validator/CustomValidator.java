@@ -1,10 +1,8 @@
 package com.epam.esm.validator;
 
-import com.epam.esm.dto.extra.FieldName;
+import com.epam.esm.util.FieldName;
 import com.epam.esm.exception.CustomValidationException;
 import lombok.experimental.UtilityClass;
-
-import static com.epam.esm.dto.extra.FieldName.ID;
 
 /**
  * utility class validating user input details
@@ -23,7 +21,7 @@ public class CustomValidator {
      * @throws CustomValidationException if ID parameter is not valid
      */
     public void validateId(Long id) {
-        CustomValidator.notNull(ID, id);
+        CustomValidator.notNull(FieldName.ID, id);
 
         if (id <= 0) {
             throw new CustomValidationException("id must be positive");
@@ -36,15 +34,9 @@ public class CustomValidator {
         }
     }
 
-    void notEmpty(FieldName fieldName, String value) {
-        if (value.isEmpty()) {
-            throw new CustomValidationException(fieldName.getName() + " should not be empty");
-        }
-    }
-
     void notBlank(FieldName fieldName, String value) {
         if (value.isBlank()) {
-            throw new CustomValidationException(fieldName.getName() + " should not be blank");
+            throw new CustomValidationException(fieldName.getName() + " should not be empty or blank");
         }
     }
 

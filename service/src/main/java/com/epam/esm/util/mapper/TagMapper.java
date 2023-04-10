@@ -1,11 +1,11 @@
 package com.epam.esm.util.mapper;
 
-import com.epam.esm.dto.TagDTO;
+import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
 import org.mapstruct.Mapper;
 
 /**
- * mapper to convert tag into tagDTO and vice versa
+ * mapper to convert Tag into TagDto and vice versa
  *
  * @author bakhridinova
  * */
@@ -13,18 +13,18 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface TagMapper {
     /**
-     * maps Tag to TagDTO
+     * maps Tag to TagDto
      *
      * @param tag Tag
-     * @return TagDTO
+     * @return TagDto
      */
-    TagDTO toTagDTO(Tag tag);
+    TagDto toTagDto(Tag tag);
 
     /**
-     * maps TagDTO to Tag
+     * maps TagDto to Tag
      *
-     * @param tag TagDTO
+     * @param tag TagDto
      * @return Tag
      */
-    Tag toTag(TagDTO tag);
+    Tag toTag(TagDto tag);
 }

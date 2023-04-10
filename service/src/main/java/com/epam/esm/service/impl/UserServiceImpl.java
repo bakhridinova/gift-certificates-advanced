@@ -1,7 +1,7 @@
 package com.epam.esm.service.impl;
 
-import com.epam.esm.dto.UserDTO;
-import com.epam.esm.dto.extra.Pagination;
+import com.epam.esm.dto.UserDto;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.service.UserService;
 import com.epam.esm.util.mapper.UserMapper;
@@ -17,14 +17,14 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
 
     @Override
-    public List<UserDTO> findAll(Pagination pagination) {
+    public List<UserDto> findAll(Pagination pagination) {
         return userRepository
                 .findAll(pagination)
-                .stream().map(userMapper::toUserDTO).toList();
+                .stream().map(userMapper::toUserDto).toList();
     }
 
     @Override
-    public UserDTO findById(Long id) {
-        return userMapper.toUserDTO(userRepository.findById(id));
+    public UserDto findById(Long id) {
+        return userMapper.toUserDto(userRepository.findById(id));
     }
 }

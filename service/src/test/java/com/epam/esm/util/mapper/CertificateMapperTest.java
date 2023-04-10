@@ -1,6 +1,6 @@
 package com.epam.esm.util.mapper;
 
-import com.epam.esm.service.config.ServiceTestConfig;
+import com.epam.esm.config.ServiceTestConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,22 +24,22 @@ class CertificateMapperTest {
     @Test
     void shouldMapCertificatesCorrectlyTest() {
         assertEquals(getCertificate(),
-                certificateMapper.toCertificate(getCertificateDTO()));
-        assertEquals(getCertificateDTO(),
-                certificateMapper.toCertificateDTO(getCertificate()));
+                certificateMapper.toCertificate(getCertificateDto()));
+        assertEquals(getCertificateDto(),
+                certificateMapper.toCertificateDto(getCertificate()));
     }
 
     @Test
     void shouldReturnNullIfNullPassedTest() {
         assertNull(certificateMapper.toCertificate(null));
-        assertNull(certificateMapper.toCertificateDTO(null));
+        assertNull(certificateMapper.toCertificateDto(null));
     }
 
     @Test
     void shouldReturnNullObjectIfNullObjectPassedTest() {
         assertEquals(getNullCertificate(),
-                certificateMapper.toCertificate(getNullCertificateDTO()));
-        assertEquals(getNullCertificateDTO(),
-                certificateMapper.toCertificateDTO(getNullCertificate()));
+                certificateMapper.toCertificate(getNullCertificateDto()));
+        assertEquals(getNullCertificateDto(),
+                certificateMapper.toCertificateDto(getNullCertificate()));
     }
 }

@@ -1,7 +1,6 @@
 package com.epam.esm.service.impl;
 
-import com.epam.esm.dto.OrderDTO;
-import com.epam.esm.dto.extra.Pagination;
+import com.epam.esm.dto.OrderDto;
 import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Order;
 import com.epam.esm.entity.User;
@@ -9,12 +8,12 @@ import com.epam.esm.repository.CertificateRepository;
 import com.epam.esm.repository.OrderRepository;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.service.OrderService;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.util.mapper.OrderMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -26,44 +25,43 @@ public class OrderServiceImpl implements OrderService {
     private final OrderMapper orderMapper;
 
     @Override
-    public List<OrderDTO> findAll(Pagination pagination) {
+    public List<OrderDto> findAll(Pagination pagination) {
         return orderRepository.findAll(pagination)
-                .stream().map(orderMapper::toOrderDTO).toList();
+                .stream().map(orderMapper::toOrderDto).toList();
     }
 
     @Override
-    public OrderDTO findById(Long id) {
-        return orderMapper.toOrderDTO(orderRepository.findById(id));
+    public OrderDto findById(Long id) {
+        return orderMapper.toOrderDto(orderRepository.findById(id));
     }
 
     @Override
-    public List<OrderDTO> findByUserId(Long userId, Pagination pagination) {
+    public List<OrderDto> findByUser(Long userId, Pagination pagination) {
         User user = userRepository.findById(userId);
         return orderRepository.findByUser(user, pagination)
-                .stream().map(orderMapper::toOrderDTO).toList();
+                .stream().map(orderMapper::toOrderDto).toList();
     }
 
     @Override
-    public List<OrderDTO> findByCertificateId(Long certificateId, Pagination pagination) {
+    public List<OrderDto> findByCertificate(Long certificateId, Pagination pagination) {
         Certificate certificate = certificateRepository.findById(certificateId);
         return orderRepository.findByCertificate(certificate, pagination)
-                .stream().map(orderMapper::toOrderDTO).toList();
+                .stream().map(orderMapper::toOrderDto).toList();
     }
 
     @Override
     @Transactional
-    public OrderDTO create(OrderDTO orderDTO) {
+    public OrderDto create(OrderDto orderDto) {
         User user = userRepository
-                .findById(orderDTO.getUserId());
+                .findById(orderDto.getUserId());
         Certificate certificate = certificateRepository
-                .findById(orderDTO.getCertificateId());
+                .findById(orderDto.getCertificateId());
 
         Order order = new Order();
         order.setUser(user);
         order.setPrice(certificate.getPrice());
         order.setCertificate(certificate);
-        order.setCreatedAt(LocalDateTime.now());
         orderRepository.save(order);
-        return orderMapper.toOrderDTO(order);
+        return orderMapper.toOrderDto(order);
     }
 }

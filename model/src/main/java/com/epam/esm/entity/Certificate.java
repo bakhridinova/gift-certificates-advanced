@@ -50,12 +50,12 @@ public class Certificate implements Identifiable {
     private Integer duration;
 
     @CreationTimestamp
-    @Column(name = "create_date")
+    @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime createdAt;
 
     @UpdateTimestamp
-    @Column(name = "last_update_date")
+    @Column(name = "last_updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastUpdatedAt;
 
