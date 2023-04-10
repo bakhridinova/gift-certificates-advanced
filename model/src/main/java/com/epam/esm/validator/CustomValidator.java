@@ -34,15 +34,9 @@ public class CustomValidator {
         }
     }
 
-    void notEmpty(FieldName fieldName, String value) {
-        if (value.isEmpty()) {
-            throw new CustomValidationException(fieldName.getName() + " should not be empty");
-        }
-    }
-
     void notBlank(FieldName fieldName, String value) {
         if (value.isBlank()) {
-            throw new CustomValidationException(fieldName.getName() + " should not be blank");
+            throw new CustomValidationException(fieldName.getName() + " should not be empty or blank");
         }
     }
 

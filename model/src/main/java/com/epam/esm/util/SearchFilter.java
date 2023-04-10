@@ -25,6 +25,8 @@ public record SearchFilter(String name, String description,
                            Set<TagDto> tagDtos, Set<Tag> tags,
                            Pagination pagination) {
 
+
+
     public SearchFilter inner(Set<Tag> tags) {
         return new SearchFilter(name(), description(), sortType(), sortOrder(), tagDtos(), tags, pagination());
     }
@@ -39,5 +41,13 @@ public record SearchFilter(String name, String description,
 
     public boolean isDescending() {
         return sortOrder.equals("desc");
+    }
+
+    public Set<TagDto> tagDtos() {
+        return tagDtos == null ? Set.of() : tagDtos;
+    }
+
+    public Set<Tag> tags() {
+        return tags == null ? Set.of() : tags;
     }
 }

@@ -1,10 +1,10 @@
 package com.epam.esm;
 
-import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 @Transactional
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)

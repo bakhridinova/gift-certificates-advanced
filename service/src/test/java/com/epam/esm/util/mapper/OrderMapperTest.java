@@ -1,6 +1,6 @@
 package com.epam.esm.util.mapper;
 
-import com.epam.esm.service.config.ServiceTestConfig;
+import com.epam.esm.config.ServiceTestConfig;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

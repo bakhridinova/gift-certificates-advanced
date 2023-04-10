@@ -257,30 +257,12 @@ class CertificateControllerTest {
     }
 
     @Test
-    void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsEmpty() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
-                        .param("sortType", ""))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("sortType should not be empty"));
-    }
-
-    @Test
-    void searchShouldThrowExceptionWithCorrectMessageIfSortOrderIsEmpty() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
-                        .param("sortOrder", ""))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("sortOrder should not be empty"));
-    }
-
-    @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsBlank() throws Exception {
         this.mockMvc.perform(get("/api/certificates/search")
                         .param("sortType", " "))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("sortType should not be blank"));
+                        .value("sortType should not be empty or blank"));
     }
 
     @Test
@@ -289,7 +271,7 @@ class CertificateControllerTest {
                         .param("sortOrder", " "))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("sortOrder should not be blank"));
+                        .value("sortOrder should not be empty or blank"));
     }
 
     @Test
@@ -473,42 +455,6 @@ class CertificateControllerTest {
     }
 
     @Test
-    void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsEmpty() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        this.mockMvc.perform(post("/api/certificates")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonObject
-                                .put("name", "")
-                                .put("description", "test")
-                                .put("price", 10.0)
-                                .put("duration", 10)
-                                .put("tags", jsonArray)
-                                .toString()))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty"));
-    }
-
-    @Test
-    void postShouldThrowExceptionWithCorrectMessageIfDescriptionIsEmpty() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        this.mockMvc.perform(post("/api/certificates")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonObject
-                                .put("name", "test")
-                                .put("description", "")
-                                .put("price", 10.0)
-                                .put("duration", 10)
-                                .put("tags", jsonArray)
-                                .toString()))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("description should not be empty"));
-    }
-
-    @Test
     void postShouldThrowExceptionWithCorrectMessageIfCertificateNameIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
@@ -523,7 +469,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be blank"));
+                        .value("name should not be empty or blank"));
     }
 
     @Test
@@ -541,7 +487,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description should not be blank"));
+                        .value("description should not be empty or blank"));
     }
 
     @Test
@@ -786,26 +732,6 @@ class CertificateControllerTest {
     }
 
     @Test
-    void postShouldThrowExceptionWithCorrectMessageIfTagNameIsEmpty() throws Exception {
-        JSONObject certificateJsonObject = new JSONObject();
-        JSONObject tagJsonObject = new JSONObject();
-        JSONArray jsonArray = new JSONArray();
-        this.mockMvc.perform(post("/api/certificates")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(certificateJsonObject
-                                .put("name", "test")
-                                .put("description","test")
-                                .put("price", 10.0)
-                                .put("duration", 10)
-                                .put("tags", jsonArray.put(
-                                        tagJsonObject.put("name", "")))
-                                .toString()))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty"));
-    }
-
-    @Test
     void postShouldThrowExceptionWithCorrectMessageIfTagNameIsBlank() throws Exception {
         JSONObject certificateJsonObject = new JSONObject();
         JSONObject tagJsonObject = new JSONObject();
@@ -822,7 +748,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be blank"));
+                        .value("name should not be empty or blank"));
     }
 
     @Test
@@ -962,19 +888,6 @@ class CertificateControllerTest {
     }
 
     @Test
-    void patchShouldThrowExceptionWithCorrectMessageIfNameIsEmpty() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        this.mockMvc.perform(patch("/api/certificates/1")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonObject
-                                .put("name", "")
-                                .toString()))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty"));
-    }
-
-    @Test
     void patchShouldThrowExceptionWithCorrectMessageIfNameIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(patch("/api/certificates/1")
@@ -984,7 +897,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be blank"));
+                        .value("name should not be empty or blank"));
     }
 
     @Test

@@ -43,6 +43,8 @@ public class OrderRepositoryImpl implements OrderRepository {
         QOrder qOrder = QOrder.order;
         return queryFactory.selectFrom(qOrder)
                 .where(qOrder.certificate.eq(certificate))
+                .offset(pagination.getOffset())
+                .limit(pagination.getLimit())
                 .stream().toList();
     }
 
@@ -52,6 +54,8 @@ public class OrderRepositoryImpl implements OrderRepository {
         QOrder qOrder = QOrder.order;
         return queryFactory.selectFrom(qOrder)
                 .where(qOrder.user.eq(user))
+                .offset(pagination.getOffset())
+                .limit(pagination.getLimit())
                 .stream().toList();
     }
 

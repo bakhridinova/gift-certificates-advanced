@@ -1,4 +1,4 @@
-package com.epam.esm.service.config;
+package com.epam.esm.config;
 
 import com.epam.esm.util.mapper.CertificateMapper;
 import com.epam.esm.util.mapper.OrderMapper;

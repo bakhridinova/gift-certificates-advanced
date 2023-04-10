@@ -54,7 +54,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public CertificateDto updateName(Long id, CertificateDto certificateDto) {
         Certificate certificate = certificateRepository.findById(id);
-        certificate.setDescription(certificate.getDescription());
+        certificate.setName(certificateDto.getName());
         certificateRepository.save(certificate);
         return certificateMapper.toCertificateDto(certificate);
     }

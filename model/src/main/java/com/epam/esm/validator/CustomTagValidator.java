@@ -27,7 +27,6 @@ public class CustomTagValidator {
 
     private void validateName(String name) {
         CustomValidator.notNull(FieldName.NAME, name);
-        CustomValidator.notEmpty(FieldName.NAME, name);
         CustomValidator.notBlank(FieldName.NAME, name);
         CustomValidator.notTooShortOrLong(FieldName.NAME, name, 3, 30);
 

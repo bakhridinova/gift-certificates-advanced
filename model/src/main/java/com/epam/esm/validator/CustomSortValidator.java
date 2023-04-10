@@ -30,7 +30,6 @@ public class CustomSortValidator {
 
     void validateSortOrder(String order) {
         CustomValidator.notNull(FieldName.ORDER, order);
-        CustomValidator.notEmpty(FieldName.ORDER, order);
         CustomValidator.notBlank(FieldName.ORDER, order);
 
         if (!order.matches(ASC_OR_DESC)) {
@@ -40,7 +39,6 @@ public class CustomSortValidator {
 
     void validateSortType(String type) {
         CustomValidator.notNull(FieldName.TYPE, type);
-        CustomValidator.notEmpty(FieldName.TYPE, type);
         CustomValidator.notBlank(FieldName.TYPE, type);
 
         if (!type.matches(ID_NAME_CREATE_DATE_OR_LAST_UPDATE_DATE)) {

@@ -39,7 +39,6 @@ public class CustomCertificateValidator {
      */
     public void validateName(String name) {
         CustomValidator.notNull(FieldName.NAME, name);
-        CustomValidator.notEmpty(FieldName.NAME, name);
         CustomValidator.notBlank(FieldName.NAME, name);
         CustomValidator.notTooShortOrLong(FieldName.NAME, name, 4, 40);
         CustomValidator.onlyLettersAndSpaces(FieldName.NAME, name);
@@ -47,7 +46,6 @@ public class CustomCertificateValidator {
 
     void validateDescription(String description) {
         CustomValidator.notNull(FieldName.DESCRIPTION, description);
-        CustomValidator.notEmpty(FieldName.DESCRIPTION, description);
         CustomValidator.notBlank(FieldName.DESCRIPTION, description);
         CustomValidator.notTooShortOrLong(FieldName.DESCRIPTION, description, 4, 100);
         CustomValidator.onlyLettersAndSpaces(FieldName.DESCRIPTION, description);

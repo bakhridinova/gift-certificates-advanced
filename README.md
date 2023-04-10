@@ -20,8 +20,8 @@ this API allows you to do create, update, update and delete aka on entities
 
 ```agsl
 request parameters:
-    int page (default 1)
-    int size (default 5)
+    int page (defaultValue 1)
+    int size (defaultValue 5)
 ```
 
 **GET** `/api/certificates`
@@ -60,8 +60,8 @@ request parameters:
 
 ```agsl
 request parameters:
-    int page (default 1)
-    int size (default 5)
+    int page (defaultValue 1)
+    int size (defaultValue 5)
 ```
 
 **GET** `/api/certificates/{id}/orders`
@@ -81,12 +81,12 @@ returns list of certificates filtered by passed parameters and tags
 
 ```agsl
 request parameters:
-    int page (default 1) 
-    int size (default 5) 
-    String name (default "")
-    String description (default "")
-    String sortType (default "id")
-    String sortOrder (default "asc")
+    int page (defaultValue 1) 
+    int size (defaultValue 5) 
+    String name (defaultValue "")
+    String description (defaultValue "")
+    String sortType (defaultValue "id")
+    String sortOrder (defaultValue "asc")
 ```
 
 ```agsl

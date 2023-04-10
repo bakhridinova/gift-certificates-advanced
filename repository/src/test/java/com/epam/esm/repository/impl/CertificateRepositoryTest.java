@@ -2,52 +2,47 @@ package com.epam.esm.repository.impl;
 
 import com.epam.esm.RepositoryTest;
 import com.epam.esm.entity.Certificate;
+import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.repository.CertificateRepository;
 import com.epam.esm.util.Pagination;
 import com.epam.esm.util.SearchFilter;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.hibernate.JDBCException;
-import org.junit.jupiter.api.BeforeAll;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
 import java.util.Set;
 
-import static com.epam.esm.util.TestDataFactory.getPagination;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.spy;
 
 public class CertificateRepositoryTest extends RepositoryTest {
+    private final CertificateRepository certificateRepository;
+    @Spy
+    private final JPAQueryFactory queryFactory;
 
     @Autowired
-    private CertificateRepository certificateRepository;
-
-    @Mock
-    private static JPAQueryFactory queryFactory;
-
-    private static Pagination pagination;
-
-    private static SearchFilter filter;
-
-    private static Certificate certificate;
-
-    @BeforeAll
-    static void setUp() {
-        pagination = getPagination(0, 10);
-        queryFactory  = mock(JPAQueryFactory.class);
-        filter = new SearchFilter("", "", "id", "desc", Set.of(), Set.of(), pagination);
+    public CertificateRepositoryTest(EntityManager entityManager,
+                                     CertificateRepository certificateRepository) {
+        queryFactory = spy(new JPAQueryFactory(entityManager));
+        this.certificateRepository = certificateRepository;
     }
 
+    private Certificate certificate;
+
+    private Pagination pagination;
+
     @BeforeEach
-    void setUser() {
+    void setUp() {
         certificate = new Certificate();
         certificate.setName("");
         certificate.setDescription("");
@@ -55,6 +50,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
         certificate.setDuration(0);
         certificate.setOrders(List.of());
         certificate.setTags(Set.of());
+
+        pagination = new Pagination(0, 10);
     }
 
     @Test
@@ -85,7 +82,7 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(4)
     public void findAllShouldThrowDatAccessExceptionIfExceptionWasThrown() {
-        doThrow(JDBCException.class)
+        doThrow(PersistenceException.class)
                 .when(queryFactory).selectFrom(any());
 
         assertThrows(DataAccessException.class,
@@ -93,7 +90,7 @@ public class CertificateRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(6)
+    @Order(5)
     public void findByIdShouldReturnCorrectCertificateIfCertificateExists() {
         certificateRepository.save(certificate);
         assertEquals(certificate, certificateRepository.findById(2L));
@@ -107,32 +104,103 @@ public class CertificateRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(7)
     public void findByFilterShouldReturnEmptyListInitially() {
+        SearchFilter searchFilter = SearchFilter.builder()
+                .name("").description("")
+                .sortType("id").sortOrder("desc")
+                .pagination(pagination)
+                .build();
+
         assertTrue(certificateRepository
-                .findByFilter(filter).isEmpty());
+                .findByFilter(searchFilter).isEmpty());
     }
 
     @Test
-    public void findByFilterShouldReturnCorrectListAfterSaving() {
+    @Order(8)
+    public void findByFilterShouldReturnCorrectListIfCertificateWasFound() {
         certificateRepository.save(certificate);
 
+        SearchFilter searchFilter = SearchFilter.builder()
+                .name("").description("")
+                .sortType("id").sortOrder("desc")
+                .pagination(pagination)
+                .build();
+
+
         assertEquals(1, certificateRepository
-                .findByFilter(filter).size());
+                .findByFilter(searchFilter).size());
 
         assertEquals(certificate,  certificateRepository
-                .findByFilter(filter).get(0));
+                .findByFilter(searchFilter).get(0));
     }
 
     @Test
+    @Order(9)
+    public void findByFilterShouldReturnEmptyListIfCertificateNamesDontMatch() {
+        certificateRepository.save(certificate);
+
+        SearchFilter searchFilter = SearchFilter.builder()
+                .name("test").description("")
+                .sortType("id").sortOrder("desc")
+                .pagination(pagination)
+                .build();
+
+        assertEquals(0, certificateRepository
+                .findByFilter(searchFilter).size());
+    }
+
+    @Test
+    @Order(10)
+    public void findByFilterShouldReturnEmptyListIfCertificateDescriptionsDontMatch() {
+        certificateRepository.save(certificate);
+
+        SearchFilter searchFilter = SearchFilter.builder()
+                .name("").description("test")
+                .sortType("id").sortOrder("desc")
+                .pagination(pagination)
+                .build();
+
+        assertEquals(0, certificateRepository
+                .findByFilter(searchFilter).size());
+    }
+
+    @Test
+    @Order(10)
+    public void findByFilterShouldReturnEmptyListIfCertificateTagsDontMatch() {
+        certificateRepository.save(certificate);
+
+        Tag tag = new Tag();
+        tag.setName("test");
+        SearchFilter searchFilter = SearchFilter.builder()
+                .name("").description("")
+                .sortType("id").sortOrder("desc")
+                .pagination(pagination)
+                .tags(Set.of(tag))
+                .build();
+
+        assertEquals(0, certificateRepository
+                .findByFilter(searchFilter).size());
+    }
+
+    @Test
+    @Order(10)
     public void findByFilterShouldThrowDatAccessExceptionIfExceptionWasThrown() {
-        doThrow(JDBCException.class)
+        doThrow(PersistenceException.class)
                 .when(queryFactory).selectFrom(any());
 
+        SearchFilter searchFilter = SearchFilter.builder()
+                .name("").description("")
+                .sortType("id").sortOrder("desc")
+                .pagination(pagination)
+                .build();
+
         assertThrows(DataAccessException.class,
-                () -> certificateRepository.findByFilter(filter));
+                () -> certificateRepository.findByFilter(searchFilter));
     }
 
     @Test
+    @Order(11)
     public void saveShouldUpdateCertificateCorrectly() {
 
     }

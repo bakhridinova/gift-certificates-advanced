@@ -135,7 +135,7 @@ class TagControllerTest {
     }
 
     @Test
-    void getSpecialshouldReturnCorrectTagifTagWasFound() throws Exception {
+    void getSpecialShouldReturnCorrectTagIfTagWasFound() throws Exception {
         when(tagService.findSpecial())
                 .thenReturn(getTagDto());
         this.mockMvc.perform(get("/api/tags/special"))
@@ -173,19 +173,6 @@ class TagControllerTest {
     }
 
     @Test
-    void postShouldThrowExceptionWithCorrectMessageIfNameIsEmpty() throws Exception {
-        JSONObject jsonObject = new JSONObject();
-        this.mockMvc.perform(post("/api/tags")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(jsonObject
-                                .put("name", "")
-                                .toString()))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty"));
-    }
-
-    @Test
     void postShouldThrowExceptionWithCorrectMessageIfNameIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
         this.mockMvc.perform(post("/api/tags")
@@ -195,7 +182,7 @@ class TagControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be blank"));
+                        .value("name should not be empty or blank"));
     }
 
     @Test

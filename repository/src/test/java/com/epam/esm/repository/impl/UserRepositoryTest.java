@@ -6,12 +6,13 @@ import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.repository.UserRepository;
 import com.epam.esm.util.Pagination;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.hibernate.JDBCException;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
+import org.mockito.Spy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
@@ -20,15 +21,19 @@ import java.util.List;
 import static com.epam.esm.util.TestDataFactory.getPagination;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 public class UserRepositoryTest extends RepositoryTest {
-    @Autowired
-    private UserRepository userRepository;
-
-    @Mock
+    private final UserRepository userRepository;
+    @Spy
     private static JPAQueryFactory queryFactory;
+
+    @Autowired
+    public UserRepositoryTest(EntityManager entityManager,
+                              UserRepository userRepository) {
+        queryFactory = spy(new JPAQueryFactory(entityManager));
+        this.userRepository = userRepository;
+    }
 
     private static Pagination pagination;
 
@@ -52,6 +57,7 @@ public class UserRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(1)
     public void contextLoads() {
         assertNotNull(userRepository);
     }
@@ -78,7 +84,7 @@ public class UserRepositoryTest extends RepositoryTest {
     @Test
     @Order(4)
     public void findAllShouldThrowDatAccessExceptionIfExceptionWasThrown() {
-        doThrow(JDBCException.class)
+        doThrow(PersistenceException.class)
                 .when(queryFactory).selectFrom(any());
 
         assertThrows(DataAccessException.class,
