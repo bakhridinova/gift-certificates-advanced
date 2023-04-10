@@ -8,7 +8,11 @@ package com.epam.esm.util;
  * @author bakhridinova
  */
 
-public record Pagination(int page, int size) {
+public record Pagination(Integer page, int size) {
+    public Pagination next() {
+        return new Pagination(page + 1, size);
+    }
+
     public int getOffset() {
         return size * page;
     }

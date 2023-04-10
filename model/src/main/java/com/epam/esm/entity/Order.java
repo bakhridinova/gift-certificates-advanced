@@ -30,7 +30,9 @@ public class Order implements Identifiable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "price")
+    @Column(
+            name = "price",
+            nullable = false)
     private Double price;
 
     @CreationTimestamp

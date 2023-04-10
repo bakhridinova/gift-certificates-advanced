@@ -58,8 +58,8 @@ public class TestDataFactory {
         CERTIFICATE.setDescription("");          CERTIFICATE_DTO.setDescription("");
         CERTIFICATE.setPrice(0.0);               CERTIFICATE_DTO.setPrice(0.0);
         CERTIFICATE.setDuration(0);              CERTIFICATE_DTO.setDuration(0);
-        CERTIFICATE.setOrders(List.of());        CERTIFICATE_DTO.setTags(Set.of());
-        CERTIFICATE.setTags(Set.of());           CERTIFICATE_DTO.setTimesOrdered(0);
+        CERTIFICATE.setTags(Set.of());           CERTIFICATE_DTO.setTags(Set.of());
+        CERTIFICATE.setOrders(List.of());        CERTIFICATE_DTO.setTimesOrdered(0);
         NULL_CERTIFICATE.setTags(Set.of());      NULL_CERTIFICATE_DTO.setTags(Set.of());
         NULL_CERTIFICATE.setOrders(List.of());   NULL_CERTIFICATE_DTO.setTimesOrdered(0);
 

@@ -28,7 +28,7 @@ public record SearchFilter(String name, String description,
 
 
     public SearchFilter inner(Set<Tag> tags) {
-        return new SearchFilter(name(), description(), sortType(), sortOrder(), tagDtos(), tags, pagination());
+        return new SearchFilter(name, description, sortType, sortOrder, tagDtos, tags, pagination);
     }
 
     public int getSkip() {
