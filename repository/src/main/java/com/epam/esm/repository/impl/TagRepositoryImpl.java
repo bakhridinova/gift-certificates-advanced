@@ -39,8 +39,6 @@ public class TagRepositoryImpl implements TagRepository {
                         "failed to find tag by id " + id));
     }
 
-
-
     @Override
     public Tag findSpecial() {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
@@ -53,8 +51,8 @@ public class TagRepositoryImpl implements TagRepository {
                 .selectFrom(qTag)
                 .where(qTag.id.eq(queryFactory
                         .select(qTag.id)
-                        .from(qCertificate)
-                        .innerJoin(qTag)
+                        .from(qTag)
+                        .innerJoin(qTag.certificates, qCertificate)
                         .where(qCertificate.in(queryFactory
                                 .select(qCertificate)
                                 .from(qOrder)

@@ -20,5 +20,5 @@ public interface OrderService {
 
     List<OrderDto> findByCertificateId(Long certificateId, Pagination pagination);
 
-    OrderDto create(OrderDto orderDto);
+    OrderDto create(OrderDto order);
 }
