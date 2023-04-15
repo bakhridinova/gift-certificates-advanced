@@ -50,8 +50,8 @@ public class TestDataFactory {
         USER.setFirstName("");                   USER_DTO.setFirstName("");
         USER.setLastName("");                    USER_DTO.setLastName("");
         USER.setEmailAddress("");                USER_DTO.setEmailAddress("");
-        USER.setOrders(List.of());               USER_DTO.setTimesOrdered(0);
-        NULL_USER.setOrders(List.of());          NULL_USER_DTO.setTimesOrdered(0);
+        USER.setOrders(List.of());
+        NULL_USER.setOrders(List.of());
 
         CERTIFICATE.setId(0L);                   CERTIFICATE_DTO.setId(0L);
         CERTIFICATE.setName("");                 CERTIFICATE_DTO.setName("");
@@ -59,9 +59,9 @@ public class TestDataFactory {
         CERTIFICATE.setPrice(0.0);               CERTIFICATE_DTO.setPrice(0.0);
         CERTIFICATE.setDuration(0);              CERTIFICATE_DTO.setDuration(0);
         CERTIFICATE.setTags(Set.of());           CERTIFICATE_DTO.setTags(Set.of());
-        CERTIFICATE.setOrders(List.of());        CERTIFICATE_DTO.setTimesOrdered(0);
+        CERTIFICATE.setOrders(List.of());
         NULL_CERTIFICATE.setTags(Set.of());      NULL_CERTIFICATE_DTO.setTags(Set.of());
-        NULL_CERTIFICATE.setOrders(List.of());   NULL_CERTIFICATE_DTO.setTimesOrdered(0);
+        NULL_CERTIFICATE.setOrders(List.of());
 
         ORDER.setId(0L);                          ORDER_DTO.setId(0L);
         ORDER.setPrice(0.0);                      ORDER_DTO.setPrice(0.0);

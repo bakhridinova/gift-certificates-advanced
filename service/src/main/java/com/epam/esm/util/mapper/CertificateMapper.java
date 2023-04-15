@@ -2,8 +2,10 @@ package com.epam.esm.util.mapper;
 
 import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.entity.Certificate;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -19,12 +21,11 @@ import java.util.HashSet;
 public interface CertificateMapper {
     /**
      * maps Certificate to CertificateDto
-     * sets number of orders of certificate to timesOrdered field
      *
      * @param certificate Certificate
      * @return CertificateDto
      */
-    @Mapping(target = "timesOrdered", expression = "java(certificate.getOrders() == null ? 0 : certificate.getOrders().size())")
+    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
     CertificateDto toCertificateDto(Certificate certificate);
 
     /**

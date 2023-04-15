@@ -19,16 +19,16 @@ public class CustomSortValidator {
      * validates the sorting parameters to ensure that they are not null,
      * empty or blank and are equal to any of required values
      *
-     * @param sortType String sort type to validate
-     * @param sortOrder String sort order to validate
+     * @param type String sort type to validate
+     * @param order String sort order to validate
      * @throws CustomValidationException if any of sorting parameters are not valid
      */
-    public void validate(String sortType, String sortOrder) {
-        validateSortType(sortType);
-        validateSortOrder(sortOrder);
+    public void validate(String type, String order) {
+        validateType(type);
+        validateOrder(order);
     }
 
-    void validateSortOrder(String order) {
+    void validateOrder(String order) {
         CustomValidator.notNull(FieldName.ORDER, order);
         CustomValidator.notBlank(FieldName.ORDER, order);
 
@@ -37,7 +37,7 @@ public class CustomSortValidator {
         }
     }
 
-    void validateSortType(String type) {
+    void validateType(String type) {
         CustomValidator.notNull(FieldName.TYPE, type);
         CustomValidator.notBlank(FieldName.TYPE, type);
 

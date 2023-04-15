@@ -22,6 +22,7 @@ public class UserRepositoryImpl implements UserRepository {
     public List<User> findAll(Pagination pagination) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QUser qUser = QUser.user;
+
         return queryFactory.selectFrom(qUser)
                 .offset(pagination.getOffset())
                 .limit(pagination.getLimit())
@@ -30,7 +31,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public User findById(Long id) {
-        return Optional.ofNullable(entityManager.find(User.class, id))
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QUser qUser = QUser.user;
+
+        return Optional.ofNullable(queryFactory.selectFrom(qUser)
+                        .where(qUser.id.eq(id)).fetchFirst())
                 .orElseThrow(() -> new CustomEntityNotFoundException(
                         "failed to find user by id " + id));
     }

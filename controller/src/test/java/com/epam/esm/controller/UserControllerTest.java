@@ -63,8 +63,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$..username", String.class).value(""))
                 .andExpect(jsonPath("$..password", String.class).value(""))
                 .andExpect(jsonPath("$..firstName", String.class).value(""))
-                .andExpect(jsonPath("$..lastName", String.class).value(""))
-                .andExpect(jsonPath("$..timesOrdered", Integer.class).value(0));
+                .andExpect(jsonPath("$..lastName", String.class).value(""));
     }
 
     @Test
@@ -119,8 +118,7 @@ class UserControllerTest {
                 .andExpect(jsonPath("$.username", String.class).value(""))
                 .andExpect(jsonPath("$.password", String.class).value(""))
                 .andExpect(jsonPath("$.firstName", String.class).value(""))
-                .andExpect(jsonPath("$.lastName", String.class).value(""))
-                .andExpect(jsonPath("$.timesOrdered", Integer.class).value(0));
+                .andExpect(jsonPath("$.lastName", String.class).value(""));
     }
 
     @Test

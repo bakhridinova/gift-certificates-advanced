@@ -26,6 +26,7 @@ public class TagRepositoryImpl implements TagRepository {
     public List<Tag> findAll(Pagination pagination) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QTag qTag = QTag.tag;
+
         return queryFactory.selectFrom(qTag)
                 .offset(pagination.getOffset())
                 .limit(pagination.getLimit())
@@ -34,7 +35,11 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public Tag findById(Long id) {
-        return Optional.ofNullable(entityManager.find(Tag.class, id))
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QTag qTag = QTag.tag;
+
+        return Optional.ofNullable(queryFactory.selectFrom(qTag)
+                        .where(qTag.id.eq(id)).fetchFirst())
                 .orElseThrow(() -> new CustomEntityNotFoundException(
                         "failed to find tag by id " + id));
     }

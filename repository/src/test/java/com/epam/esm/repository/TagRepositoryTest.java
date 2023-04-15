@@ -76,26 +76,20 @@ public class TagRepositoryTest extends RepositoryTest {
 
     @Test
     @Order(7)
-    public void special() {
-        assertNotNull(tagRepository.findSpecial());
-    }
-
-    @Test
-    @Order(8)
     public void existsShouldReturnTrueIfTagsWithSuchNameExists() {
         IntStream.range(1, tagRepository.findAll(pagination).size())
                 .forEach((i) -> assertTrue(tagRepository.exists("test" + i)));
     }
 
     @Test
-    @Order(9)
+    @Order(8)
     public void existsShouldReturnFalseIfTagsWithSuchNameDoesNotExist() {
         IntStream.range(1, tagRepository.findAll(pagination).size())
                 .forEach((i) -> assertFalse(tagRepository.exists("test name" + i)));
     }
 
     @Test
-    @Order(10)
+    @Order(9)
     public void saveShouldAddNewRecordToDataBase() {
         Tag tag = new Tag();
         tag.setName("test10");
@@ -104,7 +98,7 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     public void saveShouldThrowDataAccessExceptionIfNameIsNull() {
         Tag tag = new Tag();
         tag.setName(null);
@@ -113,7 +107,7 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     public void deleteShouldRemoveRecordFromDatabase() {
         Tag tag = new Tag();
         tag.setName("test12");
@@ -126,7 +120,7 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(13)
+    @Order(12)
     public void deleteShouldThrowDataAccessExceptionIfEntityIsAlreadyDetached() {
         Tag tag = new Tag();
         tag.setName("test13");
