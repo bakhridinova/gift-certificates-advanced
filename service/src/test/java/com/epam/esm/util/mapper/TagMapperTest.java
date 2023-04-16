@@ -23,8 +23,10 @@ class TagMapperTest {
 
     @Test
     void shouldMapTagsCorrectlyTest() {
-        assertEquals(getTag(), tagMapper.toTag(getTagDto()));
-        assertEquals(getTagDto(), tagMapper.toTagDto(getTag()));
+        assertEquals(getTag(),
+                tagMapper.toTag(getTagDto()));
+        assertEquals(getTagDto(),
+                tagMapper.toTagDto(getTag()));
     }
 
     @Test
@@ -35,7 +37,9 @@ class TagMapperTest {
 
     @Test
     void shouldReturnNullObjectIfNullObjectPassedTest() {
-        assertEquals(getNullTag(), tagMapper.toTag(getNullTagDto()));
-        assertEquals(getNullTagDto(), tagMapper.toTagDto(getNullTag()));
+        assertEquals(getNullTag(),
+                tagMapper.toTag(getNullTagDto()));
+        assertEquals(getNullTagDto(),
+                tagMapper.toTagDto(getNullTag()));
     }
 }

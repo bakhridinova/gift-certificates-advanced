@@ -306,10 +306,14 @@ class CertificateControllerTest {
                 .thenReturn(List.of(getOrderDto()));
         this.mockMvc.perform(get("/api/certificates/1/orders"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..id", Long.class).value(0))
-                .andExpect(jsonPath("$..price", Double.class).value(0.0))
-                .andExpect(jsonPath("$..userId", Long.class).value(0))
-                .andExpect(jsonPath("$..certificateId", Long.class).value(0));
+                .andExpect(jsonPath("$..id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..price", Double.class)
+                        .value(0.0))
+                .andExpect(jsonPath("$..userId", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..certificateId", Long.class)
+                        .value(0));
     }
 
     @Test

@@ -55,52 +55,62 @@ class OrderControllerTest {
                 .thenReturn(List.of(getOrderDto()));
         this.mockMvc.perform(get("/api/orders"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..id", Long.class).value(0))
-                .andExpect(jsonPath("$..price", Double.class).value(0.0))
-                .andExpect(jsonPath("$..userId", Long.class).value(0))
-                .andExpect(jsonPath("$..certificateId", Long.class).value(0));
+                .andExpect(jsonPath("$..id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..price", Double.class)
+                        .value(0.0))
+                .andExpect(jsonPath("$..userId", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..certificateId", Long.class)
+                        .value(0));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("page should not be negative"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("page should not be negative"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("size should not be negative"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("size should not be negative"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("page should be of type int"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("page should be of type int"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("size should be of type int"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("size should be of type int"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("page must be between 0 and 10000"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("page must be between 0 and 10000"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/orders").param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("size must be between 0 and 100"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("size must be between 0 and 100"));
     }
 
     @Test
@@ -109,10 +119,14 @@ class OrderControllerTest {
                 .thenReturn(getOrderDto());
         this.mockMvc.perform(get("/api/orders/1"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", Long.class).value(0))
-                .andExpect(jsonPath("$.price", Double.class).value(0.0))
-                .andExpect(jsonPath("$.userId", Long.class).value(0))
-                .andExpect(jsonPath("$.certificateId", Long.class).value(0));
+                .andExpect(jsonPath("$.id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$.price", Double.class)
+                        .value(0.0))
+                .andExpect(jsonPath("$.userId", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$.certificateId", Long.class)
+                        .value(0));
     }
 
     @Test
@@ -121,21 +135,24 @@ class OrderControllerTest {
                 .thenThrow(new CustomEntityNotFoundException("failed to find order by id 1"));
         this.mockMvc.perform(get("/api/orders/1"))
                 .andDo(print()).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message", String.class).value("failed to find order by id 1"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("failed to find order by id 1"));
     }
 
     @Test
     void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/orders/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id should be of type long"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id should be of type long"));
     }
 
     @Test
     void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/orders/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id must be positive"));
     }
 
     @Test
@@ -150,10 +167,14 @@ class OrderControllerTest {
                                 .put("certificateId", 1)
                                 .toString()))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", Long.class).value(0))
-                .andExpect(jsonPath("$.price", Double.class).value(0.0))
-                .andExpect(jsonPath("$.userId", Long.class).value(0))
-                .andExpect(jsonPath("$.certificateId", Long.class).value(0));
+                .andExpect(jsonPath("$.id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$.price", Double.class)
+                        .value(0.0))
+                .andExpect(jsonPath("$.userId", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$.certificateId", Long.class)
+                        .value(0));
     }
 
     @Test
@@ -166,7 +187,8 @@ class OrderControllerTest {
                                 .put("certificateId", 1)
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id should not be null"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id should not be null"));
     }
 
     @Test
@@ -179,7 +201,8 @@ class OrderControllerTest {
                                 .put("certificateId", null)
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id should not be null"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id should not be null"));
     }
 
     @Test
@@ -192,7 +215,8 @@ class OrderControllerTest {
                                 .put("certificateId", 1)
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id must be positive"));
     }
 
     @Test
@@ -205,6 +229,7 @@ class OrderControllerTest {
                                 .put("certificateId", -1)
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id must be positive"));
     }
 }

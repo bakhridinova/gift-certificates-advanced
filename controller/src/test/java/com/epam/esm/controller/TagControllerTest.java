@@ -55,50 +55,58 @@ class TagControllerTest {
                 .thenReturn(List.of(getTagDto()));
         this.mockMvc.perform(get("/api/tags"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..id", Long.class).value(0))
-                .andExpect(jsonPath("$..name", String.class).value(""));
+                .andExpect(jsonPath("$..id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..name", String.class)
+                        .value(""));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("page should not be negative"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("page should not be negative"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("size should not be negative"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("size should not be negative"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("page should be of type int"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("page should be of type int"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("size should be of type int"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("size should be of type int"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("page must be between 0 and 10000"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("page must be between 0 and 10000"));
     }
 
     @Test
     void getAllShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
         this.mockMvc.perform(get("/api/tags").param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("size must be between 0 and 100"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("size must be between 0 and 100"));
     }
 
     @Test
@@ -107,8 +115,10 @@ class TagControllerTest {
                 .thenReturn(getTagDto());
         this.mockMvc.perform(get("/api/tags/1"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$.id", Long.class).value(0))
-                .andExpect(jsonPath("$.name", String.class).value(""));
+                .andExpect(jsonPath("$.id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$.name", String.class)
+                        .value(""));
     }
 
     @Test
@@ -117,21 +127,24 @@ class TagControllerTest {
                 .thenThrow(new CustomEntityNotFoundException("failed to find tag by id 1"));
         this.mockMvc.perform(get("/api/tags/1"))
                 .andDo(print()).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message", String.class).value("failed to find tag by id 1"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("failed to find tag by id 1"));
     }
 
     @Test
     void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
         this.mockMvc.perform(get("/api/tags/test"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id should be of type long"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id should be of type long"));
     }
 
     @Test
     void getByIdShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
         this.mockMvc.perform(get("/api/tags/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class).value("id must be positive"));
+                .andExpect(jsonPath("$.message", String.class)
+                        .value("id must be positive"));
     }
 
     @Test
@@ -141,7 +154,8 @@ class TagControllerTest {
         this.mockMvc.perform(get("/api/tags/special"))
                 .andDo(print()).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id", Long.class).value(0))
-                .andExpect(jsonPath("$.name", String.class).value(""));
+                .andExpect(jsonPath("$.name", String.class)
+                        .value(""));
     }
 
     @Test
