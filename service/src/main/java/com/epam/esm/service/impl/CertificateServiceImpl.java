@@ -16,7 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
+import java.util.TreeSet;
 import java.util.stream.Collectors;
 
 @Service
@@ -41,7 +43,7 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     public List<CertificateDto> findByFilter(SearchFilter searchFilter) {
         Set<Tag> tags = searchFilter.tagDtos().stream()
-                .filter(t -> tagRepository.exists(t.getName()))
+                .filter(t -> tagRepository.findByName(t.getName()).isPresent())
                 .map(tagMapper::toTag)
                 .collect(Collectors.toSet());
 
@@ -62,22 +64,31 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public CertificateDto create(CertificateDto certificateDto) {
+        Set<Tag> tags = new TreeSet<>();
         for (TagDto tagDto : certificateDto.getTags()) {
-            String name = tagDto.getName();
-            if (!tagRepository.exists(name)) {
-                Tag tag = new Tag();
-                tag.setName(name);
+            Optional<Tag> optionalTag = tagRepository.findByName(tagDto.getName());
+            if (optionalTag.isPresent()) {
+                tags.add(optionalTag.get());
+            } else {
+                Tag tag = tagMapper.toTag(tagDto);
                 tagRepository.save(tag);
+                tags.add(tag);
             }
         }
-
         Certificate certificate = certificateMapper.toCertificate(certificateDto);
         certificateRepository.save(certificate);
-        return certificateMapper.toCertificateDto(certificate);
+        tagRepository.setTags(certificate, tags);
+        certificateDto = certificateMapper.toCertificateDto(certificate);
+        certificateDto.setTags(tags.stream()
+                .map(tagMapper::toTagDto).collect(Collectors.toSet()));
+        return certificateDto;
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        certificateRepository.delete(certificateRepository.findById(id));
+        Certificate certificate = certificateRepository.findById(id);
+        tagRepository.removeCertificateRelatedRecords(certificate);
+        certificateRepository.delete(certificate);
     }
 }

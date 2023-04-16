@@ -40,7 +40,7 @@ public class CustomLoggingAspect {
 
     @Before("loggingTargets())")
     public void logBeforeExecution(JoinPoint joinPoint) {
-        logger.info("executing method: " + joinPoint.getSignature().getDeclaringTypeName() + "."
+        logger.debug("executing method: " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName() + " with arguments " + Arrays.asList(joinPoint.getArgs()));
     }
 
@@ -49,7 +49,7 @@ public class CustomLoggingAspect {
         long start = System.nanoTime();
         Object proceed = proceedingJoinPoint.proceed();
         long end = System.nanoTime();
-        logger.info("execution of " + proceedingJoinPoint.getSignature().getDeclaringTypeName() + "."
+        logger.debug("execution of " + proceedingJoinPoint.getSignature().getDeclaringTypeName() + "."
                 + proceedingJoinPoint.getSignature().getName() + " took " +
                 TimeUnit.NANOSECONDS.toMillis(end - start) + " milli seconds");
         return proceed;
@@ -57,13 +57,13 @@ public class CustomLoggingAspect {
 
     @AfterReturning(value = "loggingTargets()", returning = "value")
     public void logAfterExecution(JoinPoint joinPoint, Object value) {
-        logger.info("method " + joinPoint.getSignature().getDeclaringTypeName() + "."
+        logger.debug("method " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName() + " executed and return value [" + value + "]");
     }
 
     @AfterThrowing(value = "loggingTargets()", throwing = "exception")
     public void logAfterException(JoinPoint joinPoint, Exception exception) {
-        logger.debug("method " + joinPoint.getSignature().getDeclaringTypeName() + "."
+        logger.error("method " + joinPoint.getSignature().getDeclaringTypeName() + "."
                 + joinPoint.getSignature().getName() + " threw " + exception);
     }
 }

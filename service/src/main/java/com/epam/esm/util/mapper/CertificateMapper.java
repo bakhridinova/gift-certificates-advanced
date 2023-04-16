@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.TreeSet;
 
 /**
  * mapper to convert Certificate into CertificateDto and vice versa
@@ -17,7 +17,7 @@ import java.util.HashSet;
  */
 
 @Mapper(componentModel = "spring",
-        imports = {ArrayList.class, HashSet.class})
+        imports = {ArrayList.class, TreeSet.class})
 public interface CertificateMapper {
     /**
      * maps Certificate to CertificateDto
@@ -36,7 +36,7 @@ public interface CertificateMapper {
      * @param certificate CertificateDto
      * @return Certificate
      */
-    @Mapping(target = "tags", expression = "java(new HashSet<>())")
+    @Mapping(target = "tags", expression = "java(new TreeSet<>())")
     @Mapping(target = "orders", expression = "java(new ArrayList<>())")
     Certificate toCertificate(CertificateDto certificate);
 }

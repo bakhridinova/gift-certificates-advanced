@@ -59,7 +59,7 @@ public class Certificate implements Identifiable {
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastUpdatedAt;
 
-    @ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(
             name = "certificate_tag",
             joinColumns = { @JoinColumn(name = "tag_id") },

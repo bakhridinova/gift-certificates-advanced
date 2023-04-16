@@ -22,7 +22,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -140,8 +139,6 @@ class CertificateServiceTest {
                 .thenReturn(getCertificate());
         when(certificateMapper.toCertificateDto(any()))
                 .thenReturn(getCertificateDto());
-        when(tagRepository.exists(anyString()))
-                .thenReturn(false);
 
         assertEquals(getCertificateDto(), certificateService.create(getCertificateDto()));
     }

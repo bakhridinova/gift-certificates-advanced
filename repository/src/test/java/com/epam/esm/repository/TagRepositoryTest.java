@@ -82,14 +82,14 @@ public class TagRepositoryTest extends RepositoryTest {
     @Order(7)
     public void existsShouldReturnTrueIfTagsWithSuchNameExists() {
         IntStream.range(1, tagRepository.findAll(pagination).size())
-                .forEach((i) -> assertTrue(tagRepository.exists("test" + i)));
+                .forEach((i) -> assertTrue(tagRepository.findByName("test" + i).isPresent()));
     }
 
     @Test
     @Order(8)
     public void existsShouldReturnFalseIfTagsWithSuchNameDoesNotExist() {
         IntStream.range(1, tagRepository.findAll(pagination).size())
-                .forEach((i) -> assertFalse(tagRepository.exists("test name" + i)));
+                .forEach((i) -> assertFalse(tagRepository.findByName("test name" + i).isPresent()));
     }
 
     @Test
