@@ -1,9 +1,9 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.OrderDto;
-import com.epam.esm.util.Pagination;
 import com.epam.esm.hateoas.HateoasAdder;
 import com.epam.esm.service.OrderService;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.validator.CustomPaginationValidator;
 import com.epam.esm.validator.CustomValidator;
 import lombok.RequiredArgsConstructor;

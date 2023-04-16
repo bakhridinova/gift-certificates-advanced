@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static com.epam.esm.util.TestDataFactory.*;
+import static com.epam.esm.util.TestDataFactory.getNullUser;
+import static com.epam.esm.util.TestDataFactory.getNullUserDto;
+import static com.epam.esm.util.TestDataFactory.getUser;
+import static com.epam.esm.util.TestDataFactory.getUserDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 

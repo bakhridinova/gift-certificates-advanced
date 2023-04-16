@@ -1,7 +1,7 @@
 package com.epam.esm.repository;
 
-import com.epam.esm.util.Pagination;
 import com.epam.esm.entity.User;
+import com.epam.esm.util.Pagination;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;

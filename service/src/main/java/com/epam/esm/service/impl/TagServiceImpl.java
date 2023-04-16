@@ -1,11 +1,11 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.util.Pagination;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.CustomEntityAlreadyExistsException;
 import com.epam.esm.repository.TagRepository;
 import com.epam.esm.service.TagService;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.util.mapper.TagMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

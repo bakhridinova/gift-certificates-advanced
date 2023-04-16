@@ -15,8 +15,14 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 
-import static com.epam.esm.util.TestDataFactory.*;
-import static org.junit.jupiter.api.Assertions.*;
+import static com.epam.esm.util.TestDataFactory.getCertificate;
+import static com.epam.esm.util.TestDataFactory.getOrder;
+import static com.epam.esm.util.TestDataFactory.getOrderDto;
+import static com.epam.esm.util.TestDataFactory.getPagination;
+import static com.epam.esm.util.TestDataFactory.getUser;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doThrow;

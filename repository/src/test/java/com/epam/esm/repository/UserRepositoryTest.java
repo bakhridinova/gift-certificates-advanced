@@ -13,7 +13,9 @@ import org.springframework.dao.DataAccessException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import static com.epam.esm.util.TestDataFactory.getPagination;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class UserRepositoryTest extends RepositoryTest {
     @Autowired
