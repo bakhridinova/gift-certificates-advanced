@@ -13,7 +13,11 @@ import org.springframework.dao.DataAccessException;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TagRepositoryTest extends RepositoryTest {
     @Autowired
@@ -76,26 +80,20 @@ public class TagRepositoryTest extends RepositoryTest {
 
     @Test
     @Order(7)
-    public void special() {
-        assertNotNull(tagRepository.findSpecial());
+    public void existsShouldReturnTrueIfTagsWithSuchNameExists() {
+        IntStream.range(1, tagRepository.findAll(pagination).size())
+                .forEach((i) -> assertTrue(tagRepository.findByName("test" + i).isPresent()));
     }
 
     @Test
     @Order(8)
-    public void existsShouldReturnTrueIfTagsWithSuchNameExists() {
+    public void existsShouldReturnFalseIfTagsWithSuchNameDoesNotExist() {
         IntStream.range(1, tagRepository.findAll(pagination).size())
-                .forEach((i) -> assertTrue(tagRepository.exists("test" + i)));
+                .forEach((i) -> assertFalse(tagRepository.findByName("test name" + i).isPresent()));
     }
 
     @Test
     @Order(9)
-    public void existsShouldReturnFalseIfTagsWithSuchNameDoesNotExist() {
-        IntStream.range(1, tagRepository.findAll(pagination).size())
-                .forEach((i) -> assertFalse(tagRepository.exists("test name" + i)));
-    }
-
-    @Test
-    @Order(10)
     public void saveShouldAddNewRecordToDataBase() {
         Tag tag = new Tag();
         tag.setName("test10");
@@ -104,7 +102,7 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(11)
+    @Order(10)
     public void saveShouldThrowDataAccessExceptionIfNameIsNull() {
         Tag tag = new Tag();
         tag.setName(null);
@@ -113,7 +111,7 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(12)
+    @Order(11)
     public void deleteShouldRemoveRecordFromDatabase() {
         Tag tag = new Tag();
         tag.setName("test12");
@@ -126,7 +124,7 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
-    @Order(13)
+    @Order(12)
     public void deleteShouldThrowDataAccessExceptionIfEntityIsAlreadyDetached() {
         Tag tag = new Tag();
         tag.setName("test13");

@@ -1,10 +1,13 @@
 package com.epam.esm.repository;
 
-import com.epam.esm.util.Pagination;
+import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.Tag;
+import com.epam.esm.util.Pagination;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Repository
 public interface TagRepository extends CustomRepository<Tag> {
@@ -25,6 +28,14 @@ public interface TagRepository extends CustomRepository<Tag> {
     Tag findById(Long id);
 
     /**
+     * retrieves tag with specified name
+     *
+     * @param name of tag
+     * @return optional of tag with the specified name
+     */
+    Optional<Tag> findByName(String name);
+
+    /**
      * retrieves most widely used tag of user who has
      * maximum sum of all orders
      *
@@ -33,19 +44,35 @@ public interface TagRepository extends CustomRepository<Tag> {
     Tag findSpecial();
 
     /**
-     * checks if tag with given name already exists in the database.
-     *
-     * @param name of tag to check for existence
-     * @return true if tag with given name exists, otherwise false
-     */
-    boolean exists(String name);
-
-    /**
      * saves tag to database
      *
      * @param tag to save
      */
     void save(Tag tag);
+
+    /**
+     * attaches tags to certificates
+     *
+     * @param certificate to attach to
+     * @param tags to attach
+     */
+    void setTags(Certificate certificate, Set<Tag> tags);
+
+    /**
+     * removes rows from join table associated
+     * with given certificate
+     *
+     * @param certificate specified certificate
+     */
+    void removeCertificateRelatedRecords(Certificate certificate);
+
+    /**
+     * removes rows from join table associated
+     * with given tag
+     *
+     * @param tag specified tag
+     */
+    void removeTagRelatedRecords(Tag tag);
 
     /**
      * deletes tag from database

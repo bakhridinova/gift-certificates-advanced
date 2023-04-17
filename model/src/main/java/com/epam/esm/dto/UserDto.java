@@ -33,6 +33,4 @@ public class UserDto extends RepresentationModel<UserDto> {
     private String emailAddress;
 
     private LocalDate birthDate;
-
-    private Integer timesOrdered;
 }

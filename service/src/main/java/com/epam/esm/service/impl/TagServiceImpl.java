@@ -1,14 +1,15 @@
 package com.epam.esm.service.impl;
 
 import com.epam.esm.dto.TagDto;
-import com.epam.esm.util.Pagination;
 import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.CustomEntityAlreadyExistsException;
 import com.epam.esm.repository.TagRepository;
 import com.epam.esm.service.TagService;
+import com.epam.esm.util.Pagination;
 import com.epam.esm.util.mapper.TagMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -34,9 +35,11 @@ public class TagServiceImpl implements TagService {
         return tagMapper.toTagDto(tagRepository.findSpecial());
     }
 
+    @Override
+    @Transactional
     public TagDto create(TagDto tagDto) {
         Tag tag = tagMapper.toTag(tagDto);
-        if (tagRepository.exists(tag.getName())) {
+        if (tagRepository.findByName(tag.getName()).isPresent()) {
             throw new CustomEntityAlreadyExistsException("tag with such name already exists");
         }
 
@@ -45,7 +48,10 @@ public class TagServiceImpl implements TagService {
     }
 
     @Override
+    @Transactional
     public void delete(Long id) {
-        tagRepository.delete(tagRepository.findById(id));
+        Tag tag = tagRepository.findById(id);
+        tagRepository.removeTagRelatedRecords(tag);
+        tagRepository.delete(tag);
     }
 }

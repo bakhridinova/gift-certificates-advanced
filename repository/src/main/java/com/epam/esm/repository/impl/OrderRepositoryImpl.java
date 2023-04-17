@@ -24,6 +24,7 @@ public class OrderRepositoryImpl implements OrderRepository {
     public List<Order> findAll(Pagination pagination) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QOrder qOrder = QOrder.order;
+
         return queryFactory.selectFrom(qOrder)
                 .offset(pagination.getOffset())
                 .limit(pagination.getLimit())
@@ -32,7 +33,11 @@ public class OrderRepositoryImpl implements OrderRepository {
 
     @Override
     public Order findById(Long id) {
-        return Optional.ofNullable(entityManager.find(Order.class, id))
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QOrder qOrder = QOrder.order;
+
+        return Optional.ofNullable(queryFactory.selectFrom(qOrder)
+                        .where(qOrder.id.eq(id)).fetchFirst())
                 .orElseThrow(() -> new CustomEntityNotFoundException(
                         "failed to find order by id " + id));
     }

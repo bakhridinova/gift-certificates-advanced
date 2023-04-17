@@ -1,5 +1,6 @@
 package com.epam.esm.repository.impl;
 
+import com.epam.esm.entity.Certificate;
 import com.epam.esm.entity.QCertificate;
 import com.epam.esm.entity.QOrder;
 import com.epam.esm.entity.QTag;
@@ -10,12 +11,13 @@ import com.epam.esm.repository.TagRepository;
 import com.epam.esm.util.Pagination;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.Query;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Repository
 @RequiredArgsConstructor
@@ -26,6 +28,7 @@ public class TagRepositoryImpl implements TagRepository {
     public List<Tag> findAll(Pagination pagination) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QTag qTag = QTag.tag;
+
         return queryFactory.selectFrom(qTag)
                 .offset(pagination.getOffset())
                 .limit(pagination.getLimit())
@@ -34,12 +37,22 @@ public class TagRepositoryImpl implements TagRepository {
 
     @Override
     public Tag findById(Long id) {
-        return Optional.ofNullable(entityManager.find(Tag.class, id))
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QTag qTag = QTag.tag;
+
+        return Optional.ofNullable(queryFactory.selectFrom(qTag)
+                        .where(qTag.id.eq(id)).fetchFirst())
                 .orElseThrow(() -> new CustomEntityNotFoundException(
                         "failed to find tag by id " + id));
     }
 
+    public Optional<Tag> findByName(String name) {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QTag qTag = QTag.tag;
 
+        return Optional.ofNullable(queryFactory.selectFrom(qTag)
+                        .where(qTag.name.eq(name)).fetchFirst());
+    }
 
     @Override
     public Tag findSpecial() {
@@ -53,8 +66,8 @@ public class TagRepositoryImpl implements TagRepository {
                 .selectFrom(qTag)
                 .where(qTag.id.eq(queryFactory
                         .select(qTag.id)
-                        .from(qCertificate)
-                        .innerJoin(qTag)
+                        .from(qTag)
+                        .innerJoin(qTag.certificates, qCertificate)
                         .where(qCertificate.in(queryFactory
                                 .select(qCertificate)
                                 .from(qOrder)
@@ -74,18 +87,32 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public boolean exists(String name) {
-        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
-        QTag qTag = QTag.tag;
-        return queryFactory.selectFrom(qTag)
-                .where(qTag.name.eq(name))
-                .fetchOne() != null;
+    public void save(Tag tag) {
+        entityManager.persist(tag);
     }
 
     @Override
-    @Transactional
-    public void save(Tag tag) {
-        entityManager.persist(tag);
+    public void setTags(Certificate certificate, Set<Tag> tags) {
+        Query query = entityManager.createNativeQuery("insert into certificate_tag values (?, ?)");
+        query.setParameter(1, certificate.getId());
+        for (Tag tag : tags) {
+            query.setParameter(2, tag.getId());
+            query.executeUpdate();
+        }
+    }
+
+    @Override
+    public void removeCertificateRelatedRecords(Certificate certificate) {
+        Query query = entityManager.createNativeQuery("delete from certificate_tag where certificate_id = ?");
+        query.setParameter(1, certificate.getId());
+        query.executeUpdate();
+    }
+
+    @Override
+    public void removeTagRelatedRecords(Tag tag) {
+        Query query = entityManager.createNativeQuery("delete from certificate_tag where tag_id = ?");
+        query.setParameter(1, tag.getId());
+        query.executeUpdate();
     }
 
     @Override

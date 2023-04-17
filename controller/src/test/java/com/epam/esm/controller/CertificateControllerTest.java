@@ -26,10 +26,17 @@ import static com.epam.esm.util.TestDataFactory.getOrderDto;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CertificateController.class)
 @ContextConfiguration(classes = GiftCertificatesAdvancedApplication.class)
@@ -306,10 +313,14 @@ class CertificateControllerTest {
                 .thenReturn(List.of(getOrderDto()));
         this.mockMvc.perform(get("/api/certificates/1/orders"))
                 .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..id", Long.class).value(0))
-                .andExpect(jsonPath("$..price", Double.class).value(0.0))
-                .andExpect(jsonPath("$..userId", Long.class).value(0))
-                .andExpect(jsonPath("$..certificateId", Long.class).value(0));
+                .andExpect(jsonPath("$..id", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..price", Double.class)
+                        .value(0.0))
+                .andExpect(jsonPath("$..userId", Long.class)
+                        .value(0))
+                .andExpect(jsonPath("$..certificateId", Long.class)
+                        .value(0));
     }
 
     @Test

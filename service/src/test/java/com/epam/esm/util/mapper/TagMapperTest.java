@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static com.epam.esm.util.TestDataFactory.*;
+import static com.epam.esm.util.TestDataFactory.getNullTag;
+import static com.epam.esm.util.TestDataFactory.getNullTagDto;
+import static com.epam.esm.util.TestDataFactory.getTag;
+import static com.epam.esm.util.TestDataFactory.getTagDto;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -23,8 +26,10 @@ class TagMapperTest {
 
     @Test
     void shouldMapTagsCorrectlyTest() {
-        assertEquals(getTag(), tagMapper.toTag(getTagDto()));
-        assertEquals(getTagDto(), tagMapper.toTagDto(getTag()));
+        assertEquals(getTag(),
+                tagMapper.toTag(getTagDto()));
+        assertEquals(getTagDto(),
+                tagMapper.toTagDto(getTag()));
     }
 
     @Test
@@ -35,7 +40,9 @@ class TagMapperTest {
 
     @Test
     void shouldReturnNullObjectIfNullObjectPassedTest() {
-        assertEquals(getNullTag(), tagMapper.toTag(getNullTagDto()));
-        assertEquals(getNullTagDto(), tagMapper.toTagDto(getNullTag()));
+        assertEquals(getNullTag(),
+                tagMapper.toTag(getNullTagDto()));
+        assertEquals(getNullTagDto(),
+                tagMapper.toTagDto(getNullTag()));
     }
 }

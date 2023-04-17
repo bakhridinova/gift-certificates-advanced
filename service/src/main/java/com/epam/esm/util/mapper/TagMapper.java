@@ -2,7 +2,12 @@ package com.epam.esm.util.mapper;
 
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Tag;
+import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
+
+import java.util.HashSet;
 
 /**
  * mapper to convert Tag into TagDto and vice versa
@@ -10,7 +15,8 @@ import org.mapstruct.Mapper;
  * @author bakhridinova
  * */
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",
+        imports = HashSet.class)
 public interface TagMapper {
     /**
      * maps Tag to TagDto
@@ -18,6 +24,7 @@ public interface TagMapper {
      * @param tag Tag
      * @return TagDto
      */
+    @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
     TagDto toTagDto(Tag tag);
 
     /**
@@ -26,5 +33,6 @@ public interface TagMapper {
      * @param tag TagDto
      * @return Tag
      */
+    @Mapping(target = "certificates", expression = "java(new HashSet<>())")
     Tag toTag(TagDto tag);
 }

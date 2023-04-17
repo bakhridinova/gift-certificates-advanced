@@ -11,7 +11,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-import java.util.List;
+import java.util.Set;
 
 /**
  * class representing tag entity
@@ -37,7 +37,7 @@ public class Tag implements Identifiable, Comparable<Tag> {
     private String name;
 
     @ManyToMany(mappedBy = "tags")
-    List<Certificate> certificates;
+    Set<Certificate> certificates;
 
     @Override
     public int compareTo(Tag o) {

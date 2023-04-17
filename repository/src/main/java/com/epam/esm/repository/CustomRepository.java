@@ -1,7 +1,7 @@
 package com.epam.esm.repository;
 
-import com.epam.esm.util.Pagination;
 import com.epam.esm.entity.Identifiable;
+import com.epam.esm.util.Pagination;
 
 import java.util.List;
 

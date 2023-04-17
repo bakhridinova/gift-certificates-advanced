@@ -37,6 +37,7 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     public List<Certificate> findAll(Pagination pagination) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QCertificate qCertificate = QCertificate.certificate;
+
         return queryFactory.selectFrom(qCertificate)
                 .offset(pagination.getOffset())
                 .limit(pagination.getLimit())
@@ -45,7 +46,11 @@ public class CertificateRepositoryImpl implements CertificateRepository {
 
     @Override
     public Certificate findById(Long id) {
-        return Optional.ofNullable(entityManager.find(Certificate.class, id))
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QCertificate qCertificate = QCertificate.certificate;
+
+        return Optional.ofNullable(queryFactory.selectFrom(qCertificate)
+                        .where(qCertificate.id.eq(id)).fetchFirst())
                 .orElseThrow(() -> new CustomEntityNotFoundException(
                         "failed to find certificate by id " + id));
     }

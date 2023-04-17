@@ -9,7 +9,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author bakhridinova
  */
 
-@SpringBootApplication(scanBasePackages = "com.epam.esm")
+@SpringBootApplication
 public class GiftCertificatesAdvancedApplication {
 
     public static void main(String[] args) {
