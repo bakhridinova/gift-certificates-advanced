@@ -83,19 +83,21 @@ returns list of certificates filtered by passed parameters and tags
 request parameters:
     int page (defaultValue 1) 
     int size (defaultValue 5) 
-    String name (defaultValue "")
-    String description (defaultValue "")
-    String sortType (defaultValue "id")
-    String sortOrder (defaultValue "asc")
 ```
 
 ```agsl
 request body:
-        [
-            {
-                "name": ""
-            }
-        ]
+        {
+            "name": "",
+            "description": "",
+            "sortType": "",
+            "sortOrder": "",
+            "tags": [
+                {
+                    "name": ""
+                }
+            ]
+        }
 ```
 
 ## Create entity

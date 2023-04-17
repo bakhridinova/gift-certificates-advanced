@@ -1,6 +1,6 @@
 rootProject.name = 'gift-certificates-advanced'
-include 'controller'
-include 'service'
-include 'repository'
-include 'model'
+include 'business-logic-service'
+include 'database-service'
+include 'model-library'
+include 'web-service'
 
