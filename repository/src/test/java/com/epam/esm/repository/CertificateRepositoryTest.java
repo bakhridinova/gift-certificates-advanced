@@ -64,6 +64,12 @@ public class CertificateRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(3)
+    public void findTotalNumberShouldReturnInitialLong() {
+        assertEquals(10, certificateRepository.findTotalNumber());
+    }
+
+    @Test
     @Order(4)
     public void findByIdShouldReturnCorrectCertificateIfCertificateExists() {
         Certificate certificate = certificateRepository.findById(1L);
@@ -358,8 +364,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(23)
     public void findByFilterShouldReturnEmptyListIfTagsDoNotMatch() {
-        Tag tag = new Tag();
-        tag.setName("test name");
+        Tag tag = Tag.builder()
+                .name("test name").build();
         SearchFilter searchFilter = SearchFilter.builder()
                 .name("test").description("test description")
                 .sortType("id").sortOrder("desc")
@@ -373,13 +379,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(24)
     public void saveShouldAddNewRecordToDataBase() {
-        Certificate certificate = new Certificate();
-        certificate.setName("");
-        certificate.setDescription("");
-        certificate.setPrice(0.0);
-        certificate.setDuration(0);
-        certificate.setTags(Set.of());
-        certificate.setOrders(List.of());
+        Certificate certificate = Certificate.builder().name("").description("")
+                .price(0.0).duration(0).tags(Set.of()).orders(List.of()).build();
         certificateRepository.save(certificate);
         assertEquals(certificate,
                 certificateRepository.findById(11L));
@@ -388,8 +389,7 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(25)
     public void saveShouldThrowDataAccessExceptionIfNameIsNull() {
-        Certificate certificate = new Certificate();
-        certificate.setName(null);
+        Certificate certificate = Certificate.builder().build();
         assertThrows(DataAccessException.class,
                 () -> certificateRepository.save(certificate));
     }
@@ -397,9 +397,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(26)
     public void saveShouldThrowDataAccessExceptionIfDescriptionIsNull() {
-        Certificate certificate = new Certificate();
-        certificate.setName("");
-        certificate.setDescription(null);
+        Certificate certificate = Certificate.builder()
+                .name("").build();
         assertThrows(DataAccessException.class,
                 () -> certificateRepository.save(certificate));
     }
@@ -407,10 +406,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(27)
     public void saveShouldThrowDataAccessExceptionIfPriceIsNull() {
-        Certificate certificate = new Certificate();
-        certificate.setName("");
-        certificate.setDescription("");
-        certificate.setPrice(null);
+        Certificate certificate = Certificate.builder()
+                .name("").description("").build();
         assertThrows(DataAccessException.class,
                 () -> certificateRepository.save(certificate));
     }
@@ -418,11 +415,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(28)
     public void saveShouldThrowDataAccessExceptionIfDurationIsNull() {
-        Certificate certificate = new Certificate();
-        certificate.setName("");
-        certificate.setDescription("");
-        certificate.setPrice(0.0);
-        certificate.setDuration(null);
+        Certificate certificate = Certificate.builder()
+                .name("").description("").price(0.0).build();
         assertThrows(DataAccessException.class,
                 () -> certificateRepository.save(certificate));
     }
@@ -430,13 +424,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(29)
     public void deleteShouldRemoveRecordFromDatabase() {
-        Certificate certificate = new Certificate();
-        certificate.setName("");
-        certificate.setDescription("");
-        certificate.setPrice(0.0);
-        certificate.setDuration(0);
-        certificate.setTags(Set.of());
-        certificate.setOrders(List.of());
+        Certificate certificate = Certificate.builder().name("").description("")
+                .price(0.0).duration(0).tags(Set.of()).orders(List.of()).build();
         certificateRepository.save(certificate);
         assertEquals(1,
                 certificateRepository.findAll(pagination.next()).size());
@@ -448,13 +437,8 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(30)
     public void deleteShouldThrowDataAccessExceptionIfEntityIsAlreadyDetached() {
-        Certificate certificate = new Certificate();
-        certificate.setName("");
-        certificate.setDescription("");
-        certificate.setPrice(0.0);
-        certificate.setDuration(0);
-        certificate.setTags(Set.of());
-        certificate.setOrders(List.of());
+        Certificate certificate = Certificate.builder().name("").description("")
+                .price(0.0).duration(0).tags(Set.of()).orders(List.of()).build();
         certificateRepository.save(certificate);
         assertEquals(1,
                 certificateRepository.findAll(pagination.next()).size());

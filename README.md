@@ -1,6 +1,6 @@
 # Gift Certificates Advanced API
 
-this API allows you to do create, update, update and delete aka on entities
+this API allows you to do create, update, update and delete (aka CRUD) operations on entities
 
 | Entity      |  C  |  R  |  U  |  D  |
 |:------------|:---:|:---:|:---:|:---:|
@@ -163,3 +163,8 @@ deletes tag by given id if one exists
 entity relationship diagram
 
 <img src="https://user-images.githubusercontent.com/100201504/230478278-9b82ee50-bf41-4ef0-9324-d41755d5178b.png" alt=""/>
+
+
+## Entity statistics
+**GET** '/api/actuator/stats'
+returns total number of different entities in entity tables

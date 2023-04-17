@@ -55,6 +55,12 @@ public class TagRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(3)
+    public void findTotalNumberShouldReturnInitialLong() {
+        assertEquals(9, tagRepository.findTotalNumber());
+    }
+
+    @Test
     @Order(4)
     public void findByIdShouldReturnCorrectCertificateIfCertificateExists() {
         Tag tag = tagRepository.findById(1L);
@@ -95,8 +101,8 @@ public class TagRepositoryTest extends RepositoryTest {
     @Test
     @Order(9)
     public void saveShouldAddNewRecordToDataBase() {
-        Tag tag = new Tag();
-        tag.setName("test10");
+        Tag tag = Tag.builder()
+                .name("test10").build();
         tagRepository.save(tag);
         assertEquals(tag, tagRepository.findById(10L));
     }
@@ -104,8 +110,7 @@ public class TagRepositoryTest extends RepositoryTest {
     @Test
     @Order(10)
     public void saveShouldThrowDataAccessExceptionIfNameIsNull() {
-        Tag tag = new Tag();
-        tag.setName(null);
+        Tag tag = Tag.builder().build();
         assertThrows(DataAccessException.class,
                 () -> tagRepository.save(tag));
     }
@@ -113,8 +118,8 @@ public class TagRepositoryTest extends RepositoryTest {
     @Test
     @Order(11)
     public void deleteShouldRemoveRecordFromDatabase() {
-        Tag tag = new Tag();
-        tag.setName("test12");
+        Tag tag = Tag.builder()
+                .name("test12").build();
         tagRepository.save(tag);
         assertEquals(10,
                 tagRepository.findAll(pagination).size());
@@ -126,8 +131,8 @@ public class TagRepositoryTest extends RepositoryTest {
     @Test
     @Order(12)
     public void deleteShouldThrowDataAccessExceptionIfEntityIsAlreadyDetached() {
-        Tag tag = new Tag();
-        tag.setName("test13");
+        Tag tag = Tag.builder()
+                .name("test13").build();
         tagRepository.save(tag);
         assertEquals(10,
                 tagRepository.findAll(pagination).size());

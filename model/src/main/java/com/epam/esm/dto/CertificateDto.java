@@ -1,6 +1,7 @@
 package com.epam.esm.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -18,6 +19,7 @@ import java.util.Set;
 
 @Data
 @Getter
+@Builder
 @EqualsAndHashCode(callSuper = true)
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CertificateDto extends RepresentationModel<CertificateDto> {
@@ -36,4 +38,6 @@ public class CertificateDto extends RepresentationModel<CertificateDto> {
     private LocalDateTime lastUpdatedAt;
 
     private Set<TagDto> tags;
+
+    private Integer timesOrdered;
 }

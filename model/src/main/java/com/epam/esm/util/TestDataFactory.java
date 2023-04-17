@@ -21,54 +21,59 @@ import java.util.Set;
 
 @UtilityClass
 public class TestDataFactory {
-    private final Tag TAG = new Tag();
-    private final TagDto TAG_DTO = new TagDto();
-    private final Tag NULL_TAG = new Tag();
-    private final TagDto NULL_TAG_DTO = new TagDto();
-    private final User USER = new User();
-    private final UserDto USER_DTO = new UserDto();
-    private final User NULL_USER = new User();
-    private final UserDto NULL_USER_DTO = new UserDto();
-    private final Order ORDER = new Order();
-    private final OrderDto ORDER_DTO = new OrderDto();
-    private final Order NULL_ORDER = new Order();
-    private final OrderDto NULL_ORDER_DTO = new OrderDto();
-    private final Certificate CERTIFICATE = new Certificate();
-    private final CertificateDto CERTIFICATE_DTO = new CertificateDto();
-    private final Certificate NULL_CERTIFICATE = new Certificate();
-    private final CertificateDto NULL_CERTIFICATE_DTO = new CertificateDto();
+    private final Tag TAG;
+    private final TagDto TAG_DTO;
+    private final Tag NULL_TAG;
+    private final TagDto NULL_TAG_DTO;
+    private final User USER;
+    private final UserDto USER_DTO;
+    private final User NULL_USER;
+    private final UserDto NULL_USER_DTO;
+    private final Order ORDER;
+    private final OrderDto ORDER_DTO;
+    private final Order NULL_ORDER;
+    private final OrderDto NULL_ORDER_DTO;
+    private final Certificate CERTIFICATE;
+    private final CertificateDto CERTIFICATE_DTO;
+    private final Certificate NULL_CERTIFICATE;
+    private final CertificateDto NULL_CERTIFICATE_DTO;
     private final Pagination PAGINATION = new Pagination(0, 0);
 
     static {
 
-        TAG.setId(0L);                           TAG_DTO.setId(0L);
-        TAG.setName("");                         TAG_DTO.setName("");
+        TAG = Tag.builder().id(0L).name("").build();
+        TAG_DTO = TagDto.builder().id(0L).name("").build();
 
-        USER.setId(0L);                          USER_DTO.setId(0L);
-        USER.setUsername("");                    USER_DTO.setUsername("");
-        USER.setPassword("");                    USER_DTO.setPassword("");
-        USER.setFirstName("");                   USER_DTO.setFirstName("");
-        USER.setLastName("");                    USER_DTO.setLastName("");
-        USER.setEmailAddress("");                USER_DTO.setEmailAddress("");
-        USER.setOrders(List.of());
-        NULL_USER.setOrders(List.of());
+        NULL_TAG = Tag.builder().build();
+        NULL_TAG_DTO = TagDto.builder().build();
 
-        CERTIFICATE.setId(0L);                   CERTIFICATE_DTO.setId(0L);
-        CERTIFICATE.setName("");                 CERTIFICATE_DTO.setName("");
-        CERTIFICATE.setDescription("");          CERTIFICATE_DTO.setDescription("");
-        CERTIFICATE.setPrice(0.0);               CERTIFICATE_DTO.setPrice(0.0);
-        CERTIFICATE.setDuration(0);              CERTIFICATE_DTO.setDuration(0);
-        CERTIFICATE.setTags(Set.of());           CERTIFICATE_DTO.setTags(Set.of());
-        CERTIFICATE.setOrders(List.of());
-        NULL_CERTIFICATE.setTags(Set.of());      NULL_CERTIFICATE_DTO.setTags(Set.of());
-        NULL_CERTIFICATE.setOrders(List.of());
+        USER = User.builder().id(0L).username("").password("")
+                .firstName("").lastName("").emailAddress("").orders(List.of()).build();
+        USER_DTO = UserDto.builder().id(0L).username("").password("")
+                .firstName("").lastName("").emailAddress("").build();
 
-        ORDER.setId(0L);                          ORDER_DTO.setId(0L);
-        ORDER.setPrice(0.0);                      ORDER_DTO.setPrice(0.0);
-        ORDER.setUser(USER);                      ORDER_DTO.setUserId(0L);
-        ORDER.setCertificate(CERTIFICATE);        ORDER_DTO.setCertificateId(0L);
-        NULL_ORDER.setUser(USER);                 NULL_ORDER_DTO.setUserId(0L);
-        NULL_ORDER.setCertificate(CERTIFICATE);   NULL_ORDER_DTO.setCertificateId(0L);
+        NULL_USER = User.builder().orders(List.of()).build();
+        NULL_USER_DTO = UserDto.builder().build();
+
+        CERTIFICATE = Certificate.builder().id(0L).name("").description("")
+                .price(0.0).duration(0).tags(Set.of()).orders(List.of()).build();
+        CERTIFICATE_DTO = CertificateDto.builder().id(0L).name("").description("")
+                .price(0.0).duration(0).tags(Set.of()).build();
+
+        NULL_CERTIFICATE = Certificate.builder()
+                .tags(Set.of()).orders(List.of()).build();
+        NULL_CERTIFICATE_DTO = CertificateDto.builder()
+                .tags(Set.of()).build();
+
+        ORDER = Order.builder().id(0L).price(CERTIFICATE.getPrice())
+                .user(USER).certificate(CERTIFICATE).build();
+        ORDER_DTO =  OrderDto.builder().id(0L).price(CERTIFICATE.getPrice())
+                .userId(USER.getId()).certificateId(CERTIFICATE.getId()).build();
+
+        NULL_ORDER = Order.builder()
+                .user(USER).certificate(CERTIFICATE).build();
+        NULL_ORDER_DTO = OrderDto.builder()
+                .userId(USER.getId()).certificateId(CERTIFICATE.getId()).build();
     }
 
     // entity

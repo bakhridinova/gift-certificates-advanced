@@ -5,6 +5,7 @@ import com.epam.esm.repository.CertificateRepository;
 import com.epam.esm.repository.TagRepository;
 import com.epam.esm.service.impl.CertificateServiceImpl;
 import com.epam.esm.util.mapper.CertificateMapper;
+import com.epam.esm.util.mapper.TagMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -33,6 +34,8 @@ class CertificateServiceTest {
     private TagRepository tagRepository;
     @Mock
     private CertificateMapper certificateMapper;
+    @Mock
+    private TagMapper tagMapper;
 
     @InjectMocks
     private CertificateServiceImpl certificateService;

@@ -10,7 +10,7 @@ import java.util.Optional;
 import java.util.Set;
 
 @Repository
-public interface TagRepository extends CustomRepository<Tag> {
+public interface TagRepository extends BaseRepository<Tag> {
     /**
      * retrieves a paginated list of tags based on pagination parameters
      *
@@ -18,6 +18,13 @@ public interface TagRepository extends CustomRepository<Tag> {
      * @return list of tags
      */
     List<Tag> findAll(Pagination pagination);
+
+    /**
+     * retrieves total number of tags in database
+     *
+     * @return total number of tags
+     */
+    Long findTotalNumber();
 
     /**
      * retrieves tag with specified ID
@@ -57,22 +64,6 @@ public interface TagRepository extends CustomRepository<Tag> {
      * @param tags to attach
      */
     void setTags(Certificate certificate, Set<Tag> tags);
-
-    /**
-     * removes rows from join table associated
-     * with given certificate
-     *
-     * @param certificate specified certificate
-     */
-    void removeCertificateRelatedRecords(Certificate certificate);
-
-    /**
-     * removes rows from join table associated
-     * with given tag
-     *
-     * @param tag specified tag
-     */
-    void removeTagRelatedRecords(Tag tag);
 
     /**
      * deletes tag from database

@@ -45,6 +45,15 @@ public class CertificateRepositoryImpl implements CertificateRepository {
     }
 
     @Override
+    public Long findTotalNumber() {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QCertificate qCertificate = QCertificate.certificate;
+
+        return queryFactory.select(qCertificate.count())
+                .from(qCertificate).fetchFirst();
+    }
+
+    @Override
     public Certificate findById(Long id) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QCertificate qCertificate = QCertificate.certificate;

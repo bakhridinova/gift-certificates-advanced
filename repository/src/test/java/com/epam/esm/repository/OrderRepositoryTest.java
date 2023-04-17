@@ -61,6 +61,12 @@ public class OrderRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(3)
+    public void findTotalNumberShouldReturnInitialLong() {
+        assertEquals(10, orderRepository.findTotalNumber());
+    }
+
+    @Test
     @Order(4)
     public void findByIdShouldReturnCorrectCertificateIfCertificateExists() {
         com.epam.esm.entity.Order order = orderRepository.findById(1L);
@@ -110,7 +116,7 @@ public class OrderRepositoryTest extends RepositoryTest {
     @Order(8)
     public void findByUserShouldThrowDataAccessExceptionIfUserDoesNotExist() {
         assertThrows(DataAccessException.class,
-                () -> orderRepository.findByUser(new User(), pagination));
+                () -> orderRepository.findByUser(User.builder().build(), pagination));
     }
 
     @Test

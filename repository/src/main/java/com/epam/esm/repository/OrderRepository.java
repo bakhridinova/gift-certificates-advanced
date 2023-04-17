@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends CustomRepository<Order> {
+public interface OrderRepository extends BaseRepository<Order> {
     /**
      * retrieves a paginated list of orders based on pagination parameters
      *
@@ -17,6 +17,13 @@ public interface OrderRepository extends CustomRepository<Order> {
      * @return list of orders
      */
     List<Order> findAll(Pagination pagination);
+
+    /**
+     * retrieves total number of orders in database
+     *
+     * @return total number of orders
+     */
+    Long findTotalNumber();
 
     /**
      * retrieves order with specified ID

@@ -13,6 +13,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.epam.esm.util.TestDataFactory.getTag;
 import static com.epam.esm.util.TestDataFactory.getTagDto;
@@ -98,8 +99,8 @@ class TagServiceTest {
     void createShouldThrowDataAccessExceptionIfExceptionWasThrown() {
         when(tagMapper.toTag(any()))
                 .thenReturn(getTag());
-        when(tagRepository.exists(anyString()))
-                .thenReturn(false);
+        when(tagRepository.findByName(anyString()))
+                .thenReturn(Optional.empty());
         doThrow(new DataAccessException("") {})
                 .when(tagRepository).save(any());
 
@@ -111,8 +112,8 @@ class TagServiceTest {
     void createShouldThrowCustomEntityNotFoundExceptionIfTagAlreadyExists() {
         when(tagMapper.toTag(getTagDto()))
                 .thenReturn(getTag());
-        when(tagRepository.exists(anyString()))
-                .thenReturn(true);
+        when(tagRepository.findByName(anyString()))
+                .thenReturn(Optional.ofNullable(getTag()));
 
         assertThrows(CustomEntityAlreadyExistsException.class,
                 () -> tagService.create(getTagDto()));
@@ -124,8 +125,8 @@ class TagServiceTest {
                 .thenReturn(getTag());
         when(tagMapper.toTagDto(any()))
                 .thenReturn(getTagDto());
-        when(tagRepository.exists(anyString()))
-                .thenReturn(false);
+        when(tagRepository.findByName(anyString()))
+                .thenReturn(Optional.empty());
 
         assertEquals(getTagDto(), tagService.create(getTagDto()));
     }

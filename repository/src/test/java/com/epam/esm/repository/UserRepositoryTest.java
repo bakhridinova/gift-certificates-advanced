@@ -61,6 +61,12 @@ public class UserRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(3)
+    public void findTotalNumberShouldReturnInitialLong() {
+        assertEquals(10, userRepository.findTotalNumber());
+    }
+
+    @Test
     @Order(4)
     public void findByIdShouldReturnCorrectCertificateIfCertificateExists() {
         User user = userRepository.findById(1L);

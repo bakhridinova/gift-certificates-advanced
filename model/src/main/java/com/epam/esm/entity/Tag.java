@@ -7,8 +7,12 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import java.util.Set;
@@ -21,9 +25,12 @@ import java.util.Set;
 
 @Data
 @Entity
+@Builder
 @Table(name = "tags")
 @ToString(exclude = "certificates")
 @EqualsAndHashCode(exclude="certificates")
+@NoArgsConstructor(access = AccessLevel.PUBLIC)
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class Tag implements Identifiable, Comparable<Tag> {
     @Id
     @Column(name = "tag_id")

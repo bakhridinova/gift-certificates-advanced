@@ -87,8 +87,6 @@ public class CertificateServiceImpl implements CertificateService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Certificate certificate = certificateRepository.findById(id);
-        tagRepository.removeCertificateRelatedRecords(certificate);
-        certificateRepository.delete(certificate);
+        certificateRepository.delete(certificateRepository.findById(id));
     }
 }
