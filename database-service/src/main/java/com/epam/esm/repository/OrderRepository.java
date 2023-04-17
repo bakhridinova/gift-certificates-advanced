@@ -17,6 +17,13 @@ public interface OrderRepository extends BaseRepository<Order> {
     List<Order> findAllByPage(Pagination pagination);
 
     /**
+     * retrieves total number of orders in database
+     *
+     * @return total number of orders
+     */
+    Long findTotalNumber();
+
+    /**
      * retrieves order with specified ID
      *
      * @param id ID of order

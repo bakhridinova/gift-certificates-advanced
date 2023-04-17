@@ -33,14 +33,6 @@ allprojects {
         }
     }
 
-    bootJar {
-        enabled = false
-    }
-
-    jar {
-        enabled = true
-    }
-
     repositories {
         mavenCentral()
     }

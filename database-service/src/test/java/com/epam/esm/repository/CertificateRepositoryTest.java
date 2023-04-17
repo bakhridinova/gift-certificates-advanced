@@ -64,6 +64,12 @@ public class CertificateRepositoryTest extends RepositoryTest {
     }
 
     @Test
+    @Order(3)
+    public void findTotalNumberShouldReturnInitialLong() {
+        assertEquals(10, certificateRepository.findTotalNumber());
+    }
+
+    @Test
     @Order(4)
     public void findByIdShouldReturnCorrectCertificateIfCertificateExists() {
         Certificate certificate = certificateRepository.findById(1L);

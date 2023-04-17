@@ -36,6 +36,15 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
+    public Long findTotalNumber() {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QTag qTag = QTag.tag;
+
+        return queryFactory.select(qTag.count())
+                .from(qTag).fetchFirst();
+    }
+
+    @Override
     public Tag findById(Long id) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QTag qTag = QTag.tag;

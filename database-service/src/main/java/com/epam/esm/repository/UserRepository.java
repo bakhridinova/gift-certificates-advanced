@@ -17,6 +17,13 @@ public interface UserRepository extends BaseRepository<User> {
     List<User> findAllByPage(Pagination pagination);
 
     /**
+     * retrieves total number of users in database
+     *
+     * @return total number of users
+     */
+    Long findTotalNumber();
+
+    /**
      * retrieves user with specified ID
      *
      * @param id ID of user

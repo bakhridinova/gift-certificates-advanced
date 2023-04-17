@@ -30,6 +30,15 @@ public class UserRepositoryImpl implements UserRepository {
     }
 
     @Override
+    public Long findTotalNumber() {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QUser qUser = QUser.user;
+
+        return queryFactory.select(qUser.count())
+                .from(qUser).fetchFirst();
+    }
+
+    @Override
     public User findById(Long id) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QUser qUser = QUser.user;

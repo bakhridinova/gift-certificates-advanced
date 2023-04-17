@@ -16,6 +16,13 @@ public interface CertificateRepository extends BaseRepository<Certificate> {
     List<Certificate> findAllByPage(Pagination pagination);
 
     /**
+     * retrieves total number of certificates in database
+     *
+     * @return total number of certificates
+     */
+    Long findTotalNumber();
+
+    /**
      * retrieves certificate with specified ID
      *
      * @param id ID of certificate

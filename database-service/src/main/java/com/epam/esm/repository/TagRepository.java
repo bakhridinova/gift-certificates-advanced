@@ -20,6 +20,13 @@ public interface TagRepository extends BaseRepository<Tag> {
     List<Tag> findAllByPage(Pagination pagination);
 
     /**
+     * retrieves total number of tags in database
+     *
+     * @return total number of tags
+     */
+    Long findTotalNumber();
+
+    /**
      * retrieves tag with specified ID
      *
      * @param id ID of tag

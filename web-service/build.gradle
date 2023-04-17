@@ -6,6 +6,10 @@ repositories {
     mavenCentral()
 }
 
+bootRun {
+    mainClass = 'com.epam.esm.GiftCertificatesAdvancedApplication'
+}
+
 dependencies {
     implementation project(path: ':model-library')
     implementation project(path: ':business-logic-service')

@@ -30,6 +30,15 @@ public class OrderRepositoryImpl implements OrderRepository {
     }
 
     @Override
+    public Long findTotalNumber() {
+        JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
+        QOrder qOrder = QOrder.order;
+
+        return queryFactory.select(qOrder.count())
+                .from(qOrder).fetchFirst();
+    }
+
+    @Override
     public Order findById(Long id) {
         JPAQueryFactory queryFactory = new JPAQueryFactory(entityManager);
         QOrder qOrder = QOrder.order;

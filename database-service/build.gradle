@@ -10,10 +10,6 @@ dependencies {
     implementation project(path: ':model-library')
 
     testImplementation 'com.h2database:h2:2.1.214'
-
-    testCompileOnly "org.junit.jupiter:junit-jupiter:$junitVersion"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 }
 
 test {

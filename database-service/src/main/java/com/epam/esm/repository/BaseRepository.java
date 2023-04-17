@@ -21,6 +21,13 @@ public interface BaseRepository<T extends Identifiable> {
     List<T> findAllByPage(Pagination pagination);
 
     /**
+     * retrieves total number of entities in database
+     *
+     * @return total number of entities
+     */
+    Long findTotalNumber();
+
+    /**
      * retrieves entity with specified ID
      *
      * @param id ID of entity
