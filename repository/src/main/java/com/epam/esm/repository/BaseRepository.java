@@ -11,7 +11,7 @@ import java.util.List;
  * @author bakhridinova
  */
 
-public interface CustomRepository<T extends Identifiable> {
+public interface BaseRepository<T extends Identifiable> {
     /**
      * retrieves a paginated list of entities based on pagination parameters
      *

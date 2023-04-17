@@ -102,20 +102,6 @@ public class TagRepositoryImpl implements TagRepository {
     }
 
     @Override
-    public void removeCertificateRelatedRecords(Certificate certificate) {
-        Query query = entityManager.createNativeQuery("delete from certificate_tag where certificate_id = ?");
-        query.setParameter(1, certificate.getId());
-        query.executeUpdate();
-    }
-
-    @Override
-    public void removeTagRelatedRecords(Tag tag) {
-        Query query = entityManager.createNativeQuery("delete from certificate_tag where tag_id = ?");
-        query.setParameter(1, tag.getId());
-        query.executeUpdate();
-    }
-
-    @Override
     public void delete(Tag tag) {
         entityManager.remove(tag);
     }

@@ -50,8 +50,6 @@ public class TagServiceImpl implements TagService {
     @Override
     @Transactional
     public void delete(Long id) {
-        Tag tag = tagRepository.findById(id);
-        tagRepository.removeTagRelatedRecords(tag);
-        tagRepository.delete(tag);
+        tagRepository.delete(tagRepository.findById(id));
     }
 }

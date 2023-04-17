@@ -6,7 +6,7 @@ import com.epam.esm.util.SearchFilter;
 
 import java.util.List;
 
-public interface CertificateRepository extends CustomRepository<Certificate> {
+public interface CertificateRepository extends BaseRepository<Certificate> {
     /**
      * retrieves a paginated list of certificates based on pagination parameters
      *

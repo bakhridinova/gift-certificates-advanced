@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface UserRepository extends CustomRepository<User> {
+public interface UserRepository extends BaseRepository<User> {
     /**
      * retrieves a paginated list of users based on pagination parameters
      *
