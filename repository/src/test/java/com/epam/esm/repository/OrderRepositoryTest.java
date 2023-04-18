@@ -110,7 +110,7 @@ public class OrderRepositoryTest extends RepositoryTest {
     @Order(8)
     public void findByUserShouldThrowDataAccessExceptionIfUserDoesNotExist() {
         assertThrows(DataAccessException.class,
-                () -> orderRepository.findByUser(new User(), pagination));
+                () -> orderRepository.findByUser(User.builder().build(), pagination));
     }
 
     @Test

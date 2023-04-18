@@ -57,10 +57,10 @@ public class OrderServiceImpl implements OrderService {
         Certificate certificate = certificateRepository
                 .findById(orderDto.getCertificateId());
 
-        Order order = new Order();
-        order.setUser(user);
-        order.setPrice(certificate.getPrice());
-        order.setCertificate(certificate);
+        Order order = Order.builder()
+                .price(certificate.getPrice())
+                .user(user).certificate(certificate)
+                .build();
         orderRepository.save(order);
         return orderMapper.toOrderDto(order);
     }
