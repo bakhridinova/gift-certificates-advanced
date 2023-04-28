@@ -4,6 +4,8 @@ import com.epam.esm.GiftCertificatesAdvancedApplication;
 import com.epam.esm.dto.TagDto;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.exception.CustomMessageHolder;
+import com.epam.esm.facade.TagFacade;
+import com.epam.esm.facade.impl.TagFacadeImpl;
 import com.epam.esm.hateoas.HateoasAdder;
 import com.epam.esm.service.TagService;
 import org.json.JSONObject;
@@ -34,15 +36,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(TagController.class)
-@ContextConfiguration(classes = GiftCertificatesAdvancedApplication.class)
+@ContextConfiguration(classes = { TagFacadeImpl.class,
+        GiftCertificatesAdvancedApplication.class })
 class TagControllerTest {
     @Autowired
     private MockMvc mockMvc;
+    @Autowired
+    private TagFacade tagFacade;
 
     @MockBean
     private TagService tagService;
-
-    // beans controllers are dependent on
     @MockBean
     private HateoasAdder<TagDto> tagHateoasAdder;
     @MockBean
@@ -73,7 +76,7 @@ class TagControllerTest {
         this.mockMvc.perform(get("/api/tags").param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("page should not be negative"));
+                        .value("page number should not be negative"));
     }
 
     @Test
@@ -81,7 +84,7 @@ class TagControllerTest {
         this.mockMvc.perform(get("/api/tags").param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("size should not be negative"));
+                        .value("page size should not be negative"));
     }
 
     @Test
@@ -105,7 +108,7 @@ class TagControllerTest {
         this.mockMvc.perform(get("/api/tags").param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("page must be between 0 and 10000"));
+                        .value("page number must be between 0 and 10000"));
     }
 
     @Test
@@ -113,7 +116,7 @@ class TagControllerTest {
         this.mockMvc.perform(get("/api/tags").param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("size must be between 0 and 100"));
+                        .value("page size must be between 0 and 100"));
     }
 
     @Test
@@ -151,7 +154,7 @@ class TagControllerTest {
         this.mockMvc.perform(get("/api/tags/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("id must be positive"));
+                        .value("tag id must be positive"));
     }
 
     @Test
@@ -190,7 +193,7 @@ class TagControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be null"));
+                        .value("tag name should not be null"));
     }
 
     @Test
@@ -203,7 +206,7 @@ class TagControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty or blank"));
+                        .value("tag name should not be empty or blank"));
     }
 
     @Test
@@ -217,7 +220,7 @@ class TagControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("tag name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -231,7 +234,7 @@ class TagControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("tag name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -245,7 +248,7 @@ class TagControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must include only letters"));
+                        .value("tag name must include only letters"));
     }
 
     @Test
@@ -280,6 +283,6 @@ class TagControllerTest {
         this.mockMvc.perform(delete("/api/tags/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("id must be positive"));
+                        .value("tag id must be positive"));
     }
 }

@@ -10,7 +10,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -66,10 +65,6 @@ public class Certificate implements Identifiable {
     @Column(name = "last_updated_at")
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime lastUpdatedAt;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private User user;
 
     @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(

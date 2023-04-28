@@ -42,13 +42,26 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
-    public List<CertificateDto> findByFilter(SearchFilter searchFilter, int page, int size) {
+    public List<CertificateDto> findByFilterAndPage(SearchFilter searchFilter, int page, int size) {
         Pagination pagination = new Pagination(page, size);
+        int tagsPassed = searchFilter.tags().size();
+        Set<Tag> tags = searchFilter.tags().stream()
+                .map(t -> tagRepository.findByName(t.getName()))
+                .filter(Optional::isPresent)
+                .map(Optional::get)
+                .collect(Collectors.toSet());
+        int tagsFound = tags.size();
+        if (tagsPassed != tagsFound) {
+            return List.of();
+        }
+
+        searchFilter = searchFilter.updateTags(tags);
         return certificateRepository.findByFilterAndPage(searchFilter, pagination)
                 .stream().map(certificateMapper::toCertificateDto).toList();
     }
 
     @Override
+    @Transactional
     public CertificateDto updateNameById(Long id, CertificateDto certificateDto) {
         Certificate certificate = certificateRepository.findById(id);
         certificate.setName(certificateDto.getName());

@@ -4,7 +4,6 @@ import com.epam.esm.dto.CertificateDto;
 import com.epam.esm.entity.Certificate;
 import org.mapstruct.BeanMapping;
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.ArrayList;
@@ -26,6 +25,5 @@ public interface CertificateMapper {
      * @return CertificateDto
      */
     @BeanMapping(unmappedTargetPolicy = ReportingPolicy.IGNORE)
-    @Mapping(target = "userId", expression = "java(certificate.getUser() == null ? null : certificate.getUser().getId())")
     CertificateDto toCertificateDto(Certificate certificate);
 }

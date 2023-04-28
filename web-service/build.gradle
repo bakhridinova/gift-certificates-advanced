@@ -13,10 +13,6 @@ bootRun {
 dependencies {
     implementation project(path: ':model-library')
     implementation project(path: ':business-logic-service')
-
-    testCompileOnly "org.junit.jupiter:junit-jupiter:$junitVersion"
-    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
 }
 
 test {

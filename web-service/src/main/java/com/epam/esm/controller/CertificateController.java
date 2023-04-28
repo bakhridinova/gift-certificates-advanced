@@ -1,7 +1,6 @@
 package com.epam.esm.controller;
 
 import com.epam.esm.dto.CertificateDto;
-import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.CustomMessageHolder;
 import com.epam.esm.facade.CertificateFacade;
 import com.epam.esm.util.SearchFilter;
@@ -56,26 +55,11 @@ public class CertificateController {
      * @param searchFilter holding search parameters
      * @return List of certificates based on provided search parameters
      */
-    @GetMapping("/search")
+    @PostMapping("/search")
     public List<CertificateDto> search(@RequestParam(defaultValue = "0") int page,
                                        @RequestParam(defaultValue = "5") int size,
                                        @RequestBody(required = false) SearchFilter searchFilter) {
         return certificateFacade.findByFilter(searchFilter, page, size);
-    }
-
-    /**
-     * GET endpoint to search for retrieving orders associated with specific certificate
-     *
-     * @param id ID of certificate for which to retrieve orders
-     * @param page page number requested (default is 0)
-     * @param size number of items per page (default is 5)
-     * @return List of orders associated with certificate
-     */
-    @GetMapping("/{id}/orders")
-    public List<OrderDto> getOrdersByPage(@PathVariable long id,
-                                          @RequestParam(defaultValue = "0") int page,
-                                          @RequestParam(defaultValue = "5") int size) {
-        return certificateFacade.findByCertificateId(id, page, size);
     }
 
     /**

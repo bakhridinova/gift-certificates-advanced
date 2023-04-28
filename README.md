@@ -62,13 +62,12 @@ request parameters:
 request parameters:
     int page (defaultValue 1)
     int size (defaultValue 5)
+    long userId 
+    long certificateId 
 ```
 
-**GET** `/api/certificates/{id}/orders`
-returns orders of certificate by given id if one exists
-
-**GET** `/api/users/{id}/orders`
-returns orders of user by given id if one exists
+**GET** `/api/orders/search`
+returns orders of user or certificate by given id if one exists
 
 ## Get special tag
 

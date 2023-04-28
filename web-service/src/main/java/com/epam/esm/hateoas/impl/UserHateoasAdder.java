@@ -1,5 +1,6 @@
 package com.epam.esm.hateoas.impl;
 
+import com.epam.esm.controller.OrderController;
 import com.epam.esm.controller.UserController;
 import com.epam.esm.dto.UserDto;
 import com.epam.esm.hateoas.HateoasAdder;
@@ -13,7 +14,7 @@ public class UserHateoasAdder implements HateoasAdder<UserDto> {
     public void addLinksToEntity(UserDto user) {
         user.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class)
                 .getById(user.getId())).withSelfRel());
-        user.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserController.class)
-                .getOrdersByPage(user.getId(), 0, 5)).withRel("orders"));
+        user.add(WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(OrderController.class)
+                .getByCertificateOrUserId(null, user.getId(), 0, 5)).withRel("orders"));
     }
 }

@@ -10,10 +10,10 @@ plugins {
 sonarqube {
     properties {
         // todo set properties to be able to see code analysis
-        property 'sonar.host.url', ''
-        property 'sonar.login', ''
-        property 'sonar.password', ''
-        property 'sonar.token',''
+        property 'sonar.host.url', "$sonarQubeUrl"
+        property 'sonar.login', "$sonarQubeLogin"
+        property 'sonar.password', "$sonarQubePassword"
+        property 'sonar.token', "$sonarQubeToken"
     }
 }
 

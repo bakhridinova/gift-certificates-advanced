@@ -54,4 +54,21 @@ public class OrderController {
     public OrderDto create(@RequestBody OrderDto orderDto) {
         return orderFacade.create(orderDto);
     }
+
+    /**
+     * GET endpoint to search for retrieving orders associated with specific certificate or user
+     *
+     * @param certificateId ID of certificate for which to retrieve orders
+     * @param userId ID of user for which to retrieve orders
+     * @param page page number requested (default is 0)
+     * @param size number of items per page (default is 5)
+     * @return List of orders associated with certificate
+     */
+    @GetMapping("/search")
+    public List<OrderDto> getByCertificateOrUserId(@RequestParam(required = false) Long certificateId,
+                                                   @RequestParam(required = false) Long userId,
+                                                   @RequestParam(defaultValue = "0") int page,
+                                                   @RequestParam(defaultValue = "5") int size) {
+        return orderFacade.findByCertificateOrUserId(certificateId, userId, page, size);
+    }
 }
