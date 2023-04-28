@@ -16,7 +16,7 @@ public interface CertificateService {
 
     CertificateDto findById(Long id);
 
-    List<CertificateDto> findByFilter(SearchFilter searchFilter, int page, int size);
+    List<CertificateDto> findByFilterAndPage(SearchFilter searchFilter, int page, int size);
 
     CertificateDto updateNameById(Long id, CertificateDto certificate);
 

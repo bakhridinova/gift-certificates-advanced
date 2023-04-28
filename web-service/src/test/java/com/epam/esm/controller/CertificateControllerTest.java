@@ -2,12 +2,11 @@ package com.epam.esm.controller;
 
 import com.epam.esm.GiftCertificatesAdvancedApplication;
 import com.epam.esm.dto.CertificateDto;
-import com.epam.esm.dto.OrderDto;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.exception.CustomMessageHolder;
+import com.epam.esm.facade.impl.CertificateFacadeImpl;
 import com.epam.esm.hateoas.HateoasAdder;
 import com.epam.esm.service.CertificateService;
-import com.epam.esm.service.OrderService;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -22,7 +21,6 @@ import java.util.Collections;
 import java.util.List;
 
 import static com.epam.esm.util.TestDataFactory.getCertificateDto;
-import static com.epam.esm.util.TestDataFactory.getOrderDto;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -40,19 +38,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(CertificateController.class)
-@ContextConfiguration(classes = GiftCertificatesAdvancedApplication.class)
+@ContextConfiguration(classes = { CertificateFacadeImpl.class,
+        GiftCertificatesAdvancedApplication.class })
 class CertificateControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @MockBean
-    private OrderService orderService;
+    @Autowired
+    private CertificateFacadeImpl certificateFacade;
     @MockBean
     private CertificateService certificateService;
-
-    // beans controllers are dependent on
-    @MockBean
-    private HateoasAdder<OrderDto> orderHateoasAdder;
     @MockBean
     private HateoasAdder<CertificateDto> certificateHateoasAdder;
     @MockBean
@@ -91,7 +86,7 @@ class CertificateControllerTest {
                         .param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("page should not be negative"));
+                        .value("page number should not be negative"));
     }
 
     @Test
@@ -100,7 +95,7 @@ class CertificateControllerTest {
                         .param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("size should not be negative"));
+                        .value("page size should not be negative"));
     }
 
     @Test
@@ -127,7 +122,7 @@ class CertificateControllerTest {
                         .param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("page must be between 0 and 10000"));
+                        .value("page number must be between 0 and 10000"));
     }
 
     @Test
@@ -136,7 +131,7 @@ class CertificateControllerTest {
                         .param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("size must be between 0 and 100"));
+                        .value("page size must be between 0 and 100"));
     }
 
     @Test
@@ -181,15 +176,15 @@ class CertificateControllerTest {
         this.mockMvc.perform(get("/api/certificates/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("id must be positive"));
+                        .value("certificate id must be positive"));
     }
 
     @Test
     void searchShouldReturnEmptyListOfCertificatesWereNotFound() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        when(certificateService.findByFilter(any(), anyInt(), anyInt()))
+        when(certificateService.findByFilterAndPage(any(), anyInt(), anyInt()))
                 .thenReturn(List.of());
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(jsonObject
                         .toString()))
@@ -200,9 +195,9 @@ class CertificateControllerTest {
     @Test
     void searchShouldReturnCorrectListIfCertificatesWereFound() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        when(certificateService.findByFilter(any(), anyInt(), anyInt()))
+        when(certificateService.findByFilterAndPage(any(), anyInt(), anyInt()))
                 .thenReturn(List.of(getCertificateDto()));
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .toString()))
@@ -221,25 +216,25 @@ class CertificateControllerTest {
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfPageIsNegative() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .param("page", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("page should not be negative"));
+                        .value("page number should not be negative"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSizeIsNegative() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .param("size", String.valueOf(Integer.MIN_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("size should not be negative"));
+                        .value("page size should not be negative"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfPageIsNotNumeric() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .param("page", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -248,7 +243,7 @@ class CertificateControllerTest {
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSizeIsNotNumeric() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .param("size", "test"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
@@ -257,39 +252,39 @@ class CertificateControllerTest {
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfPageIsTooBig() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .param("page", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("page must be between 0 and 10000"));
+                        .value("page number must be between 0 and 10000"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSizeIsTooBig() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .param("size", String.valueOf(Integer.MAX_VALUE)))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("size must be between 0 and 100"));
+                        .value("page size must be between 0 and 100"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("sortType", " ")
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("sortType should not be empty or blank"));
+                        .value("sort type should not be empty or blank"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSortOrderIsBlank() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("sortType", "id")
@@ -297,83 +292,33 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("sortOrder should not be empty or blank"));
+                        .value("sort order should not be empty or blank"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSortTypeIsInvalid() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                         .put("sortType", "test")
                         .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("sortType must be either name, price, duration, createdAt or lastUpdatedAt"));
+                        .value("sort type must be either name, price, duration, createdAt or lastUpdatedAt"));
     }
 
     @Test
     void searchShouldThrowExceptionWithCorrectMessageIfSortOrderIsInvalid() throws Exception {
         JSONObject jsonObject = new JSONObject();
-        this.mockMvc.perform(get("/api/certificates/search")
+        this.mockMvc.perform(post("/api/certificates/search")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(jsonObject
                                 .put("sortOrder", "test")
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("sortOrder must be either asc or desc"));
-    }
-
-    @Test
-    void getOrdersByPageShouldReturnEmptyListIfOrdersWereNotFound() throws Exception {
-        when(orderService.findByCertificateIdAndPage(anyLong(), anyInt(), anyInt()))
-                .thenReturn(List.of());
-        this.mockMvc.perform(get("/api/certificates/1/orders")).andDo(print())
-                .andExpect(status().isOk()).andExpect(content().json("[]"));
-    }
-
-    @Test
-    void getOrdersByPageShouldReturnCorrectListIfOrdersWereFound() throws Exception {
-        when(orderService.findByCertificateIdAndPage(anyLong(), anyInt(), anyInt()))
-                .thenReturn(List.of(getOrderDto()));
-        this.mockMvc.perform(get("/api/certificates/1/orders"))
-                .andDo(print()).andExpect(status().isOk())
-                .andExpect(jsonPath("$..id", Long.class)
-                        .value(0))
-                .andExpect(jsonPath("$..price", Double.class)
-                        .value(0.0))
-                .andExpect(jsonPath("$..userId", Long.class)
-                        .value(0))
-                .andExpect(jsonPath("$..certificateId", Long.class)
-                        .value(0));
-    }
-
-    @Test
-    void getOrdersByPageShouldThrowExceptionWithCorrectMessageIfCertificateWasNotFound() throws Exception {
-        when(orderService.findByCertificateIdAndPage(anyLong(), anyInt(), anyInt()))
-                .thenThrow(new CustomEntityNotFoundException("failed to find certificate by id 1"));
-        this.mockMvc.perform(get("/api/certificates/1/orders"))
-                .andDo(print()).andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("failed to find certificate by id 1"));
-    }
-
-    @Test
-    void getOrdersByPageShouldThrowExceptionWithCorrectMessageIfIdIsNotNumeric() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/text/orders"))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("id should be of type long"));
-    }
-
-    @Test
-    void getOrdersByPageShouldThrowExceptionWithCorrectMessageIfIdIsNegative() throws Exception {
-        this.mockMvc.perform(get("/api/certificates/-1/orders"))
-                .andDo(print()).andExpect(status().isBadRequest())
-                .andExpect(jsonPath("$.message", String.class)
-                        .value("id must be positive"));
+                        .value("sort order must be either asc or desc"));
     }
 
     @Test
@@ -418,7 +363,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be null"));
+                        .value("certificate name should not be null"));
     }
 
     @Test
@@ -436,7 +381,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description should not be null"));
+                        .value("certificate description should not be null"));
     }
 
     @Test
@@ -454,7 +399,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("price should not be null"));
+                        .value("certificate price should not be null"));
     }
 
     @Test
@@ -472,7 +417,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("duration should not be null"));
+                        .value("certificate duration should not be null"));
     }
 
     @Test
@@ -489,7 +434,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("tags should not be null"));
+                        .value("certificate tags should not be null"));
     }
 
     @Test
@@ -507,7 +452,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty or blank"));
+                        .value("certificate name should not be empty or blank"));
     }
 
     @Test
@@ -525,7 +470,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description should not be empty or blank"));
+                        .value("certificate description should not be empty or blank"));
     }
 
     @Test
@@ -544,7 +489,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 4 and 40 characters"));
+                        .value("certificate name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -562,7 +507,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description must be between 4 and 100 characters"));
+                        .value("certificate description must be between 4 and 100 characters"));
     }
 
     @Test
@@ -581,7 +526,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 4 and 40 characters"));
+                        .value("certificate name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -600,7 +545,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description must be between 4 and 100 characters"));
+                        .value("certificate description must be between 4 and 100 characters"));
     }
 
     @Test
@@ -619,7 +564,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must include only letters and spaces"));
+                        .value("certificate name must include only letters and spaces"));
     }
 
     @Test
@@ -638,7 +583,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("description must include only letters and spaces"));
+                        .value("certificate description must include only letters and spaces"));
     }
 
     @Test
@@ -656,7 +601,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("price should not be negative"));
+                        .value("certificate price should not be negative"));
     }
 
     @Test
@@ -674,7 +619,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("duration should not be negative"));
+                        .value("certificate duration should not be negative"));
     }
 
     @Test
@@ -692,11 +637,11 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("price must be between 10 and 100"));
+                        .value("certificate price must be between 10 and 100"));
     }
 
     @Test
-    void createShouldThrowExceptionWithCorrectMessageIfDurationIsNTooLow() throws Exception {
+    void createShouldThrowExceptionWithCorrectMessageIfDurationIsTooLow() throws Exception {
         JSONObject jsonObject = new JSONObject();
         JSONArray jsonArray = new JSONArray();
         this.mockMvc.perform(post("/api/certificates")
@@ -710,7 +655,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("duration must be between 10 and 90"));
+                        .value("certificate duration must be between 10 and 90"));
     }
 
     @Test
@@ -728,7 +673,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("price must be between 10 and 100"));
+                        .value("certificate price must be between 10 and 100"));
     }
 
     @Test
@@ -746,7 +691,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("duration must be between 10 and 90"));
+                        .value("certificate duration must be between 10 and 90"));
     }
 
     @Test
@@ -766,7 +711,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be null"));
+                        .value("tag name should not be null"));
     }
 
     @Test
@@ -786,7 +731,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty or blank"));
+                        .value("tag name should not be empty or blank"));
     }
 
     @Test
@@ -807,7 +752,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("tag name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -828,7 +773,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 3 and 30 characters"));
+                        .value("tag name must be between 3 and 30 characters"));
     }
 
     @Test
@@ -849,7 +794,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must include only letters"));
+                        .value("tag name must include only letters"));
     }
 
     @Test
@@ -909,7 +854,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("id must be positive"));
+                        .value("certificate id must be positive"));
     }
 
     @Test
@@ -922,7 +867,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be null"));
+                        .value("certificate name should not be null"));
     }
 
     @Test
@@ -935,7 +880,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name should not be empty or blank"));
+                        .value("certificate name should not be empty or blank"));
     }
 
     @Test
@@ -949,7 +894,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 4 and 40 characters"));
+                        .value("certificate name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -963,7 +908,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must be between 4 and 40 characters"));
+                        .value("certificate name must be between 4 and 40 characters"));
     }
 
     @Test
@@ -977,7 +922,7 @@ class CertificateControllerTest {
                                 .toString()))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("name must include only letters and spaces"));
+                        .value("certificate name must include only letters and spaces"));
     }
 
     @Test
@@ -1012,6 +957,6 @@ class CertificateControllerTest {
         this.mockMvc.perform(delete("/api/certificates/-1"))
                 .andDo(print()).andExpect(status().isBadRequest())
                 .andExpect(jsonPath("$.message", String.class)
-                        .value("id must be positive"));
+                        .value("certificate id must be positive"));
     }
 }

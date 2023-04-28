@@ -56,14 +56,14 @@ public class TestDataFactory {
         NULL_USER_DTO = UserDto.builder().build();
 
         CERTIFICATE = Certificate.builder().id(0L).name("").description("")
-                .price(0.0).duration(0).user(USER).tags(Set.of()).orders(List.of()).build();
+                .price(0.0).duration(0).tags(Set.of()).orders(List.of()).build();
         CERTIFICATE_DTO = CertificateDto.builder().id(0L).name("").description("")
-                .price(0.0).duration(0).userId(USER.getId()).tags(Set.of()).build();
+                .price(0.0).duration(0).tags(Set.of()).build();
 
         NULL_CERTIFICATE = Certificate.builder()
-                .tags(Set.of()).user(USER).orders(List.of()).build();
+                .tags(Set.of()).orders(List.of()).build();
         NULL_CERTIFICATE_DTO = CertificateDto.builder()
-                .tags(Set.of()).userId(USER.getId()).build();
+                .tags(Set.of()).build();
 
         ORDER = Order.builder().id(0L).price(CERTIFICATE.getPrice())
                 .user(USER).certificate(CERTIFICATE).build();

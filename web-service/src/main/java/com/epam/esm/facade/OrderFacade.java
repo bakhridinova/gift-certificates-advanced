@@ -10,4 +10,6 @@ public interface OrderFacade extends BaseFacade<OrderDto> {
 
     @Override
     OrderDto findById(Long id);
+
+    List<OrderDto> findByCertificateOrUserId(Long certificateId, Long userId, int page, int size);
 }

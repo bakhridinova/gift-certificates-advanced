@@ -1,8 +1,8 @@
 package com.epam.esm.repository;
 
 import com.epam.esm.RepositoryTest;
-import com.epam.esm.dto.TagDto;
 import com.epam.esm.entity.Certificate;
+import com.epam.esm.entity.Tag;
 import com.epam.esm.exception.CustomEntityNotFoundException;
 import com.epam.esm.util.Pagination;
 import com.epam.esm.util.SearchFilter;
@@ -364,7 +364,7 @@ public class CertificateRepositoryTest extends RepositoryTest {
     @Test
     @Order(23)
     public void findByFilterShouldReturnEmptyListIfTagsDoNotMatch() {
-        TagDto tag = TagDto.builder()
+        Tag tag = Tag.builder()
                 .name("test name").build();
         SearchFilter searchFilter = SearchFilter.builder()
                 .name("test").description("test description")

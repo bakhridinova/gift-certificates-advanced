@@ -1,6 +1,6 @@
 package com.epam.esm.util;
 
-import com.epam.esm.dto.TagDto;
+import com.epam.esm.entity.Tag;
 import lombok.Builder;
 
 import java.util.Set;
@@ -19,7 +19,14 @@ import java.util.Set;
 @Builder
 public record SearchFilter(String name, String description,
                            String sortType, String sortOrder,
-                           Set<TagDto> tags) {
+                           Set<Tag> tags) {
+    public String name() {
+        return name == null ? "" : name;
+    }
+
+    public String description() {
+        return description == null ? "" : description;
+    }
 
     public String sortOrder() {
         return sortOrder == null ? "asc" : sortOrder;
@@ -30,10 +37,14 @@ public record SearchFilter(String name, String description,
     }
 
     public boolean isDescending() {
-        return sortOrder.equals("desc");
+        return sortOrder().equals("desc");
     }
 
-    public Set<TagDto> tags() {
+    public Set<Tag> tags() {
         return tags == null ? Set.of() : tags;
+    }
+
+    public SearchFilter updateTags(Set<Tag> tags) {
+        return new SearchFilter(name(), description(), sortType(), sortOrder(), tags);
     }
 }
